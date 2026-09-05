@@ -2,7 +2,13 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 /** Sliding arrow glyph — inherits text color. Must sit inside a `.group`. */
-export function ArrowIcon({ className = "h-4 w-4" }: { className?: string }) {
+export function ArrowIcon({
+  className = "h-4 w-4",
+  flip = false,
+}: {
+  className?: string;
+  flip?: boolean;
+}) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -12,7 +18,9 @@ export function ArrowIcon({ className = "h-4 w-4" }: { className?: string }) {
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden
-      className={`transition-transform duration-300 group-hover:translate-x-1 ${className}`}
+      className={`transition-transform duration-300 ${
+        flip ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"
+      } ${className}`}
     >
       <path d="M4 12h15" />
       <path d="m13 6 6 6-6 6" />
@@ -34,12 +42,15 @@ export default function ArrowLink({
   variant = "inline",
   className = "",
   external = false,
+  back = false,
 }: {
   href: string;
   children: ReactNode;
   variant?: Variant;
   className?: string;
   external?: boolean;
+  /** Back-style link: arrow leads on the left and slides backwards. */
+  back?: boolean;
 }) {
   const base = "group inline-flex items-center font-semibold";
   const styles: Record<Variant, string> = {
@@ -55,16 +66,23 @@ export default function ArrowLink({
     solid:
       "flex h-8 w-8 items-center justify-center rounded-full bg-white/25 transition-transform duration-300 group-hover:translate-x-1",
   };
-  const content = (
+  const arrow =
+    variant === "inline" ? (
+      <ArrowIcon flip={back} />
+    ) : (
+      <span className={chip[variant]}>
+        <ArrowIcon flip={back} className="h-3.5 w-3.5" />
+      </span>
+    );
+  const content = back ? (
+    <>
+      {arrow}
+      <span>{children}</span>
+    </>
+  ) : (
     <>
       <span>{children}</span>
-      {variant === "inline" ? (
-        <ArrowIcon />
-      ) : (
-        <span className={chip[variant]}>
-          <ArrowIcon className="h-3.5 w-3.5" />
-        </span>
-      )}
+      {arrow}
     </>
   );
   const cls = `${base} ${styles[variant]} ${className}`;
