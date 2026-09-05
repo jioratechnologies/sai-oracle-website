@@ -77,8 +77,9 @@ export default function HeroCarousel({
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 lg:grid-cols-[1.05fr_.95fr] lg:py-20">
         {/* Unchanged welcome text */}
-        <div className="text-center lg:text-left">
-          <p className="font-display text-2xl text-gold-300 sm:text-3xl">ॐ साई राम</p>
+        <div className="contents text-center lg:order-1 lg:block lg:text-left">
+          <p className="order-1 font-display text-2xl text-gold-300 sm:text-3xl">ॐ साई राम</p>
+          <div className="order-3">
           <h1 className="mx-auto mt-3 max-w-3xl font-display text-[42px] leading-[1.1] font-bold sm:text-6xl lg:mx-0">
             Welcome to {organizationName}
           </h1>
@@ -111,13 +112,14 @@ export default function HeroCarousel({
               📍 Meerut, UP
             </span>
             <span className="rounded-full bg-cream-50/10 px-4 py-1.5 backdrop-blur-sm">
-              🙏 Open all 7 days
-            </span>
+            🙏 Open all 7 days
+          </span>
+          </div>
           </div>
         </div>
 
         {/* Rotating temple photo in a mandir-arch frame */}
-        <div className="mx-auto w-full max-w-[520px]">
+        <div className="order-2 mx-auto w-full max-w-[520px]">
           <div className="relative aspect-[4/3] overflow-hidden rounded-t-[10rem] rounded-b-3xl shadow-2xl ring-4 ring-gold-400/80">
             {SLIDES.map((s, i) => (
               <Image
