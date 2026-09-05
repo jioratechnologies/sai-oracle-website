@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Cormorant Garamond", "Georgia", serif;
+  --font-sans: "Mukta", ui-sans-serif, system-ui, sans-serif;
+
+  /* Warm temple cream */
+  --color-cream-50: #fffdf7;
+  --color-cream-100: #fdf6e7;
+  --color-cream-200: #f8ead0;
+  --color-cream-300: #f0d9ae;
+  --color-cream-400: #e3c188;
+
+  /* Deep temple maroon */
+  --color-maroon-50: #faf1f1;
+  --color-maroon-100: #f3dcdc;
+  --color-maroon-200: #e4b3b3;
+  --color-maroon-500: #a83232;
+  --color-maroon-600: #8c1f28;
+  --color-maroon-700: #741820;
+  --color-maroon-800: #5c1219;
+  --color-maroon-900: #450d13;
+  --color-maroon-950: #2e080d;
+
+  /* Saffron / festive orange */
+  --color-saffron-100: #fdeeda;
+  --color-saffron-200: #fbdcae;
+  --color-saffron-300: #f9c57c;
+  --color-saffron-400: #f5a83c;
+  --color-saffron-500: #e8730c;
+  --color-saffron-600: #c2570b;
+  --color-saffron-700: #9a430c;
+
+  /* Temple gold */
+  --color-gold-300: #e6c96a;
+  --color-gold-400: #d4af37;
+  --color-gold-500: #c9a227;
+  --color-gold-600: #a8861c;
+  --color-gold-700: #866a15;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream-50);
+  color: #3e2a1e;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-saffron-400);
+  color: var(--color-maroon-950);
+}
+
+/* Subtle sacred-geometry backdrop for hero / banners */
+.pattern-jali {
+  background-image: radial-gradient(
+      circle at 1px 1px,
+      rgb(212 175 55 / 0.22) 1px,
+      transparent 0
+    );
+  background-size: 22px 22px;
+}
+
+.pattern-jali-dark {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgb(255 255 255 / 0.12) 1px,
+    transparent 0
+  );
+  background-size: 20px 20px;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 0.7s ease-out both;
+}
+
+.rise-in-1 {
+  animation-delay: 0.08s;
+}
+.rise-in-2 {
+  animation-delay: 0.16s;
+}
+.rise-in-3 {
+  animation-delay: 0.24s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise-in {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
