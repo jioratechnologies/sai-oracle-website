@@ -52,8 +52,8 @@ on conflict do nothing;
 
 insert into public.youtube_videos (title, youtube_url, published) values
   ('Sai Baba — Kakad Aarti (Morning Aarti)', 'https://www.youtube.com/watch?v=7ecGB9BIpY0', true),
-  ('Om Sai Shree Sai Jai Jai Sai — Sai Dhun', 'https://www.youtube.com/watch?v=oqtpyY-yhEw', true),
-  ('Sai Baba — Full Kakad Aarti', 'https://www.youtube.com/watch?v=RmOjeTBEKtk', true)
+  ('Shirdi Sai Baba Dhoop Aarti (Evening Aarti)', 'https://www.youtube.com/watch?v=W1llxubfP_U', true),
+  ('Om Sai Namo Namah — Sai Mantra by Suresh Wadkar', 'https://www.youtube.com/watch?v=7oSd7ZugNeM', true)
 on conflict do nothing;
 
 insert into public.site_pages (slug, title, content) values
