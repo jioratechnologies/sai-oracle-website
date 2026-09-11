@@ -2,9 +2,11 @@ export default function OmMark({ className = "h-10 w-10" }: { className?: string
   return (
     <span
       aria-hidden
-      className={`flex shrink-0 items-center justify-center rounded-full bg-maroon-800 font-display text-cream-100 ring-2 ring-gold-400 ${className}`}
+      className={`inline-flex shrink-0 rounded-full bg-[linear-gradient(135deg,var(--color-gulal-400),var(--color-saffron-400),var(--color-gold-400))] p-[2.5px] shadow-sm ${className}`}
     >
-      <span className="-mt-0.5 text-[1.35em] leading-none">ॐ</span>
+      <span className="flex h-full w-full items-center justify-center rounded-full bg-maroon-900 font-display text-cream-100">
+        <span className="-mt-0.5 text-[1.35em] leading-none">ॐ</span>
+      </span>
     </span>
   );
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CalendarDays, Images, Megaphone, MonitorPlay } from "lucide-react";
 import { Card, SetupNotice } from "@/components/admin/ui";
 import { isSupabaseConfigured, supabaseServer } from "@/lib/supabase";
 import { seedAnnouncements, seedEvents, seedGallery, seedVideos } from "@/lib/seed";
@@ -58,17 +59,17 @@ function greeting(): string {
 export default async function AdminDashboard() {
   const stats = await getStats();
   const cards = [
-    ["📅", "Events", stats.events, "/admin/events"],
-    ["📢", "Announcements", stats.announcements, "/admin/announcements"],
-    ["🖼️", "Gallery Photos", stats.gallery, "/admin/gallery"],
-    ["📺", "YouTube Videos", stats.videos, "/admin/videos"],
+    [CalendarDays, "Events", stats.events, "/admin/events"],
+    [Megaphone, "Announcements", stats.announcements, "/admin/announcements"],
+    [Images, "Gallery Photos", stats.gallery, "/admin/gallery"],
+    [MonitorPlay, "YouTube Videos", stats.videos, "/admin/videos"],
   ] as const;
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="font-display text-3xl font-bold text-maroon-900">
-          {greeting()} 🙏
+          {greeting()}
         </h1>
         <p className="mt-1 text-[15px] text-stone-600">
           Manage the Sai Oracle website — no developer needed.
@@ -78,10 +79,12 @@ export default async function AdminDashboard() {
       {!isSupabaseConfigured() && <SetupNotice />}
 
       <div className="grid grid-cols-2 gap-4">
-        {cards.map(([icon, label, count, href]) => (
+        {cards.map(([Icon, label, count, href]) => (
           <Link key={href} href={href}>
             <Card className="transition-shadow hover:shadow-md">
-              <p className="text-2xl">{icon}</p>
+              <p className="text-maroon-700">
+                <Icon aria-hidden className="h-6 w-6" />
+              </p>
               <p className="mt-1 font-display text-3xl font-bold text-maroon-900">{count}</p>
               <p className="text-sm font-medium text-stone-600">{label}</p>
             </Card>

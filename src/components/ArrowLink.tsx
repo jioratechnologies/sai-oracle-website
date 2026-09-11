@@ -52,12 +52,13 @@ export default function ArrowLink({
   /** Back-style link: arrow leads on the left and slides backwards. */
   back?: boolean;
 }) {
-  const base = "group inline-flex items-center font-semibold";
+  const base = "group inline-flex items-center justify-center font-semibold";
   const styles: Record<Variant, string> = {
     inline: "gap-1.5",
-    outline: "gap-2 rounded-full border px-5 py-2 transition-all hover:shadow-md",
+    outline:
+      "gap-2 rounded-full border-2 px-5 py-2.5 min-h-11 transition-all hover:shadow-md active:scale-[0.98]",
     solid:
-      "gap-2 rounded-full py-1.5 pr-1.5 pl-5 shadow-md transition-all hover:shadow-lg hover:brightness-105",
+      "gap-2 rounded-full py-2 pr-2 pl-6 min-h-12 shadow-lg transition-all hover:shadow-xl hover:brightness-105 active:scale-[0.98]",
   };
   const chip: Record<Variant, string> = {
     inline: "",

@@ -14,7 +14,7 @@ export default function TempleArt({
       aria-hidden={!label}
       role={label ? "img" : undefined}
       aria-label={label}
-      className={`pattern-jali relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-maroon-800 via-maroon-700 to-saffron-600 ${className}`}
+      className={`pattern-jali relative flex items-center justify-center overflow-hidden bg-linear-to-br from-maroon-900 via-gulal-700 to-saffron-600 ${className}`}
     >
       <div className="absolute h-[140%] aspect-square rounded-full border border-gold-300/30" />
       <div className="absolute h-[100%] aspect-square rounded-full border border-gold-300/40" />
