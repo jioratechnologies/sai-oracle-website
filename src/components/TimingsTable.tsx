@@ -1,3 +1,4 @@
+import { Flame } from "lucide-react";
 import type { AartiTiming } from "@/lib/types";
 
 export default function TimingsTable({
@@ -14,17 +15,20 @@ export default function TimingsTable({
         compact ? "" : ""
       }`}
     >
-      <div className="bg-maroon-800 px-5 py-3 text-center">
-        <p className="font-display text-xl font-bold text-gold-300">🪔 Daily Darshan & Aarti</p>
+      <div className="bg-linear-to-r from-maroon-900 via-maroon-800 to-gulal-700 px-5 py-3.5 text-center">
+        <p className="flex items-center justify-center gap-2 font-display text-xl font-bold text-gold-300">
+          <Flame aria-hidden className="h-5 w-5" />
+          Daily Darshan & Aarti
+        </p>
       </div>
       <ul className="divide-y divide-maroon-50">
         {timings.map((t) => (
           <li
             key={t.id}
-            className="flex items-center justify-between gap-3 px-5 py-2.5 text-[15px]"
+            className="flex items-center justify-between gap-3 px-5 py-3 text-[15px]"
           >
             <span className="font-medium text-maroon-900">{t.label}</span>
-            <span className="shrink-0 rounded-full bg-cream-100 px-3 py-0.5 font-semibold whitespace-nowrap text-saffron-700">
+            <span className="shrink-0 rounded-full bg-saffron-100 px-3 py-1 font-bold whitespace-nowrap text-saffron-700">
               {t.time}
             </span>
           </li>

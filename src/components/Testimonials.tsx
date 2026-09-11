@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { DevoteeExperience } from "@/lib/types";
 
 const AUTOPLAY_MS = 7000;
@@ -60,7 +61,7 @@ export default function Testimonials({ items }: { items: DevoteeExperience[] }) 
     >
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold-600 via-gold-300 to-gold-600"
+        className="absolute inset-x-0 top-0 divider-festive"
       />
       <span
         aria-hidden
@@ -129,9 +130,9 @@ export default function Testimonials({ items }: { items: DevoteeExperience[] }) 
             type="button"
             onClick={() => go(-1)}
             aria-label="Previous experience"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-maroon-200 text-lg text-maroon-800 transition-colors hover:bg-maroon-800 hover:text-cream-50"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-maroon-200 text-maroon-800 transition-colors hover:bg-maroon-800 hover:text-cream-50"
           >
-            ‹
+            <ChevronLeft aria-hidden className="h-4 w-4" />
           </button>
           <div className="flex gap-2.5" role="tablist" aria-label="Choose experience">
             {items.map((t, i) => (
@@ -157,9 +158,9 @@ export default function Testimonials({ items }: { items: DevoteeExperience[] }) 
             type="button"
             onClick={() => go(1)}
             aria-label="Next experience"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-maroon-200 text-lg text-maroon-800 transition-colors hover:bg-maroon-800 hover:text-cream-50"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-maroon-200 text-maroon-800 transition-colors hover:bg-maroon-800 hover:text-cream-50"
           >
-            ›
+            <ChevronRight aria-hidden className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -178,7 +179,7 @@ export default function Testimonials({ items }: { items: DevoteeExperience[] }) 
           >
             <div
               aria-hidden
-              className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold-600 via-gold-300 to-gold-600"
+              className="absolute inset-x-0 top-0 divider-festive"
             />
             <span
               aria-hidden

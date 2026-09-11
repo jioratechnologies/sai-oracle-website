@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Plug } from "lucide-react";
 import OmMark from "@/components/OmMark";
 import { isSupabaseConfigured, supabaseBrowser } from "@/lib/supabase";
 
@@ -35,17 +36,22 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="flex min-h-[70vh] items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm rounded-2xl border border-maroon-100 bg-white p-8 shadow-md">
-        <div className="flex flex-col items-center text-center">
+    <div className="mesh-festive flex min-h-[70vh] items-center justify-center px-4 py-12">
+      <div className="w-full max-w-sm overflow-hidden rounded-2xl border border-maroon-100 bg-white shadow-xl">
+        <div aria-hidden className="divider-festive" />
+        <div className="flex flex-col items-center px-8 pt-8 text-center">
           <OmMark className="h-14 w-14" />
-          <h1 className="mt-3 font-display text-3xl font-bold text-maroon-900">Sai Oracle Admin</h1>
-          <p className="mt-1 text-sm text-stone-500">🙏 Om Sai Ram — staff login only</p>
+          <h1 className="mt-3 font-display text-3xl font-extrabold text-maroon-900">Sai Oracle Admin</h1>
+          <p className="mt-1 text-sm text-stone-500">Om Sai Ram — staff login only</p>
         </div>
+        <div className="px-8 pb-8">
 
         {!configured ? (
           <div className="mt-6 rounded-xl bg-saffron-100/60 p-4 text-sm leading-relaxed text-stone-700">
-            <p className="font-semibold text-maroon-900">🔌 Supabase not connected yet</p>
+            <p className="flex items-center gap-1.5 font-semibold text-maroon-900">
+              <Plug aria-hidden className="h-4 w-4" />
+              Supabase not connected yet
+            </p>
             <p className="mt-1">
               Add <code>NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
               <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>, run{" "}
@@ -85,15 +91,16 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={busy}
-              className="w-full rounded-full bg-maroon-800 py-2.5 font-semibold text-cream-50 hover:bg-maroon-700 disabled:opacity-50"
+              className="btn-festive min-h-12 w-full rounded-full py-2.5 font-bold text-white shadow-md transition-all hover:shadow-lg disabled:opacity-50"
             >
               {busy ? "Signing in…" : "Login"}
             </button>
           </form>
         )}
-        <Link href="/" className="mt-5 block text-center text-sm font-semibold text-saffron-600 hover:underline">
-          ← Back to website
-        </Link>
+          <Link href="/" className="mt-5 block text-center text-sm font-semibold text-saffron-600 hover:underline">
+            ← Back to website
+          </Link>
+        </div>
       </div>
     </div>
   );

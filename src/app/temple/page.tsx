@@ -21,7 +21,7 @@ export default async function TemplePage() {
         eyebrow="Daily Darshan"
         title={page?.title ?? "Temple & Worship"}
         intro={`Open all 7 days · ${settings.morning_opening} – ${settings.night_closing}`}
-        image="/legacy/banner/3.jpg"
+        image="/assets/temple/other/20250112_182606.jpg"
       />
       <section className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid gap-10 lg:grid-cols-3">
@@ -43,7 +43,7 @@ export default async function TemplePage() {
                   href={settings.maps_url}
                   external
                   variant="solid"
-                  className="mt-3 bg-gradient-to-r from-saffron-500 to-saffron-600 text-sm font-bold text-white"
+                  className="mt-3 btn-festive text-sm font-bold text-white"
                 >
                   Get Directions
                 </ArrowLink>

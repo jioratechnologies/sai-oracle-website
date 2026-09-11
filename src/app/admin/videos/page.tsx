@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { MonitorPlay } from "lucide-react";
 import { supabaseBrowser } from "@/lib/supabase";
 import { getYouTubeId, youtubeThumbnail } from "@/lib/youtube";
 import type { YoutubeVideo } from "@/lib/types";
@@ -91,7 +92,10 @@ export default function AdminVideosPage() {
     return (
       <div className="space-y-4">
         <BackLink />
-        <h1 className="font-display text-3xl font-bold text-maroon-900">📺 YouTube</h1>
+        <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
+          <MonitorPlay aria-hidden className="h-7 w-7 text-saffron-600" />
+          YouTube
+        </h1>
         <SetupNotice />
       </div>
     );
@@ -100,7 +104,10 @@ export default function AdminVideosPage() {
   return (
     <div className="space-y-4">
       <BackLink />
-      <h1 className="font-display text-3xl font-bold text-maroon-900">📺 YouTube</h1>
+      <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
+        <MonitorPlay aria-hidden className="h-7 w-7 text-saffron-600" />
+        YouTube
+      </h1>
       <p className="text-[15px] text-stone-600">
         Just paste a YouTube link — no API, no login. The website embeds it automatically.
       </p>

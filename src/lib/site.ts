@@ -201,7 +201,7 @@ export async function getPageWithFallback(slug: string): Promise<SitePage> {
   return {
     slug,
     title: "Page",
-    content: "Content coming soon. 🙏",
+    content: "Content coming soon.",
     updated_at: new Date().toISOString(),
   };
 }
