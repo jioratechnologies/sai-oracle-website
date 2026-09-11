@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bell, Megaphone } from "lucide-react";
 import { supabaseBrowser } from "@/lib/supabase";
 import type { Announcement } from "@/lib/types";
 import {
@@ -104,10 +103,7 @@ export default function AdminAnnouncementsPage() {
     return (
       <div className="space-y-4">
         <BackLink />
-        <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
-          <Megaphone aria-hidden className="h-7 w-7 text-saffron-600" />
-          Announcements
-        </h1>
+        <h1 className="font-display text-3xl font-bold text-maroon-900">📢 Announcements</h1>
         <SetupNotice />
       </div>
     );
@@ -116,10 +112,7 @@ export default function AdminAnnouncementsPage() {
   return (
     <div className="space-y-4">
       <BackLink />
-      <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
-        <Megaphone aria-hidden className="h-7 w-7 text-saffron-600" />
-        Announcements
-      </h1>
+      <h1 className="font-display text-3xl font-bold text-maroon-900">📢 Announcements</h1>
 
       <Card>
         <h2 className="mb-4 font-display text-xl font-bold text-maroon-900">
@@ -170,9 +163,8 @@ export default function AdminAnnouncementsPage() {
             {rows.map((a) => (
               <li key={a.id} className="flex flex-wrap items-center gap-2 py-3">
                 <div className="min-w-0 flex-1">
-                  <p className="flex items-center gap-1.5 font-semibold text-stone-800">
-                    <Bell aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />
-                    {a.title}
+                  <p className="font-semibold text-stone-800">
+                    🔔 {a.title}
                   </p>
                   <p className="truncate text-sm text-stone-500">{a.content}</p>
                 </div>

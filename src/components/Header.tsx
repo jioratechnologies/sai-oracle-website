@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
 import OmMark from "./OmMark";
 
 const LINKS = [
@@ -23,15 +21,15 @@ export default function Header({ organizationName }: { organizationName: string 
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 bg-cream-50/95 shadow-[0_1px_0_0_rgba(0,0,0,0.04)] backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-2.5 sm:py-3">
-        <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3" onClick={() => setOpen(false)}>
-          <OmMark className="h-10 w-10 sm:h-11 sm:w-11" />
-          <span className="min-w-0 leading-tight">
-            <span className="block truncate font-display text-xl font-extrabold text-maroon-800 sm:text-2xl">
+    <header className="sticky top-0 z-40 border-b border-gold-400/40 bg-cream-50/95 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
+        <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
+          <OmMark />
+          <span className="leading-tight">
+            <span className="block font-display text-2xl font-bold text-maroon-800">
               {organizationName}
             </span>
-            <span className="block text-[10px] font-semibold tracking-[0.2em] text-gulal-600 uppercase sm:text-[11px]">
+            <span className="block text-[11px] tracking-[0.2em] text-saffron-600 uppercase">
               Om Sai Ram
             </span>
           </span>
@@ -44,7 +42,7 @@ export default function Header({ organizationName }: { organizationName: string 
               <Link
                 key={l.href}
                 href={l.href}
-                className={`rounded-full px-3.5 py-2 text-[15px] font-semibold transition-colors ${
+                className={`rounded-full px-3.5 py-2 text-[15px] font-medium transition-colors ${
                   active
                     ? "bg-maroon-800 text-cream-50"
                     : "text-maroon-900 hover:bg-maroon-50 hover:text-maroon-700"
@@ -56,78 +54,49 @@ export default function Header({ organizationName }: { organizationName: string 
           })}
           <Link
             href="/temple#visit"
-            className="btn-festive ml-2 rounded-full px-5 py-2.5 text-[15px] font-bold text-white shadow-md transition-all hover:shadow-lg active:scale-[0.98]"
+            className="ml-2 rounded-full bg-saffron-500 px-4 py-2 text-[15px] font-semibold text-white shadow-sm transition-colors hover:bg-saffron-600"
           >
             Visit Temple
           </Link>
         </nav>
 
-        <motion.button
+        <button
           type="button"
-          whileTap={{ scale: 0.92 }}
-          className="ml-auto flex h-11 w-11 items-center justify-center rounded-full border-2 border-maroon-200 text-maroon-800 lg:hidden"
+          className="ml-auto rounded-lg border border-maroon-200 px-3 py-2 text-maroon-800 lg:hidden"
           aria-expanded={open}
           aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((v) => !v)}
         >
-          <span aria-hidden className="flex items-center justify-center">
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </span>
-        </motion.button>
+          {open ? "✕" : "☰"}
+        </button>
       </div>
 
-      <div aria-hidden className="divider-festive" />
-
-      <AnimatePresence>
-        {open && (
-          <motion.nav
-            key="mobile-nav"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-t border-maroon-100 bg-cream-50 lg:hidden"
-            aria-label="Mobile"
-          >
-            <ul className="grid max-h-[calc(100dvh-4rem)] gap-1 overflow-y-auto px-4 py-3">
-              {LINKS.map((l, i) => {
-                const active = l.href === "/" ? pathname === "/" : pathname.startsWith(l.href);
-                return (
-                  <motion.li
-                    key={l.href}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.04, duration: 0.25 }}
-                  >
-                    <Link
-                      href={l.href}
-                      onClick={() => setOpen(false)}
-                      className={`block min-h-12 rounded-xl px-4 py-3 text-[16px] font-semibold transition-colors ${
-                        active ? "bg-maroon-800 text-cream-50" : "text-maroon-900 hover:bg-maroon-50"
-                      }`}
-                    >
-                      {l.label}
-                    </Link>
-                  </motion.li>
-                );
-              })}
-              <motion.li
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: LINKS.length * 0.04, duration: 0.25 }}
-              >
+      {open && (
+        <nav className="border-t border-maroon-100 bg-cream-50 px-4 py-3 lg:hidden" aria-label="Mobile">
+          <ul className="grid gap-1">
+            {LINKS.map((l) => (
+              <li key={l.href}>
                 <Link
-                  href="/temple#visit"
+                  href={l.href}
                   onClick={() => setOpen(false)}
-                  className="btn-festive mt-2 block min-h-12 rounded-xl px-4 py-3 text-center text-[16px] font-bold text-white shadow-md"
+                  className="block rounded-lg px-3 py-2.5 font-medium text-maroon-900 hover:bg-maroon-50"
                 >
-                  Visit Temple
+                  {l.label}
                 </Link>
-              </motion.li>
-            </ul>
-          </motion.nav>
-        )}
-      </AnimatePresence>
+              </li>
+            ))}
+            <li>
+              <Link
+                href="/temple#visit"
+                onClick={() => setOpen(false)}
+                className="mt-1 block rounded-lg bg-saffron-500 px-3 py-2.5 text-center font-semibold text-white"
+              >
+                Visit Temple
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      )}
     </header>
   );
 }

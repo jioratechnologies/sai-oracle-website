@@ -88,7 +88,7 @@ export function StatusBadge({ status }: { status: string }) {
 export function SetupNotice() {
   return (
     <Card className="border-saffron-300 bg-saffron-100/40">
-      <h2 className="font-display text-2xl font-bold text-maroon-900">Connect Supabase to go live</h2>
+      <h2 className="font-display text-2xl font-bold text-maroon-900">🔌 Connect Supabase to go live</h2>
       <p className="mt-2 text-[15px] leading-relaxed text-stone-700">
         The website is currently showing starter content. To let the admin panel save changes:
       </p>

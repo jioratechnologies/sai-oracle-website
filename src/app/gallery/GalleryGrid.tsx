@@ -1,13 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import OmMark from "@/components/OmMark";
 import TempleArt from "@/components/TempleArt";
-import { PixelImage } from "@/components/magicui/pixel-image";
 import { albumOf } from "@/lib/albums";
-import { optimizedImageUrl } from "@/lib/image";
 import type { GalleryImage } from "@/lib/types";
 
 export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
@@ -55,22 +54,20 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
           >
             <div className="relative aspect-[4/3] overflow-hidden bg-cream-100">
               {g.image_url ? (
-                <PixelImage
-                  src={optimizedImageUrl(g.image_url, 640)}
+                <Image
+                  src={g.image_url}
                   alt=""
-                  customGrid={{ rows: 3, cols: 4 }}
-                  pixelFadeInDuration={600}
-                  maxAnimationDelay={700}
-                  colorRevealDelay={350}
-                  className="h-full w-full"
-                  imageClassName="object-cover transition-transform duration-500 group-hover:scale-105"
+                  fill
+                  loading="lazy"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 90vw, (max-width: 768px) 50vw, 33vw"
                 />
               ) : (
                 <TempleArt className="h-full w-full" label={g.title || "Temple photo"} />
               )}
               <span
                 aria-hidden
-                className="absolute inset-0 bg-linear-to-t from-maroon-950/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                className="absolute inset-0 bg-gradient-to-t from-maroon-950/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
               />
               <span
                 aria-hidden
@@ -124,7 +121,7 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
             >
               <div
                 aria-hidden
-                className="mx-4 mt-3 h-1.5 rounded-full bg-linear-to-r from-gulal-500 via-saffron-400 to-peacock-400"
+                className="mx-4 mt-3 h-1.5 rounded-full bg-gradient-to-r from-saffron-600 via-gold-300 to-saffron-600"
               />
               <div aria-hidden className="flex justify-center">
                 <span className="-mt-5 flex h-10 w-10 items-center justify-center rounded-full bg-maroon-800 font-display text-xl text-gold-300 ring-[3px] ring-gold-300">
@@ -152,23 +149,19 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
               </div>
               <div className="mx-3 flex justify-center overflow-hidden rounded-2xl bg-black ring-1 ring-gold-400/30 sm:mx-4">
                 {active.image_url ? (
-                  <PixelImage
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
                     key={active.id}
-                    src={optimizedImageUrl(active.image_url, 1080)}
+                    src={active.image_url}
                     alt={active.title || "Temple photo"}
-                    customGrid={{ rows: 5, cols: 7 }}
-                    pixelFadeInDuration={800}
-                    maxAnimationDelay={1000}
-                    colorRevealDelay={500}
-                    className="h-[62vh] w-full"
-                    imageClassName="object-contain"
+                    className="max-h-[62vh] w-auto max-w-full object-contain"
                   />
                 ) : (
                   <TempleArt className="aspect-[4/3] w-full" />
                 )}
               </div>
               <div className="flex items-center justify-between gap-3 px-5 py-3">
-                <p className="text-sm text-gold-200/90 italic">ॐ साई राम</p>
+                <p className="text-sm text-gold-200/90 italic">❖ ॐ साई राम ❖</p>
                 {images.length > 1 && (
                   <div className="flex items-center gap-2">
                     <button

@@ -34,10 +34,10 @@ export default function GalleryWithFilter({ images }: { images: GalleryImage[] }
               type="button"
               onClick={() => setActive(a)}
               aria-pressed={active === a}
-              className={`rounded-full px-4 py-1.5 text-sm font-bold transition-all ${
+              className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
                 active === a
-                  ? "btn-festive text-white shadow-md"
-                  : "border-2 border-maroon-200 text-maroon-800 hover:bg-maroon-50"
+                  ? "bg-maroon-800 text-cream-50"
+                  : "border border-maroon-200 text-maroon-800 hover:bg-maroon-50"
               }`}
             >
               {a}

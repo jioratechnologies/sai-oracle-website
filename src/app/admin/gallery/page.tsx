@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Images } from "lucide-react";
 import { supabaseBrowser } from "@/lib/supabase";
 import type { GalleryImage } from "@/lib/types";
 import {
@@ -100,10 +99,7 @@ export default function AdminGalleryPage() {
     return (
       <div className="space-y-4">
         <BackLink />
-        <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
-          <Images aria-hidden className="h-7 w-7 text-saffron-600" />
-          Gallery
-        </h1>
+        <h1 className="font-display text-3xl font-bold text-maroon-900">🖼️ Gallery</h1>
         <SetupNotice />
       </div>
     );
@@ -112,10 +108,7 @@ export default function AdminGalleryPage() {
   return (
     <div className="space-y-4">
       <BackLink />
-      <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
-        <Images aria-hidden className="h-7 w-7 text-saffron-600" />
-        Gallery
-      </h1>
+      <h1 className="font-display text-3xl font-bold text-maroon-900">🖼️ Gallery</h1>
 
       <Card>
         <h2 className="mb-4 font-display text-xl font-bold text-maroon-900">Upload Photos</h2>
