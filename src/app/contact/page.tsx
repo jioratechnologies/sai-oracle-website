@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import ArrowLink from "@/components/ArrowLink";
 import TimingsTable from "@/components/TimingsTable";
@@ -24,30 +26,43 @@ export default async function ContactPage() {
             <div className="rounded-2xl border border-maroon-100 bg-white p-6 shadow-sm">
               <h2 className="font-display text-2xl font-bold text-maroon-900">Temple Office</h2>
               <address className="mt-3 space-y-2 text-[16px] leading-relaxed text-stone-700 not-italic">
-                <p>📍 {settings.address}</p>
+                <p className="flex items-start gap-2">
+                  <MapPin aria-hidden className="mt-1 h-4 w-4 shrink-0 text-saffron-600" />
+                  {settings.address}
+                </p>
                 {settings.email && (
-                  <p>
-                    ✉️{" "}
+                  <p className="flex items-center gap-2">
+                    <Mail aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />
                     <a
                       href={`mailto:${settings.email}?subject=Enquiry%20for%20Sai%20Oracle`}
-                      className="font-medium text-maroon-800 hover:underline"
+                      className="font-medium break-all text-maroon-800 hover:underline"
                     >
                       {settings.email}
                     </a>
                   </p>
                 )}
-                {settings.phone && <p>📞 {settings.phone}</p>}
+                {settings.phone && (
+                  <p className="flex items-center gap-2">
+                    <Phone aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />
+                    {settings.phone}
+                  </p>
+                )}
               </address>
               <div className="mt-4 flex flex-wrap gap-3">
                 {settings.whatsapp_url ? (
-                  <ArrowLink
+                  <a
                     href={settings.whatsapp_url}
-                    external
-                    variant="solid"
-                    className="bg-green-700 text-sm font-bold text-white hover:bg-green-800"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-green-600 px-5 py-2 text-sm font-bold text-white shadow-md transition-transform active:scale-[0.98]"
+                    style={{ "--pulse-color": "#16a34a", "--duration": "1.8s", "--distance": "9px" } as CSSProperties}
                   >
-                    Message on WhatsApp
-                  </ArrowLink>
+                    <span className="relative z-10">Message on WhatsApp</span>
+                    <span
+                      aria-hidden
+                      className="pulsating-btn-pulse pointer-events-none absolute inset-0 rounded-[inherit] bg-inherit"
+                    />
+                  </a>
                 ) : settings.email ? (
                   <ArrowLink
                     href={`mailto:${settings.email}?subject=Enquiry%20for%20Sai%20Oracle`}

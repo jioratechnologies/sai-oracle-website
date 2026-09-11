@@ -75,3 +75,12 @@ export interface DevoteeExperience {
   place: string;
   quote: string;
 }
+
+/** One photo in the homepage hero showcase. */
+export interface ShowcaseSlide {
+  src: string;
+  tag: string;
+  caption: string;
+  /** Portrait murthis focus the top in cropped frames; wide scenes stay centered. */
+  focus: "top" | "center";
+}

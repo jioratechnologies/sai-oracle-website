@@ -1,5 +1,6 @@
 import PageHero from "@/components/PageHero";
 import VideoCard from "@/components/VideoCard";
+import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { getVideos } from "@/lib/site";
 
 export const revalidate = 300;
@@ -18,14 +19,16 @@ export default async function VideosPage() {
       <section className="mx-auto max-w-6xl px-4 py-12">
         {videos.length === 0 ? (
           <p className="rounded-2xl border border-maroon-100 bg-white p-8 text-center text-stone-600">
-            Videos will be added soon. 🙏
+            Videos will be added soon.
           </p>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <RevealGroup className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {videos.map((v) => (
-              <VideoCard key={v.id} video={v} />
+              <RevealItem key={v.id}>
+                <VideoCard video={v} />
+              </RevealItem>
             ))}
-          </div>
+          </RevealGroup>
         )}
       </section>
     </>

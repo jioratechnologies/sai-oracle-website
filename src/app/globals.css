@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Cormorant Garamond", "Georgia", serif;
-  --font-sans: "Mukta", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
 
-  /* Warm temple cream */
-  --color-cream-50: #fffdf7;
-  --color-cream-100: #fdf6e7;
-  --color-cream-200: #f8ead0;
-  --color-cream-300: #f0d9ae;
-  --color-cream-400: #e3c188;
+  /* Warm temple cream — the festive canvas */
+  --color-cream-50: #fffaf2;
+  --color-cream-100: #fdf2de;
+  --color-cream-200: #f9e4c0;
+  --color-cream-300: #f2cf92;
+  --color-cream-400: #e8b662;
 
-  /* Deep temple maroon */
-  --color-maroon-50: #faf1f1;
-  --color-maroon-100: #f3dcdc;
-  --color-maroon-200: #e4b3b3;
-  --color-maroon-500: #a83232;
-  --color-maroon-600: #8c1f28;
-  --color-maroon-700: #741820;
-  --color-maroon-800: #5c1219;
-  --color-maroon-900: #450d13;
-  --color-maroon-950: #2e080d;
+  /* Deep temple maroon — punched-up saturation, less muddy */
+  --color-maroon-50: #fdeef0;
+  --color-maroon-100: #f8d5da;
+  --color-maroon-200: #ebabb2;
+  --color-maroon-500: #c22a3e;
+  --color-maroon-600: #a11f31;
+  --color-maroon-700: #841828;
+  --color-maroon-800: #661220;
+  --color-maroon-900: #4c0e18;
+  --color-maroon-950: #33080f;
 
-  /* Saffron / festive orange */
-  --color-saffron-100: #fdeeda;
-  --color-saffron-200: #fbdcae;
-  --color-saffron-300: #f9c57c;
-  --color-saffron-400: #f5a83c;
-  --color-saffron-500: #e8730c;
-  --color-saffron-600: #c2570b;
-  --color-saffron-700: #9a430c;
+  /* Saffron / marigold — the vibrant hero + CTA color */
+  --color-saffron-100: #ffefd6;
+  --color-saffron-200: #ffd699;
+  --color-saffron-300: #ffb84d;
+  --color-saffron-400: #ff9c1a;
+  --color-saffron-500: #f77f00;
+  --color-saffron-600: #d96500;
+  --color-saffron-700: #ad5000;
 
   /* Temple gold */
   --color-gold-100: #faf0d2;
@@ -39,6 +39,24 @@
   --color-gold-500: #c9a227;
   --color-gold-600: #a8861c;
   --color-gold-700: #866a15;
+
+  /* Gulal — festive magenta/pink (from temple drapes & Holi powder) */
+  --color-gulal-100: #fde5f0;
+  --color-gulal-200: #fbc2de;
+  --color-gulal-300: #f68fc1;
+  --color-gulal-400: #ec54a0;
+  --color-gulal-500: #d62981;
+  --color-gulal-600: #b01568;
+  --color-gulal-700: #8a1152;
+
+  /* Peacock — cool festive accent for contrast against the warm palette */
+  --color-peacock-100: #d9f5f1;
+  --color-peacock-200: #aeeae2;
+  --color-peacock-300: #6fd8c9;
+  --color-peacock-400: #33bfae;
+  --color-peacock-500: #159c8d;
+  --color-peacock-600: #0f7d72;
+  --color-peacock-700: #0c635a;
 }
 
 html {
@@ -73,6 +91,238 @@ body {
     transparent 0
   );
   background-size: 20px 20px;
+}
+
+/* Festive multicolor accent line — the site's signature divider,
+   replaces the old single-tone gold gradient everywhere. */
+.divider-festive {
+  height: 4px;
+  background-image: linear-gradient(
+    90deg,
+    var(--color-gulal-500),
+    var(--color-saffron-400),
+    var(--color-gold-400),
+    var(--color-peacock-400),
+    var(--color-gulal-500)
+  );
+  background-size: 200% 100%;
+}
+
+/* Warm-to-festive glow wash for hero / dark banners */
+.mesh-festive {
+  background-image:
+    radial-gradient(circle at 12% 15%, rgb(246 127 0 / 0.35), transparent 45%),
+    radial-gradient(circle at 85% 10%, rgb(214 41 129 / 0.3), transparent 50%),
+    radial-gradient(circle at 75% 90%, rgb(21 156 141 / 0.22), transparent 45%),
+    radial-gradient(circle at 10% 90%, rgb(212 175 55 / 0.2), transparent 40%);
+}
+
+/* Festive gradient CTA button fill */
+.btn-festive {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-saffron-500),
+    var(--color-gulal-500)
+  );
+}
+
+.btn-festive:hover {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-saffron-400),
+    var(--color-gulal-400)
+  );
+}
+
+/* Aceternity-style mouse-follow spotlight, used by <SpotlightCard>. */
+.spotlight-card {
+  position: relative;
+}
+.spotlight-glow {
+  background: radial-gradient(
+    380px circle at var(--x, 50%) var(--y, 50%),
+    rgb(247 127 0 / 0.16),
+    rgb(214 41 129 / 0.1) 40%,
+    transparent 70%
+  );
+}
+.spotlight-card:hover .spotlight-glow {
+  opacity: 1;
+}
+.spotlight-border {
+  border-color: rgb(212 175 55 / 0.35);
+  transition: border-color 0.3s ease;
+}
+.spotlight-card:hover .spotlight-border {
+  border-color: rgb(247 127 0 / 0.55);
+}
+
+/* Aceternity-style rotating gradient "moving border" for hero CTAs. */
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes rotate-angle {
+  to {
+    --angle: 360deg;
+  }
+}
+
+.btn-glow {
+  position: relative;
+  isolation: isolate;
+}
+.btn-glow::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 3px;
+  background: conic-gradient(
+    from var(--angle),
+    var(--color-saffron-400),
+    var(--color-gulal-500),
+    var(--color-peacock-400),
+    var(--color-gold-400),
+    var(--color-saffron-400)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotate-angle 3.5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-glow::before {
+    animation: none;
+  }
+}
+
+/* Magic UI "Pulsating Button" — scoped keyframes (kept off the shared
+   `animate-pulse` utility so they never affect unrelated elements). */
+@keyframes pulsating-btn-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--pulse-color, oklch(from var(--bg, #000) l c h / 0.5));
+  }
+  50% {
+    box-shadow: 0 0 0 var(--distance, 8px) var(--pulse-color, oklch(from var(--bg, #000) l c h / 0.5));
+  }
+}
+
+@keyframes pulsating-btn-ripple {
+  0% {
+    box-shadow: 0 0 0 0 oklch(from var(--pulse-color, var(--bg, #000)) l c h / 1);
+  }
+  100% {
+    box-shadow: 0 0 0 var(--distance, 8px) oklch(from var(--pulse-color, var(--bg, #000)) l c h / 0);
+  }
+}
+
+.pulsating-btn-pulse {
+  animation: pulsating-btn-pulse var(--duration, 1.5s) ease-out infinite;
+}
+
+.pulsating-btn-ripple {
+  animation: pulsating-btn-ripple var(--duration, 1.5s) cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulsating-btn-pulse,
+  .pulsating-btn-ripple {
+    animation: none;
+  }
+}
+
+/* Gentle hover-bob for the floating hero murti — ambient motion
+   that needs no mouse, so mobile users feel it too. */
+@keyframes float-bob {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+.float-bob {
+  animation: float-bob 7s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-bob {
+    animation: none;
+  }
+}
+
+/* Hide scrollbars on auto-scrolling filmstrips while keeping scroll. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Slow Ken Burns drift for framed devotional photos — ambient motion
+   that needs no mouse, so mobile users feel it too. */
+@keyframes dusk-drift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.07) translate(-1.5%, 1.5%);
+  }
+}
+
+.dusk-ambient {
+  animation: dusk-drift 14s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dusk-ambient {
+    animation: none;
+  }
+}
+
+/* Rising gold-dust embers for dark sacred backdrops. */
+@keyframes gold-dust-rise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  60% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate3d(24px, -52vh, 0);
+    opacity: 0;
+  }
+}
+
+.gold-dust-particle {
+  background: radial-gradient(circle, #f6dc9a 0%, rgb(247 127 0 / 0.9) 55%, transparent 75%);
+  box-shadow: 0 0 6px 1px rgb(232 201 106 / 0.55);
+  animation-name: gold-dust-rise;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gold-dust-particle {
+    display: none;
+  }
 }
 
 @keyframes rise-in {

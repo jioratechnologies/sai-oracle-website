@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { CalendarDays } from "lucide-react";
 import { supabaseBrowser } from "@/lib/supabase";
 import { slugify, formatEventDate } from "@/lib/format";
 import type { TempleEvent } from "@/lib/types";
@@ -136,7 +137,10 @@ export default function AdminEventsPage() {
     return (
       <div className="space-y-4">
         <BackLink />
-        <h1 className="font-display text-3xl font-bold text-maroon-900">📅 Events</h1>
+        <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
+          <CalendarDays aria-hidden className="h-7 w-7 text-saffron-600" />
+          Events
+        </h1>
         <SetupNotice />
       </div>
     );
@@ -146,7 +150,10 @@ export default function AdminEventsPage() {
     <div className="space-y-4">
       <BackLink />
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl font-bold text-maroon-900">📅 Events</h1>
+        <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
+          <CalendarDays aria-hidden className="h-7 w-7 text-saffron-600" />
+          Events
+        </h1>
         {editing === null && <PrimaryButton onClick={startNew}>+ Add Event</PrimaryButton>}
       </div>
 

@@ -14,12 +14,12 @@ export default async function GalleryPage() {
         eyebrow="Moments"
         title="Photo Gallery"
         intro="Darshan, festivals, bhajans and seva — glimpses of temple life."
-        image="/legacy/banner/2.jpg"
+        image="/assets/20250112_191226.jpg"
       />
       <section className="mx-auto max-w-6xl px-4 py-12">
         {images.length === 0 ? (
           <p className="rounded-2xl border border-maroon-100 bg-white p-8 text-center text-stone-600">
-            Photos will be added soon. 🙏
+            Photos will be added soon.
           </p>
         ) : (
           <GalleryWithFilter images={images} />

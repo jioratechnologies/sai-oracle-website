@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Clock } from "lucide-react";
 import { supabaseBrowser } from "@/lib/supabase";
 import type { AartiTiming } from "@/lib/types";
 import {
@@ -108,7 +109,10 @@ export default function AdminTimingsPage() {
     return (
       <div className="space-y-4">
         <BackLink />
-        <h1 className="font-display text-3xl font-bold text-maroon-900">⏰ Temple Timings</h1>
+        <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
+          <Clock aria-hidden className="h-7 w-7 text-saffron-600" />
+          Temple Timings
+        </h1>
         <SetupNotice />
       </div>
     );
@@ -117,7 +121,10 @@ export default function AdminTimingsPage() {
   return (
     <div className="space-y-4">
       <BackLink />
-      <h1 className="font-display text-3xl font-bold text-maroon-900">⏰ Temple Timings</h1>
+      <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
+        <Clock aria-hidden className="h-7 w-7 text-saffron-600" />
+        Temple Timings
+      </h1>
       <p className="text-[15px] text-stone-600">
         Edit the daily aarti schedule. Saving updates the website instantly.
       </p>
