@@ -1,4 +1,3 @@
-import { Sparkle } from "lucide-react";
 import { markdownInline } from "./Markdown";
 
 interface Chapter {
@@ -75,7 +74,7 @@ export default function MiracleChapters({ content }: { content: string }) {
           ))}
           <div aria-hidden className="mt-6 flex items-center justify-center gap-2">
             <span className="h-px w-16 bg-gold-400" />
-            <Sparkle className="h-4 w-4 text-gold-500" fill="currentColor" />
+            <span className="text-gold-500">❖</span>
             <span className="h-px w-16 bg-gold-400" />
           </div>
         </div>
@@ -112,7 +111,7 @@ export default function MiracleChapters({ content }: { content: string }) {
           >
             <div
               aria-hidden
-              className="absolute inset-x-0 top-0 divider-festive"
+              className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold-600 via-gold-300 to-gold-600"
             />
             <span
               aria-hidden
@@ -150,8 +149,8 @@ export default function MiracleChapters({ content }: { content: string }) {
                       key={i}
                       className="flex gap-2.5 rounded-2xl bg-cream-100/70 p-3.5 text-[15.5px] leading-relaxed text-stone-700"
                     >
-                      <span aria-hidden className="mt-1 shrink-0">
-                        <Sparkle className="h-3.5 w-3.5 text-saffron-500" fill="currentColor" />
+                      <span aria-hidden className="mt-0.5 shrink-0 text-saffron-500">
+                        ❖
                       </span>
                       <span>{markdownInline(b)}</span>
                     </li>

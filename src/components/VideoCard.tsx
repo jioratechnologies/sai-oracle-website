@@ -49,7 +49,7 @@ export default function VideoCard({ video }: { video: YoutubeVideo }) {
       <article className="group/card relative flex flex-col overflow-hidden rounded-3xl border border-maroon-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
         <div
           aria-hidden
-          className="absolute inset-x-0 top-0 z-10 divider-festive"
+          className="absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-gold-600 via-gold-300 to-gold-600"
         />
         <div className="relative aspect-video overflow-hidden bg-maroon-950">
           {thumb && (
@@ -70,14 +70,13 @@ export default function VideoCard({ video }: { video: YoutubeVideo }) {
               />
               <span
                 aria-hidden
-                className="absolute inset-0 bg-linear-to-t from-maroon-950/70 via-maroon-950/10 to-transparent"
+                className="absolute inset-0 bg-gradient-to-t from-maroon-950/70 via-maroon-950/10 to-transparent"
               />
               <span
                 aria-hidden
-                className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-md bg-maroon-950/70 px-2 py-1 text-[11px] font-bold tracking-wider text-cream-50 uppercase backdrop-blur-sm"
+                className="absolute top-3 left-3 rounded-md bg-maroon-950/70 px-2 py-1 text-[11px] font-bold tracking-wider text-cream-50 uppercase backdrop-blur-sm"
               >
-                <Play className="h-3 w-3" fill="currentColor" strokeWidth={0} />
-                Bhajan
+                ▶ Bhajan
               </span>
               <span
                 aria-hidden
@@ -143,7 +142,7 @@ export default function VideoCard({ video }: { video: YoutubeVideo }) {
               {/* Festive toran + Om medallion */}
               <div
                 aria-hidden
-                className="mx-4 mt-3 h-1.5 rounded-full bg-linear-to-r from-gulal-500 via-saffron-400 to-peacock-400"
+                className="mx-4 mt-3 h-1.5 rounded-full bg-gradient-to-r from-saffron-600 via-gold-300 to-saffron-600"
               />
               <div aria-hidden className="flex justify-center">
                 <span className="-mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-maroon-800 font-display text-2xl text-gold-300 ring-[3px] ring-gold-300">
@@ -182,7 +181,7 @@ export default function VideoCard({ video }: { video: YoutubeVideo }) {
                 </div>
               </div>
               <div className="flex items-center justify-between gap-3 px-5 py-3">
-                <p className="text-sm text-gold-200/90 italic">ॐ साई राम</p>
+                <p className="text-sm text-gold-200/90 italic">❖ ॐ साई राम ❖</p>
                 <ArrowLink
                   href={watchUrl}
                   external

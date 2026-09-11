@@ -1,23 +1,22 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
-import { Playfair_Display, Poppins } from "next/font/google";
+import { Cormorant_Garamond, Mukta } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnnouncementBar from "@/components/AnnouncementBar";
-import WhatsAppFab from "@/components/WhatsAppFab";
 import { getSettings, getTimings } from "@/lib/site";
 
-const display = Playfair_Display({
+const display = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["600", "700", "800", "900"],
+  weight: ["500", "600", "700"],
 });
 
-const sans = Poppins({
+const sans = Mukta({
   variable: "--font-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin", "devanagari"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -41,7 +40,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#33080f",
+  themeColor: "#2e080d",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
@@ -70,7 +69,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               {children}
             </main>
             <Footer settings={settings} timings={timings} />
-            <WhatsAppFab whatsappUrl={settings.whatsapp_url} />
           </>
         )}
       </body>

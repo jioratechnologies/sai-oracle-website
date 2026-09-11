@@ -14,7 +14,6 @@ export default async function ExperiencesPage() {
         eyebrow="Miracles & Grace"
         title={page.title}
         intro="Manifestations of Baba's omnipresence, omnipotence and omniscience — as lived by His devotees."
-        image="/assets/20251119_202119.jpg"
       />
       <section className="mx-auto max-w-6xl px-4 py-12">
         <MiracleChapters content={page.content} />

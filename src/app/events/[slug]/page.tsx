@@ -117,7 +117,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
               href={event.registration_url}
               external
               variant="solid"
-              className="btn-festive text-white"
+              className="bg-gradient-to-r from-saffron-500 to-saffron-600 text-white"
             >
               Register / Know More
             </ArrowLink>

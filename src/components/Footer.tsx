@@ -13,7 +13,7 @@ export default function Footer({
 }) {
   return (
     <footer className="bg-maroon-950 text-cream-200">
-      <div aria-hidden className="divider-festive" />
+      <div aria-hidden className="h-1 bg-gradient-to-r from-gold-600 via-gold-300 to-gold-600" />
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-3">
@@ -35,7 +35,7 @@ export default function Footer({
         </div>
 
         <nav aria-label="Footer">
-          <p className="mb-3 font-display text-lg font-bold text-saffron-300">Visit</p>
+          <p className="mb-3 font-display text-lg font-bold text-gold-300">Visit</p>
           <ul className="space-y-2 text-[15px]">
             {[
               ["About Sai Oracle", "/about"],
@@ -57,7 +57,7 @@ export default function Footer({
         </nav>
 
         <div>
-          <p className="mb-3 font-display text-lg font-bold text-gulal-300">Daily Aarti</p>
+          <p className="mb-3 font-display text-lg font-bold text-gold-300">Daily Aarti</p>
           <ul className="space-y-2 text-[15px]">
             {timings.slice(0, 6).map((t) => (
               <li key={t.id} className="flex items-baseline justify-between gap-3">
@@ -72,7 +72,7 @@ export default function Footer({
         </div>
 
         <div>
-          <p className="mb-3 font-display text-lg font-bold text-peacock-300">Reach Us</p>
+          <p className="mb-3 font-display text-lg font-bold text-gold-300">Reach Us</p>
           <address className="text-[15px] leading-relaxed not-italic">
             {settings.address}
             <br />

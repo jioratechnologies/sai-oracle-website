@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Settings } from "lucide-react";
 import { supabaseBrowser } from "@/lib/supabase";
 import { seedSettings } from "@/lib/seed";
 import type { SiteSettings } from "@/lib/types";
@@ -73,10 +72,7 @@ export default function AdminSettingsPage() {
     return (
       <div className="space-y-4">
         <BackLink />
-        <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
-          <Settings aria-hidden className="h-7 w-7 text-saffron-600" />
-          Settings
-        </h1>
+        <h1 className="font-display text-3xl font-bold text-maroon-900">⚙️ Settings</h1>
         <SetupNotice />
       </div>
     );
@@ -86,10 +82,7 @@ export default function AdminSettingsPage() {
     return (
       <div className="space-y-4">
         <BackLink />
-        <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
-          <Settings aria-hidden className="h-7 w-7 text-saffron-600" />
-          Settings
-        </h1>
+        <h1 className="font-display text-3xl font-bold text-maroon-900">⚙️ Settings</h1>
         <p className="text-sm text-stone-500">Loading…</p>
       </div>
     );
@@ -114,10 +107,7 @@ export default function AdminSettingsPage() {
   return (
     <div className="space-y-4">
       <BackLink />
-      <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
-        <Settings aria-hidden className="h-7 w-7 text-saffron-600" />
-        Settings
-      </h1>
+      <h1 className="font-display text-3xl font-bold text-maroon-900">⚙️ Settings</h1>
 
       <form onSubmit={save} className="space-y-4">
         <Card>
