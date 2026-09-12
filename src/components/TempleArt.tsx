@@ -14,12 +14,12 @@ export default function TempleArt({
       aria-hidden={!label}
       role={label ? "img" : undefined}
       aria-label={label}
-      className={`pattern-jali relative flex items-center justify-center overflow-hidden bg-linear-to-br from-maroon-900 via-gulal-700 to-saffron-600 ${className}`}
+      className={`pattern-jali relative flex items-center justify-center overflow-hidden bg-linear-to-br from-saffron-200 via-gulal-200 to-gold-200 ${className}`}
     >
-      <div className="absolute h-[140%] aspect-square rounded-full border border-gold-300/30" />
-      <div className="absolute h-[100%] aspect-square rounded-full border border-gold-300/40" />
-      <div className="absolute h-[65%] aspect-square rounded-full border border-gold-300/30" />
-      <span className="relative font-display text-6xl text-gold-300/90">ॐ</span>
+      <div className="absolute h-[140%] aspect-square rounded-full border border-saffron-600/25" />
+      <div className="absolute h-[100%] aspect-square rounded-full border border-saffron-600/30" />
+      <div className="absolute h-[65%] aspect-square rounded-full border border-saffron-600/25" />
+      <span className="relative font-display text-6xl text-saffron-600">ॐ</span>
     </div>
   );
 }

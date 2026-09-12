@@ -3,7 +3,7 @@ import { getAllEvents } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = "https://saioracle.com";
-  const staticPages = ["", "/about", "/temple", "/events", "/experiences", "/aims", "/gallery", "/videos", "/contact", "/privacy", "/terms"];
+  const staticPages = ["", "/about", "/temple", "/events", "/experiences", "/aims", "/gallery", "/contact", "/privacy", "/terms"];
   const events = await getAllEvents().catch(() => []);
   return [
     ...staticPages.map((p) => ({

@@ -129,6 +129,20 @@ export async function getGallery(limit = 12): Promise<GalleryImage[]> {
   return seedGallery.slice(0, limit);
 }
 
+/**
+ * Maps former `public/assets/...` paths to their Supabase Storage public
+ * URL, seeded by `scripts/migrate-assets-to-supabase.mjs`. Pass the result
+ * to `resolveMediaUrl` (see `lib/image.ts`) wherever those paths are used.
+ */
+export async function getMediaMap(): Promise<Record<string, string>> {
+  const rows = await query<{ key: string; url: string }>("media_assets", (q) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (q as any).select("key, url") as never,
+  );
+  if (!rows) return {};
+  return Object.fromEntries(rows.map((r) => [r.key, r.url]));
+}
+
 export async function getTimings(): Promise<AartiTiming[]> {
   const rows = await query<AartiTiming>("temple_timings", (q) =>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

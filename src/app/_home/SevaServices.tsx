@@ -22,7 +22,7 @@ const SERVICES = [
   {
     title: "Bhajans & Live Darshan",
     sub: "Thursday sandhyas & Naam Smaranam",
-    href: "/videos",
+    href: "/gallery?tab=videos",
     cta: "Watch now",
     iconBg: "bg-peacock-500",
     icon: (

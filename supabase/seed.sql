@@ -79,7 +79,7 @@ insert into public.site_pages (slug, title, content) values
    '- Switch off mobile phones inside the prayer hall'),
   ('privacy', 'Privacy Policy',
    '## Privacy Policy' || chr(10) || chr(10) ||
-   'Sai Oracle respects your privacy. We do not create public user accounts and do not sell personal data. Embedded YouTube videos are governed by Google''s privacy policy.'),
+   'Sai Oracle respects your privacy. We do not create public user accounts and do not sell personal data. Linked YouTube videos are governed by Google''s privacy policy.'),
   ('terms', 'Terms of Use',
    '## Terms of Use' || chr(10) || chr(10) ||
    'Content on this website is for devotional and informational purposes. Event dates, timings and programmes may change; please confirm with the temple office before travelling.')

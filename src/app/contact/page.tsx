@@ -67,7 +67,7 @@ export default async function ContactPage() {
                   <ArrowLink
                     href={`mailto:${settings.email}?subject=Enquiry%20for%20Sai%20Oracle`}
                     variant="solid"
-                    className="bg-maroon-800 text-sm font-bold text-cream-50 hover:bg-maroon-700"
+                    className="btn-festive text-sm font-bold text-white"
                   >
                     Email the Temple
                   </ArrowLink>

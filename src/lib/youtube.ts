@@ -39,12 +39,9 @@ export function youtubeThumbnail(
   return id ? `https://i.ytimg.com/vi/${id}/${quality}.jpg` : null;
 }
 
-export function youtubeEmbedUrl(input: string | null | undefined): string | null {
-  const id = getYouTubeId(input);
-  return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
-}
-
 export function youtubeWatchUrl(input: string | null | undefined): string {
   const id = getYouTubeId(input);
   return id ? `https://www.youtube.com/watch?v=${id}` : "#";
 }
+/* NOTE: link-only by design — no youtube-nocookie embeds. Cards link
+ * out to YouTube so the repo ships zero video bytes. */

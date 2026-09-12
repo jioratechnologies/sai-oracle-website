@@ -16,12 +16,15 @@ import {
   getAnnouncements,
   getExperiences,
   getGallery,
+  getMediaMap,
   getSettings,
   getTimings,
   getUpcomingEvents,
   getVideos,
 } from "@/lib/site";
+import { resolveMediaUrl } from "@/lib/image";
 import { getShowcaseSlides } from "@/lib/showcase";
+import { DEFAULT_SLIDES } from "@/lib/heroSlides";
 import GalleryPreview from "./_home/GalleryPreview";
 import SevaServices from "./_home/SevaServices";
 import AboutTemple from "./_home/AboutTemple";
@@ -38,7 +41,7 @@ export const revalidate = 300;
  * live darshan → videos → gallery → experiences → visit.
  */
 export default async function Home() {
-  const [settings, events, timings, announcements, videos, gallery, showcase] =
+  const [settings, events, timings, announcements, videos, gallery, showcase, mediaMap] =
     await Promise.all([
       getSettings(),
       getUpcomingEvents(3),
@@ -47,8 +50,13 @@ export default async function Home() {
       getVideos(3),
       getGallery(6),
       getShowcaseSlides(),
+      getMediaMap(),
     ]);
   const experiences = getExperiences();
+  const heroSlides =
+    showcase.length > 0
+      ? showcase
+      : DEFAULT_SLIDES.map((s) => ({ ...s, src: resolveMediaUrl(mediaMap, s.src) }));
 
   return (
     <>
@@ -56,7 +64,7 @@ export default async function Home() {
         organizationName={settings.organization_name}
         tagline={settings.tagline}
         openingTime={timings[0]?.time ?? settings.morning_opening}
-        slides={showcase.length > 0 ? showcase : undefined}
+        slides={heroSlides}
       />
 
       {/* ── Quick seva services (overlaps hero, like Kashi's service grid) ── */}
@@ -70,7 +78,7 @@ export default async function Home() {
         <RevealGroup className="grid gap-6 md:grid-cols-3">
           {[
             {
-              src: "/assets/temple/other/20250112_182623.jpg",
+              src: resolveMediaUrl(mediaMap, "/assets/temple/other/20250112_182623.webp"),
               alt: "Children at the temple during Mission Karuna outreach",
               eyebrow: "Sacred Cause",
               eyebrowColor: "text-saffron-600",
@@ -79,7 +87,7 @@ export default async function Home() {
               href: "/aims",
             },
             {
-              src: "/legacy/home/Pujniye_maa.jpg",
+              src: "/legacy/home/Pujniye_maa.webp",
               alt: "Pujniye Maa",
               eyebrow: "Our Guide",
               eyebrowColor: "text-gulal-600",
@@ -88,7 +96,7 @@ export default async function Home() {
               href: "/experiences",
             },
             {
-              src: "/assets/temple/other/20250112_182606.jpg",
+              src: resolveMediaUrl(mediaMap, "/assets/temple/other/20250112_182606.webp"),
               alt: "The Trinity of Sai Avatars enthroned at the temple",
               eyebrow: "Our Faith",
               eyebrowColor: "text-peacock-600",
@@ -215,13 +223,13 @@ export default async function Home() {
       </section>
 
       {/* ── Pujniye Maa's message ────────────────────────── */}
-      <section className="relative overflow-hidden bg-maroon-800 text-cream-100">
-        <div aria-hidden className="pattern-jali-dark absolute inset-0" />
+      <section className="section-dawn relative overflow-hidden">
+        <div aria-hidden className="pattern-jali absolute inset-0 opacity-50" />
         <Reveal className="relative mx-auto max-w-6xl px-4 py-14 text-center">
-          <p className="text-xs font-semibold tracking-[0.25em] text-gold-300 uppercase">
+          <p className="text-xs font-semibold tracking-[0.25em] text-saffron-700 uppercase">
             Pujniye Maa&apos;s Message
           </p>
-          <blockquote className="mx-auto mt-4 max-w-3xl font-display text-2xl leading-relaxed font-medium text-balance sm:text-3xl">
+          <blockquote className="mx-auto mt-4 max-w-3xl font-display text-2xl leading-relaxed font-medium text-balance text-red-700 sm:text-3xl">
             “Love all, serve all. Every act of service offered with a pure heart reaches
             Baba&apos;s lotus feet.”
           </blockquote>
@@ -253,7 +261,7 @@ export default async function Home() {
         </RevealGroup>
         <div className="mt-8 text-center">
           <ArrowLink
-            href="/videos"
+            href="/gallery?tab=videos"
             variant="outline"
             className="border-gulal-400 px-6 py-2.5 text-gulal-700 hover:bg-gulal-500 hover:text-white"
           >
@@ -296,21 +304,21 @@ export default async function Home() {
       </section>
 
       {/* ── Visit / contact + social ─────────────────────── */}
-      <section className="bg-maroon-950 text-cream-100">
+      <section className="section-dawn text-stone-900">
         <div aria-hidden className="divider-festive" />
         <RevealGroup className="mx-auto grid max-w-6xl gap-10 px-4 py-14 lg:grid-cols-2">
           <RevealItem>
-            <p className="text-xs font-semibold tracking-[0.25em] text-gold-300 uppercase">
+            <p className="text-xs font-semibold tracking-[0.25em] text-saffron-700 uppercase">
               Plan Your Visit
             </p>
-            <h2 className="mt-2 font-display text-3xl font-bold text-balance sm:text-4xl">
+            <h2 className="mt-2 font-display text-3xl font-bold text-balance text-red-700 sm:text-4xl">
               Come, Receive Baba&apos;s Blessings
             </h2>
-            <address className="mt-4 text-[16px] leading-relaxed text-cream-200/85 not-italic">
+            <address className="mt-4 text-[16px] leading-relaxed text-stone-600 not-italic">
               {settings.address}
             </address>
-            <p className="mt-2 flex items-center gap-1.5 text-[16px] text-cream-200/85">
-              <Clock aria-hidden className="h-4 w-4 shrink-0 text-gold-300" />
+            <p className="mt-2 flex items-center gap-1.5 text-[16px] text-stone-600">
+              <Clock aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />
               Daily {settings.morning_opening} – {settings.night_closing}
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
@@ -325,7 +333,7 @@ export default async function Home() {
                   href={settings.maps_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full border border-gold-300/60 px-6 py-2.5 font-semibold text-gold-300 hover:bg-gold-300 hover:text-maroon-950"
+                  className="rounded-full border border-saffron-600/40 bg-white/60 px-6 py-2.5 font-semibold text-saffron-700 hover:border-saffron-500 hover:bg-saffron-500 hover:text-white"
                 >
                   Open in Google Maps
                 </a>
@@ -333,7 +341,7 @@ export default async function Home() {
             </div>
           </RevealItem>
           <RevealItem>
-            <div className="rounded-2xl bg-cream-50 p-6 text-stone-700">
+            <div className="rounded-2xl bg-white p-6 text-stone-700 shadow-md">
               <h3 className="font-display text-2xl font-bold text-maroon-900">
                 Follow {settings.organization_name}
               </h3>

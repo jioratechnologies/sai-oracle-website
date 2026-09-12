@@ -1,29 +1,35 @@
 import PageHero from "@/components/PageHero";
-import GalleryWithFilter from "./AlbumFilter";
-import { getGallery } from "@/lib/site";
+import MediaTabs from "./MediaTabs";
+import { getGallery, getMediaMap, getVideos } from "@/lib/site";
+import { resolveMediaUrl } from "@/lib/image";
 
 export const revalidate = 300;
 
-export const metadata = { title: "Photo Gallery" };
+export const metadata = { title: "Gallery & Videos" };
 
-export default async function GalleryPage() {
-  const images = await getGallery(60);
+export default async function GalleryPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>;
+}) {
+  const [{ tab }, images, videos, mediaMap] = await Promise.all([
+    searchParams,
+    getGallery(60),
+    getVideos(24),
+    getMediaMap(),
+  ]);
+  const defaultTab = tab === "videos" ? "videos" : "photos";
+
   return (
     <>
       <PageHero
         eyebrow="Moments"
-        title="Photo Gallery"
-        intro="Darshan, festivals, bhajans and seva — glimpses of temple life."
-        image="/assets/20250112_191226.jpg"
+        title="Gallery & Videos"
+        intro="Darshan, festivals, bhajans and seva — photos and videos of temple life."
+        image={resolveMediaUrl(mediaMap, "/assets/20250112_191226.webp")}
       />
       <section className="mx-auto max-w-6xl px-4 py-12">
-        {images.length === 0 ? (
-          <p className="rounded-2xl border border-maroon-100 bg-white p-8 text-center text-stone-600">
-            Photos will be added soon.
-          </p>
-        ) : (
-          <GalleryWithFilter images={images} />
-        )}
+        <MediaTabs images={images} videos={videos} defaultTab={defaultTab} />
       </section>
     </>
   );

@@ -15,8 +15,8 @@ export default function TimingsTable({
         compact ? "" : ""
       }`}
     >
-      <div className="bg-linear-to-r from-maroon-900 via-maroon-800 to-gulal-700 px-5 py-3.5 text-center">
-        <p className="flex items-center justify-center gap-2 font-display text-xl font-bold text-gold-300">
+      <div className="bg-linear-to-r from-saffron-500 via-gulal-500 to-gulal-600 px-5 py-3.5 text-center">
+        <p className="flex items-center justify-center gap-2 font-display text-xl font-bold text-white">
           <Flame aria-hidden className="h-5 w-5" />
           Daily Darshan & Aarti
         </p>

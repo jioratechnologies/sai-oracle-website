@@ -21,3 +21,13 @@ export function optimizedImageUrl(src: string, width: number, quality = 75): str
   const w = nearestAllowedWidth(width);
   return `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=${quality}`;
 }
+
+/**
+ * Resolves a local `/assets/...` path to its Supabase Storage public URL,
+ * via the `media_assets` map from `getMediaMap()`. Falls back to the local
+ * path unchanged when the key isn't in the map (not yet migrated, or
+ * Supabase isn't configured).
+ */
+export function resolveMediaUrl(map: Record<string, string>, localPath: string): string {
+  return map[localPath] ?? localPath;
+}

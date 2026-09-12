@@ -4,14 +4,14 @@ Redesign of **saioracle.com** (Satyadeep Sai Organisation, Meerut) — a polishe
 website plus a simple content-management admin panel that temple staff can operate without a
 developer.
 
-**Stack:** Next.js 16 (App Router) · Vercel · Supabase (Postgres + Auth + Storage) · YouTube embeds
-(l links only, no APIs).
+**Stack:** Next.js 16 (App Router) · Vercel · Supabase (Postgres + Auth + Storage) · YouTube
+(links only, no embeds, no APIs). Photos are lightweight WebP (converted from the old multi-MB JPEGs/PNGs).
 
 ## V1 Scope (intentionally small)
 
 **Public site** — Home (photo carousel hero) · About · Temple · Events (+ detail pages) ·
 Devotee Experiences · Aims & Objectives · Gallery · Videos · Contact · Privacy/Terms. Dynamic:
-upcoming events, timings, announcements, YouTube embeds, gallery, social links, contact info.
+upcoming events, timings, announcements, YouTube links, gallery, social links, contact info.
 
 **Admin (`/admin`)** — Dashboard · Events · Announcements · YouTube · Gallery · Temple Timings ·
 Pages (About/Temple/Experiences/Aims/Privacy/Terms) · Settings/Social links. Supabase Auth login only (no public
@@ -45,7 +45,7 @@ npm run build    # must pass before deploying
 ```
 
 Import the repo in Vercel, add the two `NEXT_PUBLIC_SUPABASE_*` env vars, deploy. No server to
-manage; media lives in Supabase Storage, video via YouTube embeds.
+manage; media lives in Supabase Storage, video via YouTube links (no embeds, no video files in git).
 
 > Hosting-cost note: Supabase Free (500 MB DB, 1 GB storage) and Vercel Hobby cover a small
 > informational temple site, but verify current plan limits and commercial-use terms before

@@ -109,7 +109,7 @@ export default function AdminVideosPage() {
         YouTube
       </h1>
       <p className="text-[15px] text-stone-600">
-        Just paste a YouTube link — no API, no login. The website embeds it automatically.
+        Just paste a YouTube link — no API, no login. The website links it automatically (no video upload, no embed).
       </p>
 
       <Card>
@@ -118,7 +118,7 @@ export default function AdminVideosPage() {
           <Field label="Title" hint="E.g. “Sai Baba Kakad Aarti”.">
             <input className={inputCls} value={title} onChange={(e) => setTitle(e.target.value)} required />
           </Field>
-          <Field label="YouTube link or video ID" hint="Accepts watch links, youtu.be links, Shorts, embeds, or the 11-character ID.">
+          <Field label="YouTube link or video ID" hint="Accepts watch links, youtu.be links, Shorts, embed links, or the 11-character ID.">
             <input
               className={inputCls}
               value={url}

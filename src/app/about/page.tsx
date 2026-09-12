@@ -6,14 +6,15 @@ import SectionHeading from "@/components/SectionHeading";
 import Testimonials from "@/components/Testimonials";
 import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import SpotlightCard from "@/components/motion/SpotlightCard";
-import { getExperiences, getPage } from "@/lib/site";
+import { getExperiences, getMediaMap, getPage } from "@/lib/site";
+import { resolveMediaUrl } from "@/lib/image";
 
 export const revalidate = 300;
 
 export const metadata = { title: "About Sai Oracle" };
 
 export default async function AboutPage() {
-  const page = await getPage("about");
+  const [page, mediaMap] = await Promise.all([getPage("about"), getMediaMap()]);
   const experiences = getExperiences();
   return (
     <>
@@ -21,7 +22,7 @@ export default async function AboutPage() {
         eyebrow="ॐ साई राम"
         title={page?.title ?? "About Sai Oracle"}
         intro="A non-political, non-profit family of devotees walking the path of love and service."
-        image="/assets/events/20241123_191422.jpg"
+        image={resolveMediaUrl(mediaMap, "/assets/events/20241123_191422.webp")}
       />
       <section className="mx-auto max-w-3xl px-4 py-12">
         <Markdown content={page?.content ?? ""} />

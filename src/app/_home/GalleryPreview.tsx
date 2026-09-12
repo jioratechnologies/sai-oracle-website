@@ -22,7 +22,7 @@ export default function GalleryPreview({ images }: { images: GalleryImage[] }) {
             <TempleArt className="h-full w-full" label={g.title || "Temple photo"} />
           )}
           {g.title && (
-            <span className="absolute bottom-2 left-2 rounded-full bg-maroon-950/70 px-3 py-1 text-xs font-medium text-cream-50">
+            <span className="absolute bottom-2 left-2 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-stone-800 ring-1 ring-stone-900/10">
               {g.title}
             </span>
           )}

@@ -9,7 +9,7 @@ const BLOBS = [
   { color: "var(--color-gold-400)", size: 260, top: "65%", left: "78%", dur: 22 },
 ];
 
-/** Slow-drifting blurred color blobs — an animated "aurora" wash for dark hero sections. */
+/** Slow-drifting blurred color blobs — an animated "aurora" wash for light festive sections. */
 export default function AuroraBlobs({ className = "" }: { className?: string }) {
   const reduce = useReducedMotion();
   return (
@@ -17,7 +17,7 @@ export default function AuroraBlobs({ className = "" }: { className?: string }) 
       {BLOBS.map((b, i) => (
         <motion.div
           key={i}
-          className="absolute rounded-full opacity-30 blur-3xl mix-blend-screen"
+          className="absolute rounded-full opacity-20 blur-3xl mix-blend-multiply"
           style={{
             width: b.size,
             height: b.size,

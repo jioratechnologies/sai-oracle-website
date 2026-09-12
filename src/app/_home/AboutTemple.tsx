@@ -3,12 +3,15 @@ import Link from "next/link";
 import { Flame, Sparkles } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "@/components/SectionHeading";
+import { resolveMediaUrl } from "@/lib/image";
+import { getMediaMap } from "@/lib/site";
 
 /**
  * Welcome / About Temple — mockup layout done properly: text left,
  * photo composition right (badge + overlapping inset), CTAs beneath.
  */
-export default function AboutTemple() {
+export default async function AboutTemple() {
+  const mediaMap = await getMediaMap();
   return (
     <section className="mx-auto max-w-6xl px-4 pt-12 pb-4 sm:pt-14">
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
@@ -62,7 +65,7 @@ export default function AboutTemple() {
           </span>
           <div className="overflow-hidden rounded-3xl border-4 border-gold-400/60 shadow-lg">
             <Image
-              src="/assets/events/20241123_191422.jpg"
+              src={resolveMediaUrl(mediaMap, "/assets/events/20241123_191422.webp")}
               alt="Havan and seva rituals with devotees at Sai Oracle"
               width={1040}
               height={780}
@@ -72,7 +75,7 @@ export default function AboutTemple() {
           </div>
           <div className="absolute -right-3 -bottom-8 w-36 overflow-hidden rounded-2xl shadow-xl ring-4 ring-cream-50 sm:-right-6 sm:w-44">
             <Image
-              src="/assets/20251119_201212.jpg"
+              src={resolveMediaUrl(mediaMap, "/assets/20251119_201212.webp")}
               alt="Lord Ganesh adorned for celebrations at the temple"
               width={384}
               height={200}

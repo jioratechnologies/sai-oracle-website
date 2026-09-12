@@ -3,17 +3,19 @@ import PageHero from "@/components/PageHero";
 import ArrowLink, { ArrowIcon } from "@/components/ArrowLink";
 import Markdown from "@/components/Markdown";
 import TimingsTable from "@/components/TimingsTable";
-import { getPage, getSettings, getTimings } from "@/lib/site";
+import { getMediaMap, getPage, getSettings, getTimings } from "@/lib/site";
+import { resolveMediaUrl } from "@/lib/image";
 
 export const revalidate = 300;
 
 export const metadata = { title: "Temple & Worship" };
 
 export default async function TemplePage() {
-  const [page, timings, settings] = await Promise.all([
+  const [page, timings, settings, mediaMap] = await Promise.all([
     getPage("temple"),
     getTimings(),
     getSettings(),
+    getMediaMap(),
   ]);
   return (
     <>
@@ -21,7 +23,7 @@ export default async function TemplePage() {
         eyebrow="Daily Darshan"
         title={page?.title ?? "Temple & Worship"}
         intro={`Open all 7 days · ${settings.morning_opening} – ${settings.night_closing}`}
-        image="/assets/temple/other/20250112_182606.jpg"
+        image={resolveMediaUrl(mediaMap, "/assets/temple/other/20250112_182606.webp")}
       />
       <section className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid gap-10 lg:grid-cols-3">

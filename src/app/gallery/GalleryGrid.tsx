@@ -74,7 +74,7 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
               />
               <span
                 aria-hidden
-                className="absolute top-1/2 left-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 scale-75 items-center justify-center rounded-full bg-maroon-950/80 text-gold-300 opacity-0 ring-2 ring-gold-300 backdrop-blur-sm transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"
+                className="absolute top-1/2 left-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 scale-75 items-center justify-center rounded-full bg-white/90 text-saffron-600 opacity-0 ring-2 ring-saffron-400 backdrop-blur-sm transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"
               >
                 <Expand className="h-5 w-5" />
               </span>
@@ -90,7 +90,7 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
               </span>
               <span
                 aria-hidden
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-maroon-200 text-maroon-800 transition-colors group-hover:border-maroon-800 group-hover:bg-maroon-800 group-hover:text-gold-300"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-maroon-200 text-maroon-800 transition-colors group-hover:border-saffron-500 group-hover:bg-saffron-500 group-hover:text-white"
               >
                 <Expand className="h-4 w-4" />
               </span>
@@ -113,13 +113,13 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
             transition={{ duration: 0.2 }}
             onClick={close}
           >
-            <div aria-hidden className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+            <div aria-hidden className="absolute inset-0 bg-[#7c2d12]/45 backdrop-blur-sm" />
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.97, y: 8 }}
               transition={{ duration: 0.22 }}
-              className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border-2 border-gold-400/70 bg-maroon-950 shadow-2xl"
+              className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border-2 border-saffron-300/70 bg-cream-50 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div
@@ -127,17 +127,17 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
                 className="mx-4 mt-3 h-1.5 rounded-full bg-linear-to-r from-gulal-500 via-saffron-400 to-peacock-400"
               />
               <div aria-hidden className="flex justify-center">
-                <span className="-mt-5 flex h-10 w-10 items-center justify-center rounded-full bg-maroon-800 font-display text-xl text-gold-300 ring-[3px] ring-gold-300">
+                <span className="-mt-5 flex h-10 w-10 items-center justify-center rounded-full bg-white font-display text-xl text-saffron-600 shadow ring-[3px] ring-saffron-400">
                   ॐ
                 </span>
               </div>
               <div className="flex items-center gap-3 px-5 pt-1 pb-3">
                 <OmMark className="hidden h-9 w-9 sm:flex" />
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-semibold tracking-[0.25em] text-gold-300 uppercase">
+                  <p className="text-[11px] font-semibold tracking-[0.25em] text-saffron-700 uppercase">
                     Sai Oracle · {albumOf(active.image_url)}
                   </p>
-                  <p className="truncate font-display text-lg leading-snug font-bold text-cream-50">
+                  <p className="truncate font-display text-lg leading-snug font-bold text-stone-900">
                     {active.title || "Temple Photo"}
                   </p>
                 </div>
@@ -145,12 +145,12 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
                   type="button"
                   onClick={close}
                   aria-label="Close photo viewer"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold-300/50 text-gold-200 transition-colors hover:bg-gold-300 hover:text-maroon-950"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-saffron-500/50 text-saffron-700 transition-colors hover:bg-saffron-500 hover:text-white"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
-              <div className="mx-3 flex justify-center overflow-hidden rounded-2xl bg-black ring-1 ring-gold-400/30 sm:mx-4">
+              <div className="mx-3 flex justify-center overflow-hidden rounded-2xl bg-white ring-1 ring-saffron-300/50 sm:mx-4">
                 {active.image_url ? (
                   <PixelImage
                     key={active.id}
@@ -168,25 +168,25 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
                 )}
               </div>
               <div className="flex items-center justify-between gap-3 px-5 py-3">
-                <p className="text-sm text-gold-200/90 italic">ॐ साई राम</p>
+                <p className="text-sm text-saffron-700 italic">ॐ साई राम</p>
                 {images.length > 1 && (
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
                       onClick={() => go(-1)}
                       aria-label="Previous photo"
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gold-300/50 text-gold-200 transition-colors hover:bg-gold-300 hover:text-maroon-950"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-saffron-500/40 text-saffron-700 transition-colors hover:bg-saffron-500 hover:text-white"
                     >
                       <ChevronLeft className="h-4 w-4" />
                     </button>
-                    <span className="text-sm font-semibold text-cream-100 tabular-nums">
+                    <span className="text-sm font-semibold text-stone-600 tabular-nums">
                       {activeIndex + 1} / {images.length}
                     </span>
                     <button
                       type="button"
                       onClick={() => go(1)}
                       aria-label="Next photo"
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gold-300/50 text-gold-200 transition-colors hover:bg-gold-300 hover:text-maroon-950"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-saffron-500/40 text-saffron-700 transition-colors hover:bg-saffron-500 hover:text-white"
                     >
                       <ChevronRight className="h-4 w-4" />
                     </button>

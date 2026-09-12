@@ -13,7 +13,8 @@ import type { ShowcaseSlide } from "./types";
  *   01-shirdi-sai--sabka-malik-ek.jpg  → tag "Shirdi Sai", caption "Sabka Malik Ek"
  *   havan-with-devotees.jpg            → tag "Darshan", caption "Havan With Devotees"
  *
- * Supported: .jpg .jpeg .png .webp. Files sort by the numeric prefix,
+ * Supported: .webp (preferred — converted from the old multi-MB
+ * JPEGs/PNGs) plus .jpg .jpeg .png for compatibility. Files sort by the numeric prefix,
  * then alphabetically. Portrait photos focus the top of cropped
  * frames; landscape scenes stay centered (detected from real
  * dimensions, EXIF-aware).
@@ -41,6 +42,30 @@ async function probeDims(file: string): Promise<{ w: number; h: number } | null>
       head.readUInt32BE(4) === 0x0d0a1a0a;
     if (isPng) {
       return { w: head.readUInt32BE(16), h: head.readUInt32BE(20) };
+    }
+    const isRiff = head.toString("ascii", 0, 4) === "RIFF";
+    const isWebp = head.toString("ascii", 8, 12) === "WEBP";
+    if (isRiff && isWebp) {
+      const chunk = head.toString("ascii", 12, 16);
+      try {
+        if (chunk === "VP8X" && head.length >= 30) {
+          const w = head.readUIntLE(24, 3) + 1;
+          const h = head.readUIntLE(27, 3) + 1;
+          if (w > 0 && h > 0) return { w, h };
+        } else if (chunk === "VP8 " && head.length >= 30) {
+          const w = head.readUInt16LE(26) & 0x3fff;
+          const h = head.readUInt16LE(28) & 0x3fff;
+          if (w > 0 && h > 0) return { w, h };
+        } else if (chunk === "VP8L" && head.length >= 25) {
+          const bits = head.readUInt32LE(21);
+          const w = (bits & 0x3fff) + 1;
+          const h = ((bits >> 14) & 0x3fff) + 1;
+          if (w > 0 && h > 0 && w < 1 << 15 && h < 1 << 15) return { w, h };
+        }
+      } catch {
+        return null;
+      }
+      return null;
     }
     if (!isJpeg) return null;
     const { size } = await fh.stat();

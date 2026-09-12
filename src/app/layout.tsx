@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#33080f",
+  themeColor: "#f77f00",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
@@ -64,8 +64,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             >
               Skip to content
             </a>
-            <AnnouncementBar />
-            <Header organizationName={settings.organization_name} />
+            <div className="sticky top-0 z-40">
+              <AnnouncementBar />
+              <Header organizationName={settings.organization_name} />
+            </div>
             <main id="main" className="flex-1">
               {children}
             </main>

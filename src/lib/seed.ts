@@ -155,18 +155,18 @@ export const seedVideos: YoutubeVideo[] = [
 ];
 
 export const seedGallery: GalleryImage[] = [
-  { id: "seed-g1", title: "Baba's Birthday Celebrations", image_url: "/legacy/gallery/baba-birth-01.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g2", title: "Baba's Birthday Celebrations", image_url: "/legacy/gallery/baba-birth-02.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g3", title: "Baba's Birthday Celebrations", image_url: "/legacy/gallery/baba-birth-03.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g4", title: "Baba's Birthday Celebrations", image_url: "/legacy/events/baba-birth.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g5", title: "Temple Celebrations 2022", image_url: "/legacy/gallery/gal-2022-01.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g6", title: "Temple Celebrations 2022", image_url: "/legacy/gallery/gal-2022-02.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g7", title: "Temple Celebrations 2021", image_url: "/legacy/gallery/gal-2021-01.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g8", title: "Temple Celebrations 2021", image_url: "/legacy/gallery/gal-2021-02.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g9", title: "Temple Celebrations 2020", image_url: "/legacy/gallery/gal-2020-01.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g10", title: "Temple Celebrations 2019", image_url: "/legacy/gallery/gal-2019-01.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g11", title: "Temple Project", image_url: "/legacy/gallery/plan-t-01.jpg", created_at: "2026-09-01T00:00:00Z" },
-  { id: "seed-g12", title: "Temple Project", image_url: "/legacy/gallery/plan-t-02.jpg", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g1", title: "Baba's Birthday Celebrations", image_url: "/legacy/gallery/baba-birth-01.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g2", title: "Baba's Birthday Celebrations", image_url: "/legacy/gallery/baba-birth-02.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g3", title: "Baba's Birthday Celebrations", image_url: "/legacy/gallery/baba-birth-03.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g4", title: "Baba's Birthday Celebrations", image_url: "/legacy/events/baba-birth.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g5", title: "Temple Celebrations 2022", image_url: "/legacy/gallery/gal-2022-01.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g6", title: "Temple Celebrations 2022", image_url: "/legacy/gallery/gal-2022-02.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g7", title: "Temple Celebrations 2021", image_url: "/legacy/gallery/gal-2021-01.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g8", title: "Temple Celebrations 2021", image_url: "/legacy/gallery/gal-2021-02.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g9", title: "Temple Celebrations 2020", image_url: "/legacy/gallery/gal-2020-01.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g10", title: "Temple Celebrations 2019", image_url: "/legacy/gallery/gal-2019-01.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g11", title: "Temple Project", image_url: "/legacy/gallery/plan-t-01.webp", created_at: "2026-09-01T00:00:00Z" },
+  { id: "seed-g12", title: "Temple Project", image_url: "/legacy/gallery/plan-t-02.webp", created_at: "2026-09-01T00:00:00Z" },
 ];
 
 export const seedExperiences: DevoteeExperience[] = [
@@ -337,7 +337,7 @@ export const seedPages: SitePage[] = [
   {
     slug: "privacy",
     title: "Privacy Policy",
-    content: `## Privacy Policy\n\nSai Oracle (Satyadeep Sai Organisation) respects your privacy.\n\n- We do not create public user accounts and do not sell personal data.\n- If you contact us by email or phone, your details are used only to respond to your enquiry.\n- Embedded YouTube videos are governed by Google's privacy policy.\n- The contact form (if enabled) sends your message to the temple office and stores nothing beyond normal email records.\n\nFor any privacy questions, write to us at the email listed on the Contact page.`,
+    content: `## Privacy Policy\n\nSai Oracle (Satyadeep Sai Organisation) respects your privacy.\n\n- We do not create public user accounts and do not sell personal data.\n- If you contact us by email or phone, your details are used only to respond to your enquiry.\n- Linked YouTube videos are governed by Google's privacy policy.\n- The contact form (if enabled) sends your message to the temple office and stores nothing beyond normal email records.\n\nFor any privacy questions, write to us at the email listed on the Contact page.`,
     updated_at: "2026-09-01T00:00:00Z",
   },
   {

@@ -68,7 +68,7 @@ export default function TiltFloat({
             alt={alt}
             draggable={false}
             className="relative h-full w-full object-contain select-none"
-            style={{ filter: "drop-shadow(0 25px 35px rgb(0 0 0 / 0.45))" }}
+            style={{ filter: "drop-shadow(0 25px 35px rgb(194 42 62 / 0.35))" }}
           />
         </motion.div>
       </motion.div>

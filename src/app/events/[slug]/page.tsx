@@ -79,7 +79,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             >
               <span
                 aria-hidden
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-maroon-800 text-gold-300 ring-2 ring-gold-400/70"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-saffron-500 to-gulal-500 text-white ring-2 ring-saffron-300"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -126,7 +126,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             href="/events"
             variant="outline"
             back
-            className="border-maroon-300 px-5 py-2 text-maroon-800 hover:bg-maroon-800 hover:text-cream-50"
+            className="border-maroon-300 px-5 py-2 text-maroon-800 hover:border-saffron-500 hover:bg-saffron-500 hover:text-white"
           >
             All Events
           </ArrowLink>

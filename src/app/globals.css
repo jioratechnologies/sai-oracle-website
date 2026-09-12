@@ -108,6 +108,18 @@ body {
   background-size: 200% 100%;
 }
 
+/* Light festive "dawn" canvas — marigold morning melting into gulal
+   pink. Replaces the old maroon-black night sections across the public
+   site: heroes, banners, deities, footer. */
+.section-dawn {
+  background-color: #fff8ea;
+  background-image:
+    radial-gradient(90% 55% at 88% 0%, rgb(246 143 193 / 0.3), transparent 60%),
+    radial-gradient(85% 55% at 6% 2%, rgb(255 184 77 / 0.42), transparent 60%),
+    radial-gradient(70% 50% at 50% 110%, rgb(253 214 141 / 0.55), transparent 65%),
+    linear-gradient(to bottom, #fff9ee 0%, #fdeccd 48%, #fbdcec 100%);
+}
+
 /* Warm-to-festive glow wash for hero / dark banners */
 .mesh-festive {
   background-image:

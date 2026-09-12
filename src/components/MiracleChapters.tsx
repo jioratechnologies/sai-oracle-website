@@ -92,7 +92,7 @@ export default function MiracleChapters({ content }: { content: string }) {
               <a
                 key={c.num}
                 href={`#chapter-${c.num}`}
-                className="rounded-full border border-maroon-200 bg-white px-3.5 py-1.5 text-sm font-medium text-maroon-800 shadow-sm transition-colors hover:border-maroon-400 hover:bg-maroon-800 hover:text-cream-50"
+                className="rounded-full border border-maroon-200 bg-white px-3.5 py-1.5 text-sm font-medium text-maroon-800 shadow-sm transition-colors hover:border-saffron-500 hover:bg-saffron-500 hover:text-white"
               >
                 <span className="mr-1.5 font-display font-bold text-saffron-600">{c.num}</span>
                 {c.title}
@@ -124,7 +124,7 @@ export default function MiracleChapters({ content }: { content: string }) {
               <div className="flex items-center gap-4">
                 <span
                   aria-hidden
-                  className="flex h-13 w-13 shrink-0 items-center justify-center rounded-full bg-maroon-800 p-3.5 font-display text-2xl font-bold text-gold-300 ring-2 ring-gold-400"
+                  className="flex h-13 w-13 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-saffron-500 to-gulal-500 p-3.5 font-display text-2xl font-bold text-white ring-2 ring-saffron-300"
                 >
                   {c.num}
                 </span>

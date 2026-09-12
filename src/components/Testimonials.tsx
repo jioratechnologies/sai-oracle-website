@@ -111,7 +111,7 @@ export default function Testimonials({ items }: { items: DevoteeExperience[] }) 
           >
             <span
               aria-hidden
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-maroon-800 font-display text-base font-bold text-gold-300 ring-2 ring-gold-400/70"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-saffron-500 to-gulal-500 font-display text-base font-bold text-white ring-2 ring-saffron-300"
             >
               {initials(item.name)}
             </span>
@@ -130,7 +130,7 @@ export default function Testimonials({ items }: { items: DevoteeExperience[] }) 
             type="button"
             onClick={() => go(-1)}
             aria-label="Previous experience"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-maroon-200 text-maroon-800 transition-colors hover:bg-maroon-800 hover:text-cream-50"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-maroon-200 text-maroon-800 transition-colors hover:border-saffron-500 hover:bg-saffron-500 hover:text-white"
           >
             <ChevronLeft aria-hidden className="h-4 w-4" />
           </button>
@@ -146,7 +146,7 @@ export default function Testimonials({ items }: { items: DevoteeExperience[] }) 
                 onClick={() => setIndex(i)}
                 className={`flex h-9 w-9 items-center justify-center rounded-full font-display text-xs font-bold transition-all ${
                   i === index
-                    ? "bg-maroon-800 text-gold-300 ring-2 ring-gold-400 ring-offset-2 ring-offset-white"
+                    ? "bg-gradient-to-br from-saffron-500 to-gulal-500 text-white ring-2 ring-saffron-300 ring-offset-2 ring-offset-white"
                     : "border border-maroon-200 bg-cream-100 text-maroon-800 hover:border-maroon-400"
                 }`}
               >
@@ -158,7 +158,7 @@ export default function Testimonials({ items }: { items: DevoteeExperience[] }) 
             type="button"
             onClick={() => go(1)}
             aria-label="Next experience"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-maroon-200 text-maroon-800 transition-colors hover:bg-maroon-800 hover:text-cream-50"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-maroon-200 text-maroon-800 transition-colors hover:border-saffron-500 hover:bg-saffron-500 hover:text-white"
           >
             <ChevronRight aria-hidden className="h-4 w-4" />
           </button>
@@ -193,7 +193,7 @@ export default function Testimonials({ items }: { items: DevoteeExperience[] }) 
             <figcaption className="mt-5 flex items-center gap-3 border-t border-maroon-50 pt-4">
               <span
                 aria-hidden
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-maroon-800 font-display text-sm font-bold text-gold-300 ring-2 ring-gold-400/70"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-saffron-500 to-gulal-500 font-display text-sm font-bold text-white ring-2 ring-saffron-300"
               >
                 {initials(t.name)}
               </span>

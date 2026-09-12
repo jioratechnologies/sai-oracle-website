@@ -34,7 +34,7 @@ create table if not exists public.announcements (
   created_at timestamptz not null default now()
 );
 
--- YOUTUBE VIDEOS (URL embeds only — no YouTube API) ----------
+-- YOUTUBE VIDEOS (URL links only — no embeds, no YouTube API) ----------
 create table if not exists public.youtube_videos (
   id uuid primary key default gen_random_uuid(),
   title text not null,
@@ -50,6 +50,17 @@ create table if not exists public.gallery (
   title text,
   image_url text not null,
   created_at timestamptz not null default now()
+);
+
+-- MEDIA ASSETS (built-in site photos, migrated out of the repo and
+-- into the temple-media storage bucket — see
+-- scripts/migrate-assets-to-supabase.mjs). `key` is the former
+-- `/assets/...` path used in the source code; `url` is its public
+-- Supabase Storage URL.
+create table if not exists public.media_assets (
+  key text primary key,
+  url text not null,
+  updated_at timestamptz not null default now()
 );
 
 -- TEMPLE TIMINGS ---------------------------------------------
@@ -96,6 +107,7 @@ alter table public.events enable row level security;
 alter table public.announcements enable row level security;
 alter table public.youtube_videos enable row level security;
 alter table public.gallery enable row level security;
+alter table public.media_assets enable row level security;
 alter table public.temple_timings enable row level security;
 alter table public.site_settings enable row level security;
 alter table public.site_pages enable row level security;
@@ -110,6 +122,8 @@ create policy "Public can read published videos"
   on public.youtube_videos for select using (published = true);
 create policy "Public can read gallery"
   on public.gallery for select using (true);
+create policy "Public can read media assets"
+  on public.media_assets for select using (true);
 create policy "Public can read timings"
   on public.temple_timings for select using (true);
 create policy "Public can read settings"
@@ -127,6 +141,8 @@ create policy "Admins can manage videos"
   on public.youtube_videos for all using (auth.role() = 'authenticated');
 create policy "Admins can manage gallery"
   on public.gallery for all using (auth.role() = 'authenticated');
+create policy "Admins can manage media assets"
+  on public.media_assets for all using (auth.role() = 'authenticated');
 create policy "Admins can manage timings"
   on public.temple_timings for all using (auth.role() = 'authenticated');
 create policy "Admins can manage settings"

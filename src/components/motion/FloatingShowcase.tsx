@@ -6,10 +6,11 @@ import DuskImage from "./DuskImage";
 
 /**
  * Frameless floating murti — no ring, no rectangle. The photo is cut
- * to a temple-arch silhouette with a faint golden rim echo, a soft
- * floor reflection and a gentle hover bob, plus 3D cursor tilt on
- * hover-capable devices. Touch users get swipe + autoplay + ambient
- * drift instead — nothing here needs a mouse to feel alive.
+ * to a temple-arch silhouette dressed for the light festive theme: a
+ * marigold aura, double gold-saffron arch outline, and a kalash-style
+ * Om finial crowning the top — plus a soft floor reflection and gentle
+ * hover bob, with 3D cursor tilt on hover-capable devices. Touch users
+ * get swipe + autoplay + ambient drift instead.
  */
 export default function FloatingShowcase({
   src,
@@ -56,23 +57,34 @@ export default function FloatingShowcase({
       className={`relative ${className}`}
       style={{ perspective: 1200 }}
     >
-      {/* Soft aura pooling under the murti */}
+      {/* Marigold aura pooling behind + under the murti */}
       <div
         aria-hidden
-        className="absolute inset-x-8 top-1/4 bottom-0 rounded-t-full bg-[radial-gradient(closest-side,rgb(232_201_106/0.35),rgb(247_127_0/0.12)_60%,transparent_75%)] blur-2xl"
+        className="absolute -inset-6 rounded-t-full bg-[radial-gradient(closest-side,rgb(255_200_90/0.55),rgb(247_127_0/0.22)_60%,transparent_78%)] blur-2xl"
       />
+      {/* Kalash-style Om finial crowning the arch */}
+      <div
+        aria-hidden
+        className="absolute -top-5 left-1/2 z-10 flex h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-br from-saffron-500 to-gulal-500 font-display text-xl text-white shadow-lg ring-2 ring-white"
+      >
+        ॐ
+      </div>
       <motion.div
         className="relative"
         style={tilt ? { rotateX, rotateY, transformStyle: "preserve-3d" } : undefined}
       >
         <div className={reduce ? "relative" : "float-bob relative"}>
-          {/* Faint golden rim echo — aura, not a container */}
+          {/* Double festive arch outline — gold rim + offset saffron echo */}
           <div
             aria-hidden
-            className="absolute -inset-2 rounded-t-full rounded-b-[2rem] border-2 border-gold-200/25"
+            className="absolute -inset-2 rounded-t-full rounded-b-[2rem] border-2 border-gold-400/70"
           />
           <div
-            className="relative overflow-hidden rounded-t-full rounded-b-[1.75rem] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.65)]"
+            aria-hidden
+            className="absolute -inset-4 rounded-t-full rounded-b-[2.5rem] border border-saffron-400/40"
+          />
+          <div
+            className="relative overflow-hidden rounded-t-full rounded-b-[1.75rem] shadow-[0_35px_60px_-15px_rgba(194,42,62,0.30)]"
             style={
               {
                 WebkitBoxReflect:

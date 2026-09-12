@@ -83,4 +83,6 @@ export interface ShowcaseSlide {
   caption: string;
   /** Portrait murthis focus the top in cropped frames; wide scenes stay centered. */
   focus: "top" | "center";
+  /** Optional destination — the caption pill renders as a link when set. */
+  href?: string;
 }

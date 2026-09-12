@@ -3,7 +3,8 @@ import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import SpotlightCard from "@/components/motion/SpotlightCard";
 import TiltFloat from "@/components/motion/TiltFloat";
 import { PixelImage } from "@/components/magicui/pixel-image";
-import { optimizedImageUrl } from "@/lib/image";
+import { optimizedImageUrl, resolveMediaUrl } from "@/lib/image";
+import { getMediaMap } from "@/lib/site";
 
 interface Deity {
   name: string;
@@ -20,52 +21,52 @@ const DEITIES: Deity[] = [
   {
     name: "Shirdi Sai Baba",
     tagline: "The Fakir of Shirdi — Sabka Malik Ek",
-    src: "/assets/temple/god/4.jpg",
+    src: "/assets/temple/god/4.webp",
     featured: true,
   },
   {
     name: "Trinity of Sai Avatars",
     tagline: "Shirdi · Satya · Prema Sai, with Hanuman",
-    src: "/assets/temple/god/6.jpg",
+    src: "/assets/temple/god/6.webp",
   },
   {
     name: "Radha-Krishna",
     tagline: "The Divine Couple",
-    src: "/assets/deities-png/radha-krishna.png",
+    src: "/assets/deities-png/radha-krishna.webp",
     float: true,
     glow: "var(--color-gulal-400)",
   },
   {
     name: "Maa Durga",
     tagline: "The Supreme Warrior Goddess",
-    src: "/assets/deities-png/durga.png",
+    src: "/assets/deities-png/durga.webp",
     float: true,
     glow: "var(--color-peacock-400)",
   },
   {
     name: "Mata Rani",
     tagline: "Mother of the Universe",
-    src: "/assets/temple/god/mata rani .jpeg",
+    src: "/assets/temple/god/mata rani .webp",
   },
   {
     name: "Maa Kali",
     tagline: "The Fierce Protector",
-    src: "/assets/temple/god/kali-mata2.jpeg",
+    src: "/assets/temple/god/kali-mata2.webp",
   },
   {
     name: "Shiv-Parvati",
     tagline: "Adi Dev & Adi Shakti",
-    src: "/assets/temple/god/shiv-parwati.jpeg",
+    src: "/assets/temple/god/shiv-parwati.webp",
   },
   {
     name: "Shree Ram Darbar",
     tagline: "Ram · Sita · Lakshman",
-    src: "/assets/temple/god/3.jpg",
+    src: "/assets/temple/god/3.webp",
   },
   {
     name: "Lord Ganesh",
     tagline: "Remover of Obstacles",
-    src: "/assets/deities-png/ganesh.png",
+    src: "/assets/deities-png/ganesh.webp",
     float: true,
     glow: "var(--color-saffron-400)",
   },
@@ -78,32 +79,33 @@ const DEITIES: Deity[] = [
  * rather than flat photos, so the grid reads as a designed bento layout
  * with real depth rather than a plain uniform photo grid.
  */
-export default function DeitiesSection() {
+export default async function DeitiesSection() {
+  const mediaMap = await getMediaMap();
+  const deities = DEITIES.map((d) => ({ ...d, src: resolveMediaUrl(mediaMap, d.src) }));
   return (
-    <section className="relative overflow-hidden bg-maroon-950 py-14 sm:py-16">
-      <div aria-hidden className="pattern-jali-dark absolute inset-0 opacity-50" />
+    <section className="section-dawn relative overflow-hidden py-14 sm:py-16">
+      <div aria-hidden className="pattern-jali absolute inset-0 opacity-50" />
       <div className="relative mx-auto max-w-6xl px-4">
         <SectionHeading
           eyebrow="Our Divine Family"
           title="Deities Enshrined at Sai Oracle"
           intro="Beyond the Trinity of Sai Avatars, the temple is home to many forms of the Divine — come, seek darshan of them all."
-          tone="dark"
         />
         <RevealGroup className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-          {DEITIES.map((deity) =>
+          {deities.map((deity) =>
             deity.float ? (
               <RevealItem key={deity.name}>
-                <SpotlightCard className="group relative flex h-full flex-col items-center overflow-hidden rounded-3xl border border-gold-400/20 bg-maroon-900 px-3 pt-6 pb-4 shadow-lg">
+                <SpotlightCard className="group relative flex h-full flex-col items-center overflow-hidden rounded-3xl border border-saffron-300/60 bg-white px-3 pt-6 pb-4 shadow-lg">
                   <TiltFloat src={deity.src} alt={deity.name} glow={deity.glow} className="h-32 w-full sm:h-36" />
-                  <p className="mt-3 text-center font-display text-base leading-tight font-bold text-white">
+                  <p className="mt-3 text-center font-display text-base leading-tight font-bold text-stone-900">
                     {deity.name}
                   </p>
-                  <p className="mt-0.5 text-center text-[12px] text-gold-200/90">{deity.tagline}</p>
+                  <p className="mt-0.5 text-center text-[12px] text-saffron-700">{deity.tagline}</p>
                 </SpotlightCard>
               </RevealItem>
             ) : (
               <RevealItem key={deity.name} className={deity.featured ? "col-span-2" : ""}>
-                <SpotlightCard className="group relative h-full overflow-hidden rounded-3xl border border-gold-400/20 bg-maroon-900 shadow-lg">
+                <SpotlightCard className="group relative h-full overflow-hidden rounded-3xl border border-saffron-300/50 bg-white shadow-lg">
                   <div className={deity.featured ? "aspect-16/10" : "aspect-3/4"}>
                     <PixelImage
                       src={optimizedImageUrl(deity.src, deity.featured ? 828 : 384)}
@@ -118,15 +120,15 @@ export default function DeitiesSection() {
                   </div>
                   <div
                     aria-hidden
-                    className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-maroon-950 via-maroon-950/60 to-transparent"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-cream-50 via-cream-50/80 to-transparent"
                   />
                   <div className="absolute inset-x-0 bottom-0 p-4">
                     <p
-                      className={`font-display leading-tight font-bold text-white ${deity.featured ? "text-2xl" : "text-base"}`}
+                      className={`font-display leading-tight font-bold text-stone-900 ${deity.featured ? "text-2xl" : "text-base"}`}
                     >
                       {deity.name}
                     </p>
-                    <p className="mt-0.5 text-[12px] text-gold-200/90">{deity.tagline}</p>
+                    <p className="mt-0.5 text-[12px] font-medium text-saffron-700">{deity.tagline}</p>
                   </div>
                 </SpotlightCard>
               </RevealItem>

@@ -1,14 +1,15 @@
 import PageHero from "@/components/PageHero";
 import EventCard from "@/components/EventCard";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import { getAllEvents } from "@/lib/site";
+import { getAllEvents, getMediaMap } from "@/lib/site";
+import { resolveMediaUrl } from "@/lib/image";
 
 export const revalidate = 300;
 
 export const metadata = { title: "Events & Programs" };
 
 export default async function EventsPage() {
-  const events = await getAllEvents();
+  const [events, mediaMap] = await Promise.all([getAllEvents(), getMediaMap()]);
   const today = new Date().toISOString().slice(0, 10);
   const upcoming = events.filter((e) => e.event_date >= today);
   const past = events.filter((e) => e.event_date < today).reverse();
@@ -18,7 +19,7 @@ export default async function EventsPage() {
         eyebrow="Join Us"
         title="Events & Programs"
         intro="Festivals, bhajan sandhyas, discourses and seva programmes at Sai Oracle."
-        image="/assets/events/20241119_184230.jpg"
+        image={resolveMediaUrl(mediaMap, "/assets/events/20241119_184230.webp")}
       />
       <section className="mx-auto max-w-6xl px-4 py-12">
         <h2 className="font-display text-2xl font-bold text-maroon-900">Upcoming</h2>
