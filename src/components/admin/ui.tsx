@@ -109,7 +109,7 @@ export function SetupNotice() {
           <code className="rounded bg-maroon-950 px-1.5 py-0.5 text-cream-100">.env.local</code>:
           <code className="mt-1 block rounded bg-maroon-950 p-2 text-xs text-cream-100">
             NEXT_PUBLIC_SUPABASE_URL=…<br />
-            NEXT_PUBLIC_SUPABASE_ANON_KEY=…
+            NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=…
           </code>
         </li>
       </ol>

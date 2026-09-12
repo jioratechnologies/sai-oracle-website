@@ -54,7 +54,7 @@ export default function AdminLoginPage() {
             </p>
             <p className="mt-1">
               Add <code>NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
-              <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>, run{" "}
+              <code>NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code>, run{" "}
               <code>supabase/schema.sql</code>, create an admin user in Supabase Authentication, then
               log in here.
             </p>
