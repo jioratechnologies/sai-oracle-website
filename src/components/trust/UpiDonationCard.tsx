@@ -1,21 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { Check, Copy, QrCode, ShieldCheck, Sparkles } from "lucide-react";
+import { Check, Copy, QrCode, ShieldCheck } from "lucide-react";
 import SpotlightCard from "@/components/motion/SpotlightCard";
 
-const UPI_ID = "30350015946@sbi";
-const PAYEE_NAME = "Sri Sai Sansthan Charitable Trust";
+interface UpiDonationCardProps {
+  upiId?: string;
+  payeeName?: string;
+}
 
-export default function UpiDonationCard() {
+const DEFAULT_UPI_ID = "30350015946@sbi";
+const DEFAULT_PAYEE = "Sri Sai Sansthan Charitable Trust";
+
+export default function UpiDonationCard({ upiId = DEFAULT_UPI_ID, payeeName = DEFAULT_PAYEE }: UpiDonationCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(UPI_ID);
+    navigator.clipboard.writeText(upiId);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
+
+  // Auto-generate QR from UPI deeplink
+  const upiDeepLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&cu=INR`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiDeepLink)}`;
 
   return (
     <SpotlightCard className="overflow-hidden rounded-3xl border border-gold-300/80 bg-linear-to-br from-cream-50 via-white to-amber-50/50 p-6 sm:p-8 shadow-xs">
@@ -23,12 +31,13 @@ export default function UpiDonationCard() {
         {/* QR Code Frame */}
         <div className="relative shrink-0 rounded-2xl border-2 border-gold-400/80 bg-white p-3 shadow-md">
           <div className="relative h-44 w-44 overflow-hidden rounded-xl bg-white">
-            <Image
-              src="/assets/content/trust/upi_qr.svg"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={qrUrl}
               alt="Scan UPI QR Code to donate to Sri Sai Sansthan Charitable Trust"
-              fill
-              className="object-contain"
-              priority
+              width={176}
+              height={176}
+              className="h-full w-full object-contain"
             />
           </div>
           <div className="mt-2 text-center text-[11px] font-bold text-maroon-900 tracking-wide">
@@ -65,7 +74,7 @@ export default function UpiDonationCard() {
                 Official UPI ID
               </span>
               <span className="block font-mono text-sm sm:text-base font-bold text-saffron-800 truncate">
-                {UPI_ID}
+                {upiId}
               </span>
             </div>
             <button
@@ -92,10 +101,11 @@ export default function UpiDonationCard() {
           </div>
 
           <div className="text-[12px] text-stone-500 leading-relaxed">
-            Beneficiary Name: <strong className="text-stone-800">{PAYEE_NAME}</strong>
+            Beneficiary Name: <strong className="text-stone-800">{payeeName}</strong>
           </div>
         </div>
       </div>
     </SpotlightCard>
   );
 }
+

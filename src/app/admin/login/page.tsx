@@ -175,9 +175,22 @@ export default function AdminLoginPage() {
               <ShieldCheck className="h-3 w-3 text-emerald-600" />
               <span>Secure encrypted administration session</span>
             </div>
+
+            {/* Powered by Jioratech */}
+            <a
+              href="https://jioratech.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-stone-50 px-3 py-1 text-[11px] font-bold text-stone-400 hover:text-maroon-800 hover:border-maroon-300 hover:bg-stone-100 transition-all"
+            >
+              <span className="text-stone-400 text-[10px] font-medium">Powered by</span>
+              <span className="text-saffron-600 font-black">J</span>
+              <span>Jioratech</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
   );
 }
+

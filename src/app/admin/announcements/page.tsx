@@ -136,8 +136,8 @@ export default function AdminAnnouncementsPage() {
   return (
     <div className="space-y-4">
       <BackLink />
-      <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
-        <Megaphone aria-hidden className="h-7 w-7 text-saffron-600" />
+      <h1 className="flex items-center gap-2 font-display text-2xl sm:text-3xl font-bold text-maroon-900">
+        <Megaphone aria-hidden className="h-6 w-6 sm:h-7 sm:w-7 text-saffron-600 shrink-0" />
         Announcements
       </h1>
 
@@ -188,34 +188,44 @@ export default function AdminAnnouncementsPage() {
         ) : (
           <ul className="divide-y divide-maroon-50">
             {rows.map((a) => (
-              <li key={a.id} className="flex flex-wrap items-center gap-2 py-3">
-                <div className="min-w-0 flex-1">
-                  <p className="flex items-center gap-1.5 font-semibold text-stone-800">
+              <li key={a.id} className="py-4 space-y-2">
+                {/* Row 1: Title + Status */}
+                <div className="flex items-start justify-between gap-2">
+                  <p className="font-semibold text-stone-800 leading-snug flex items-center gap-1.5">
                     <Bell aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />
                     {a.title}
                   </p>
-                  <p className="truncate text-sm text-stone-500">{a.content}</p>
+                  <StatusBadge status={a.status} />
                 </div>
-                <StatusBadge status={a.status} />
-                <button
-                  type="button"
-                  onClick={() => togglePublish(a)}
-                  className="rounded-full border border-maroon-200 px-3 py-1 text-xs font-semibold text-maroon-800 hover:bg-maroon-50"
-                >
-                  {a.status === "published" ? "Unpublish" : "Publish"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTitle(a.title);
-                    setContent(a.content);
-                    setEditing(a.id);
-                  }}
-                  className="rounded-full border border-maroon-200 px-3 py-1 text-xs font-semibold text-maroon-800 hover:bg-maroon-50"
-                >
-                  Edit
-                </button>
-                <ConfirmDelete onDelete={() => remove(a.id)} />
+                {/* Row 2: Content preview */}
+                <p className="text-sm text-stone-500 line-clamp-2 pl-6">{a.content}</p>
+                {/* Row 3: Actions */}
+                <div className="flex flex-wrap items-center gap-2 pl-6">
+                  <button
+                    type="button"
+                    onClick={() => togglePublish(a)}
+                    className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors active:scale-95 ${
+                      a.status === "published"
+                        ? "border-stone-300 text-stone-700 hover:bg-stone-50"
+                        : "border-emerald-300 text-emerald-700 hover:bg-emerald-50"
+                    }`}
+                  >
+                    {a.status === "published" ? "Unpublish" : "Publish"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTitle(a.title);
+                      setContent(a.content);
+                      setEditing(a.id);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="rounded-full border border-saffron-300 bg-saffron-50 px-3 py-1.5 text-xs font-semibold text-saffron-800 hover:bg-saffron-100 transition-colors active:scale-95"
+                  >
+                    ✎ Edit
+                  </button>
+                  <ConfirmDelete onDelete={() => remove(a.id)} />
+                </div>
               </li>
             ))}
           </ul>

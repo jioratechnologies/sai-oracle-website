@@ -101,3 +101,23 @@ export interface ShowcaseSlide {
   /** Optional destination — the caption pill renders as a link when set. */
   href?: string;
 }
+
+/** Trust & donation details editable from the admin panel. */
+export interface TrustSettings {
+  // UPI
+  upi_id: string;
+  payee_name: string;
+  // Bank
+  account_name: string;
+  bank_name: string;
+  account_number: string;
+  ifsc_code: string;
+  branch_address: string;
+  // Cheque / DD address
+  mailing_address: string;
+  // Trust contact
+  trust_email: string;
+  trust_phone: string;
+  // 80G info
+  tax_exemption_note: string;
+}

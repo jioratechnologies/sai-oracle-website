@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, Images, Megaphone, MonitorPlay } from "lucide-react";
+import { CalendarDays, Images, Megaphone, MonitorPlay, Heart } from "lucide-react";
 import { Card, SetupNotice } from "@/components/admin/ui";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { formatEventDate } from "@/lib/format";
@@ -104,6 +104,13 @@ export default async function AdminDashboard() {
               {label}
             </Link>
           ))}
+          <Link
+            href="/admin/trust"
+            className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-saffron-600 to-amber-600 px-4 py-2 text-sm font-semibold text-white hover:from-saffron-700 hover:to-amber-700"
+          >
+            <Heart className="h-4 w-4" />
+            Trust & Donation
+          </Link>
         </div>
       </Card>
     </div>

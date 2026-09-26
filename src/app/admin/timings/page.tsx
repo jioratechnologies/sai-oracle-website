@@ -167,28 +167,33 @@ export default function AdminTimingsPage() {
         ) : (
           <form onSubmit={saveAll} className="space-y-3">
             {rows.map((r, i) => (
-              <div key={r.id} className="flex items-center gap-2">
-                <div className="flex flex-col gap-0.5">
-                  <button type="button" aria-label="Move up" onClick={() => move(i, -1)} className="px-1 text-stone-400 hover:text-maroon-700">▲</button>
-                  <button type="button" aria-label="Move down" onClick={() => move(i, 1)} className="px-1 text-stone-400 hover:text-maroon-700">▼</button>
+              <div key={r.id} className="flex items-center gap-2 rounded-xl border border-maroon-100 bg-cream-50/50 p-2.5">
+                {/* Reorder arrows */}
+                <div className="flex flex-col gap-0 shrink-0">
+                  <button type="button" aria-label="Move up" onClick={() => move(i, -1)} className="flex h-6 w-6 items-center justify-center rounded text-stone-400 hover:text-maroon-700 hover:bg-maroon-50">▲</button>
+                  <button type="button" aria-label="Move down" onClick={() => move(i, 1)} className="flex h-6 w-6 items-center justify-center rounded text-stone-400 hover:text-maroon-700 hover:bg-maroon-50">▼</button>
                 </div>
-                <input
-                  className={inputCls}
-                  value={r.label}
-                  onChange={(e) =>
-                    setRows((all) => all.map((x) => (x.id === r.id ? { ...x, label: e.target.value } : x)))
-                  }
-                  aria-label="Timing name"
-                />
-                <input
-                  className={`${inputCls} max-w-32`}
-                  value={r.time}
-                  onChange={(e) =>
-                    setRows((all) => all.map((x) => (x.id === r.id ? { ...x, time: e.target.value } : x)))
-                  }
-                  aria-label="Time"
-                  placeholder="6:00 PM"
-                />
+                {/* Inputs */}
+                <div className="flex-1 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2">
+                  <input
+                    className={inputCls}
+                    value={r.label}
+                    onChange={(e) =>
+                      setRows((all) => all.map((x) => (x.id === r.id ? { ...x, label: e.target.value } : x)))
+                    }
+                    aria-label="Timing name"
+                    placeholder="e.g. Morning Aarti"
+                  />
+                  <input
+                    className={`${inputCls} sm:w-32`}
+                    value={r.time}
+                    onChange={(e) =>
+                      setRows((all) => all.map((x) => (x.id === r.id ? { ...x, time: e.target.value } : x)))
+                    }
+                    aria-label="Time"
+                    placeholder="6:00 PM"
+                  />
+                </div>
                 <ConfirmDelete onDelete={() => remove(r.id)} />
               </div>
             ))}

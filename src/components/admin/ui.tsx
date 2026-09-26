@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
 export const isAdminConfigured =
@@ -9,7 +10,7 @@ export const isAdminConfigured =
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`rounded-2xl border border-maroon-100 bg-white p-5 shadow-sm ${className}`}>
+    <div className={`rounded-2xl border border-maroon-100 bg-white p-4 sm:p-5 shadow-sm ${className}`}>
       {children}
     </div>
   );
@@ -26,7 +27,7 @@ export function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-sm font-semibold text-maroon-900">{label}</span>
+      <span className="mb-1.5 block text-sm font-bold text-maroon-900">{label}</span>
       {children}
       {hint && <span className="mt-1 block text-xs text-stone-500">{hint}</span>}
     </label>
@@ -34,17 +35,19 @@ export function Field({
 }
 
 export const inputCls =
-  "w-full rounded-lg border border-maroon-200 bg-cream-50 px-3 py-2 text-[15px] text-stone-800 outline-none focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200";
+  "w-full rounded-xl border border-maroon-200 bg-cream-50 px-3.5 py-2.5 text-[15px] text-stone-800 outline-none focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200 transition-colors";
 
 export function PrimaryButton({
   children,
+  onClick,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
       type="submit"
+      onClick={onClick}
       {...props}
-      className="rounded-full bg-maroon-800 px-5 py-2 text-sm font-semibold text-cream-50 transition-colors hover:bg-maroon-700 disabled:opacity-50"
+      className="inline-flex items-center gap-1.5 rounded-full bg-maroon-800 px-5 py-2.5 text-sm font-bold text-cream-50 shadow-sm transition-all hover:bg-maroon-700 active:scale-95 disabled:opacity-50"
     >
       {children}
     </button>
@@ -65,7 +68,7 @@ export function DangerButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="rounded-full border border-red-300 px-3 py-1 text-xs font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50"
+      className="rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-100 active:scale-95 transition-all disabled:opacity-50"
     >
       {children}
     </button>
@@ -76,8 +79,10 @@ export function StatusBadge({ status }: { status: string }) {
   const live = status === "published" || status === "true";
   return (
     <span
-      className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-        live ? "bg-green-100 text-green-800" : "bg-stone-200 text-stone-600"
+      className={`inline-flex shrink-0 items-center rounded-full px-2.5 py-0.5 text-xs font-bold ${
+        live
+          ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+          : "bg-stone-100 text-stone-600 border border-stone-200"
       }`}
     >
       {status === "true" ? "Published" : status === "false" ? "Hidden" : status}
@@ -128,30 +133,36 @@ export function ConfirmDelete({ onDelete, label = "Delete" }: { onDelete: () => 
     );
   }
   return (
-    <span className="inline-flex items-center gap-2 text-xs">
-      <span className="font-semibold text-red-700">Sure?</span>
+    <span className="inline-flex items-center gap-1.5 text-xs">
+      <span className="font-bold text-red-700">Sure?</span>
       <button
         type="button"
         onClick={onDelete}
-        className="rounded-full bg-red-700 px-3 py-1 font-semibold text-white hover:bg-red-800"
+        className="rounded-full bg-red-700 px-3 py-1.5 text-xs font-bold text-white hover:bg-red-800 active:scale-95 transition-all"
       >
-        Yes
+        Yes, Delete
       </button>
       <button
         type="button"
         onClick={() => setConfirming(false)}
-        className="rounded-full border border-stone-300 px-3 py-1 text-stone-600"
+        className="rounded-full border border-stone-300 px-3 py-1.5 text-stone-600 hover:bg-stone-50 active:scale-95 transition-all"
       >
-        No
+        Cancel
       </button>
     </span>
   );
 }
 
-export function BackLink({ href = "/admin", label = "← Dashboard" }: { href?: string; label?: string }) {
+export function BackLink({ href = "/admin", label = "Dashboard" }: { href?: string; label?: string }) {
   return (
-    <Link href={href} className="text-sm font-semibold text-saffron-600 hover:underline">
+    <Link
+      href={href}
+      className="inline-flex items-center gap-1 text-sm font-semibold text-saffron-700 hover:text-saffron-800 transition-colors group"
+    >
+      <ChevronLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
       {label}
     </Link>
   );
 }
+
+

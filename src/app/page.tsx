@@ -93,12 +93,12 @@ export default async function Home() {
       ...t,
       desc,
       accent: [
-        "text-saffron-700 bg-saffron-50 border-saffron-200",
-        "text-gulal-700 bg-gulal-50 border-gulal-200",
-        "text-peacock-700 bg-peacock-50 border-peacock-200",
-        "text-maroon-700 bg-gold-50 border-gold-200",
-        "text-amber-800 bg-amber-50 border-amber-200",
-        "text-emerald-800 bg-emerald-50 border-emerald-200",
+        "text-white bg-linear-to-br from-amber-500 to-orange-600 shadow-[0_2px_12px_rgba(251,146,60,0.45)]",
+        "text-white bg-linear-to-br from-rose-500 to-red-600 shadow-[0_2px_12px_rgba(244,63,94,0.45)]",
+        "text-white bg-linear-to-br from-sky-500 to-blue-600 shadow-[0_2px_12px_rgba(56,189,248,0.45)]",
+        "text-white bg-linear-to-br from-violet-600 to-purple-700 shadow-[0_2px_12px_rgba(139,92,246,0.45)]",
+        "text-white bg-linear-to-br from-slate-600 to-stone-700 shadow-[0_2px_12px_rgba(100,116,139,0.45)]",
+        "text-white bg-linear-to-br from-fuchsia-500 to-pink-600 shadow-[0_2px_12px_rgba(217,70,239,0.45)]",
       ][i % 6],
     };
   });
@@ -206,137 +206,157 @@ export default async function Home() {
       {/* ── Deities of the temple ── */}
       <DeitiesSection />
 
-      {/* ── Consolidated Temple Worship & Updates Hub (Clean & Calm) ── */}
-      <section id="worship" className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+      {/* ── Consolidated Temple Worship & Updates Hub (Premium Revamp) ── */}
+      <section id="worship" className="relative mx-auto max-w-[1360px] px-4 py-16 sm:py-20 lg:py-24">
+        {/* Sacred Decorative Background */}
+        <div className="absolute inset-0 bg-linear-to-br from-cream-100 via-white to-amber-50/40 rounded-[3rem] -z-10 shadow-sm border border-maroon-50" />
+        <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-gold-200 to-transparent opacity-50" />
+        
         <SectionHeading
           eyebrow="Temple Life"
           title="Daily Worship & Updates"
           intro={`Open all 7 days from ${settings.morning_opening} to ${settings.night_closing}. Join us in the sacred rhythm of daily aartis and community seva.`}
         />
 
-        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
-          {/* Left Column: 4 Daily Aartis in a Clean 2x2 Grid */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="flex items-center justify-between border-b border-maroon-100 pb-2">
-              <span className="text-xs font-bold tracking-[0.18em] text-saffron-700 uppercase flex items-center gap-1.5">
-                <Flame className="h-3.5 w-3.5 text-saffron-600" />
+        <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14 items-start px-2 sm:px-6">
+          {/* Left Column: Daily Aarti Schedule (Premium Grid) */}
+          <div className="lg:col-span-7 space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-gold-200/60">
+              <span className="text-[13px] font-black tracking-[0.2em] text-saffron-700 uppercase flex items-center gap-2">
+                <Flame className="h-4 w-4 text-gold-500 animate-pulse" />
                 Daily Aarti Schedule
               </span>
-              <span className="text-xs text-stone-500">Sanctum Sanctorum</span>
+              <span className="text-[11px] font-semibold text-stone-400 tracking-widest uppercase">Sanctum Sanctorum</span>
             </div>
 
-            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {aartiRows.map((a) => (
                 <SpotlightCard
                   key={a.id}
-                  className="rounded-2xl border border-maroon-100 bg-white p-4 shadow-2xs flex flex-col justify-between"
+                  className="group relative rounded-2xl border border-maroon-100/60 bg-white/70 backdrop-blur-md p-5 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-gold-300/80 flex flex-col justify-between overflow-hidden"
                 >
-                  <div>
-                    <div className="flex items-center justify-between gap-2">
-                      <h4 className="font-display text-base font-bold text-maroon-900">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-gold-100/30 to-transparent rounded-full blur-2xl -mr-10 -mt-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-start justify-between gap-3">
+                      <h4 className="font-display text-lg font-bold text-maroon-900 group-hover:text-maroon-700 transition-colors">
                         {a.label}
                       </h4>
                       <span
-                        className={`rounded-full border px-2.5 py-0.5 text-xs font-bold shrink-0 ${a.accent}`}
+                        className={`rounded-xl px-3 py-1.5 text-[12px] font-black shrink-0 tracking-wide transition-all group-hover:scale-105 group-hover:shadow-lg ${a.accent}`}
                       >
                         {a.time}
                       </span>
                     </div>
-                    <p className="mt-2 text-xs leading-relaxed text-stone-600">{a.desc}</p>
+                    <p className="mt-3 text-[13px] leading-relaxed text-stone-600 font-medium">{a.desc}</p>
                   </div>
-                  <div className="mt-3 pt-2 border-t border-maroon-50 flex items-center justify-between text-[11px]">
-                    <span className="text-stone-400">All devotees welcome</span>
+                  <div className="mt-5 pt-3 border-t border-maroon-50/80 flex items-center justify-between text-[11px] relative z-10">
+                    <span className="text-stone-400 font-medium">All devotees welcome</span>
                     <Link
                       href="/about#worship"
-                      className="font-semibold text-saffron-700 hover:text-saffron-800"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-saffron-50 border border-saffron-200 px-3 py-1 text-[11px] font-bold text-saffron-700 hover:bg-saffron-100 hover:border-saffron-300 transition-all group-hover:shadow-sm active:scale-95"
                     >
-                      Aarti guide →
+                      Aarti guide <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
                 </SpotlightCard>
               ))}
             </div>
 
-            {/* Quick Timing Summary Strip */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-xl border border-gold-300/60 bg-cream-100/70 p-3.5 text-xs text-stone-700">
-              <span className="flex items-center gap-2 font-medium text-maroon-950">
-                <Clock className="h-4 w-4 text-saffron-600 shrink-0" />
-                <span>
-                  <strong>Temple Hours:</strong> {settings.morning_opening} – {settings.night_closing}{" "}
-                  (Daily)
+            {/* Quick Timing Summary Strip - Glowing Gold */}
+            <div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-2xl bg-linear-to-r from-saffron-700 via-amber-500 to-gold-400 p-4 sm:px-6 sm:py-4 text-sm text-white shadow-lg ring-1 ring-gold-400/50 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <span className="flex items-center gap-3 font-semibold relative z-10">
+                <Clock className="h-5 w-5 text-white/90 shrink-0" />
+                <span className="tracking-wide">
+                  <span className="text-amber-100 font-bold">Temple Hours:</span> {settings.morning_opening} – {settings.night_closing} <span className="opacity-80 text-xs ml-1">(Daily)</span>
                 </span>
               </span>
               <Link
-                href="/about#worship"
-                className="font-bold text-saffron-700 hover:underline shrink-0"
+                href="/how-to-reach"
+                className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-rose-500 to-pink-600 px-4 py-1.5 text-xs font-bold text-white shadow-md transition-all hover:scale-105 hover:shadow-lg hover:from-rose-400 hover:to-pink-500 active:scale-95 shrink-0 relative z-10"
               >
-                Directions &amp; Visit Guide →
+                Directions &amp; Map <ChevronRight className="h-3.5 w-3.5" />
               </Link>
             </div>
           </div>
 
-          {/* Right Column: Events & Announcements */}
-          <div id="announcements" className="lg:col-span-5 space-y-4 scroll-mt-32 transition-all duration-300">
-            <div className="flex items-center justify-between border-b border-maroon-100 pb-2">
-              <span className="text-xs font-bold tracking-[0.18em] text-saffron-700 uppercase flex items-center gap-1.5">
-                <Bell className="h-3.5 w-3.5 text-saffron-600" />
+          {/* Right Column: Events & Announcements (Premium UI) */}
+          <div id="announcements" className="lg:col-span-5 space-y-5 scroll-mt-32">
+            <div className="flex items-center justify-between pb-3 border-b border-gold-200/60">
+              <span className="text-[13px] font-black tracking-[0.2em] text-saffron-700 uppercase flex items-center gap-2">
+                <Bell className="h-4 w-4 text-gold-500 animate-pulse" />
                 Latest Announcements
               </span>
-              <Link href="/events" className="text-xs font-semibold text-saffron-700 hover:underline">
-                All Events
+              <Link href="/events" className="inline-flex items-center gap-1 rounded-full bg-white border border-maroon-100 px-3 py-1.5 text-[10px] font-black text-maroon-800 uppercase tracking-widest shadow-2xs hover:bg-saffron-50 hover:text-saffron-700 hover:border-saffron-200 transition-all active:scale-95">
+                All Events <ChevronRight className="h-3 w-3" />
               </Link>
             </div>
 
-            {/* Upcoming Event Invitation Card */}
+            {/* Premium Featured Event Card */}
             {featuredEvent && (
-              <div className="rounded-3xl border-2 border-gold-400/80 bg-linear-to-br from-amber-50/90 via-white to-orange-50/80 p-5 shadow-sm">
-                <div className="flex items-center justify-between border-b border-gold-200/80 pb-3">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-saffron-500 px-3 py-0.5 text-[11px] font-bold text-white uppercase tracking-wider">
-                    Upcoming Sacred Event
-                  </span>
-                  <span className="text-xs font-bold text-maroon-900">{featuredDate}</span>
-                </div>
-                <div className="mt-4 flex gap-4 items-start">
-                  <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-2xl border-2 border-gold-300 shadow-xs bg-white">
-                    <Image
-                      src={featuredImage}
-                      alt={featuredEvent.title}
-                      fill
-                      sizes="80px"
-                      className="object-cover"
-                    />
+              <SpotlightCard className="group relative overflow-hidden rounded-[1.5rem] border border-maroon-900 bg-maroon-950 shadow-2xl p-0 transition-transform duration-500 hover:-translate-y-1">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-10 pattern-jali mix-blend-overlay" />
+                
+                <div className="relative z-10 p-5 sm:p-6">
+                  <div className="flex items-center justify-between border-b border-maroon-800 pb-4 mb-4">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-400/20 border border-gold-400/30 px-3 py-1 text-[10px] font-black text-gold-200 uppercase tracking-widest shadow-xs">
+                      <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-pulse" />
+                      Upcoming Sacred Event
+                    </span>
+                    <span className="text-[11px] font-bold text-gold-400 tracking-wider uppercase">{featuredDate}</span>
                   </div>
-                  <div className="space-y-1">
-                    <h4 className="font-display text-base font-bold text-maroon-950 leading-snug">
-                      {featuredEvent.title}
-                    </h4>
-                    <p className="text-xs text-stone-600 leading-relaxed line-clamp-3">
-                      {featuredEvent.description || "Join us in celebrating this sacred occasion at the temple."}
+                  
+                  <div className="flex gap-4 sm:gap-5 items-start">
+                    <div className="relative h-28 w-24 sm:h-32 sm:w-28 shrink-0 overflow-hidden rounded-xl border border-maroon-700 shadow-xl">
+                      <Image
+                        src={featuredImage}
+                        alt={featuredEvent.title}
+                        fill
+                        sizes="112px"
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
+                    </div>
+                    
+                    <div className="space-y-2 flex-1">
+                      <h4 className="font-display text-lg sm:text-xl font-bold text-white leading-tight">
+                        {featuredEvent.title}
+                      </h4>
+                      <p className="text-[13px] text-maroon-100/80 leading-relaxed line-clamp-3">
+                        {featuredEvent.description || "Join us in celebrating this sacred occasion at the temple."}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-5 pt-4 border-t border-maroon-800/80 text-[12px] text-maroon-200/90 space-y-1.5">
+                    <p className="flex items-center gap-2">
+                      <Clock className="h-3.5 w-3.5 text-gold-400" /> <strong>Timing:</strong> {featuredTime}
+                    </p>
+                    <p className="flex items-center gap-2">
+                      <span className="h-3.5 w-3.5 flex items-center justify-center shrink-0">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 text-gold-400"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                      </span>
+                      <span className="truncate"><strong>Venue:</strong> {featuredVenue}</span>
                     </p>
                   </div>
+                  
+                  <div className="mt-5">
+                    <Link
+                      href={featuredLink}
+                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-gold-400 px-4 py-2.5 text-[13px] font-bold text-maroon-950 shadow-md transition-all hover:bg-gold-300 active:scale-95"
+                    >
+                      View Event Details <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
                 </div>
-                <div className="mt-3.5 pt-3 border-t border-gold-200/70 text-xs text-stone-700 space-y-1">
-                  <p>
-                    <strong>Timing:</strong> {featuredTime}
-                  </p>
-                  <p>
-                    <strong>Venue:</strong> {featuredVenue}
-                  </p>
-                </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <Link
-                    href={featuredLink}
-                    className="btn-festive inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold text-white shadow-xs"
-                  >
-                    View Event Details →
-                  </Link>
-                </div>
-              </div>
+              </SpotlightCard>
             )}
 
             {/* Subsequent Upcoming Events List */}
             {events.length > 1 && (
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {events.slice(1, 3).map((e) => {
                   const dParts = e.event_date ? e.event_date.split("-") : [];
                   const monthName = e.event_date
@@ -348,29 +368,29 @@ export default async function Home() {
                     <Link
                       key={e.id}
                       href={e.slug ? `/events/${e.slug}` : "/events"}
-                      className="group flex items-center justify-between gap-3 rounded-2xl border border-gold-200/80 bg-linear-to-r from-amber-50/70 to-white p-3 shadow-2xs transition-all hover:border-gold-400 hover:shadow-xs"
+                      className="group flex items-center justify-between gap-3 rounded-2xl border border-maroon-100/80 bg-white/70 backdrop-blur-sm p-3 shadow-2xs transition-all hover:border-gold-300 hover:shadow-md hover:bg-white"
                     >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <span className="flex flex-col items-center justify-center rounded-xl bg-saffron-500/10 border border-saffron-500/25 px-2.5 py-1 text-center shrink-0">
-                          <span className="text-[10px] font-bold text-saffron-800 uppercase leading-none">
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        <span className="flex flex-col items-center justify-center rounded-xl bg-linear-to-br from-saffron-50 to-orange-100 border border-saffron-200 px-3 py-1.5 text-center shrink-0 shadow-inner">
+                          <span className="text-[10px] font-black text-saffron-600 uppercase tracking-wider leading-none">
                             {monthName}
                           </span>
-                          <span className="text-sm font-extrabold text-maroon-900 leading-tight">
+                          <span className="text-[15px] font-extrabold text-maroon-900 leading-tight">
                             {dayNum}
                           </span>
                         </span>
                         <div className="min-w-0">
-                          <h5 className="font-display text-xs sm:text-[13px] font-bold text-maroon-950 truncate group-hover:text-maroon-700">
+                          <h5 className="font-display text-[14px] font-bold text-maroon-950 truncate group-hover:text-maroon-700 transition-colors">
                             {e.title}
                           </h5>
-                          <p className="text-[11px] text-stone-500 truncate">
+                          <p className="text-[12px] text-stone-500 truncate font-medium mt-0.5">
                             {e.start_time ? `${formatTime(e.start_time)} · ` : ""}
                             {e.location || "Temple Sanctum"}
                           </p>
                         </div>
                       </div>
-                      <span className="text-xs font-bold text-saffron-700 shrink-0 group-hover:translate-x-0.5 transition-transform">
-                        Details →
+                      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-cream-100 text-saffron-600 shrink-0 group-hover:bg-saffron-100 group-hover:text-saffron-700 transition-all">
+                        <ChevronRight className="h-4 w-4" />
                       </span>
                     </Link>
                   );
@@ -379,40 +399,44 @@ export default async function Home() {
             )}
 
             {/* Announcements List */}
-            <div className="space-y-3">
+            <div className="space-y-3 pt-2">
               {announcements.length > 0 &&
                 announcements.map((a) => (
                   <article
                     key={a.id}
-                    className="rounded-2xl border border-maroon-100 bg-white p-4 shadow-2xs transition-all hover:border-saffron-300"
+                    className="group rounded-2xl border border-dashed border-maroon-200 bg-cream-50/50 p-4 transition-all hover:border-solid hover:border-saffron-300 hover:bg-white hover:shadow-sm"
                   >
-                    <div className="flex items-start justify-between gap-2">
-                      <h4 className="font-display text-sm font-bold text-maroon-900">
+                    <div className="flex items-start justify-between gap-3">
+                      <h4 className="font-display text-[14px] font-bold text-maroon-900 group-hover:text-maroon-700">
                         {a.title}
                       </h4>
-                      <span className="rounded-md bg-cream-100 px-2 py-0.5 text-[10px] font-bold text-maroon-800 shrink-0">
+                      <span className="rounded-full border border-maroon-100 bg-white px-2.5 py-0.5 text-[10px] font-bold text-stone-500 uppercase tracking-wider shrink-0 shadow-2xs">
                         Notice
                       </span>
                     </div>
-                    <p className="mt-1.5 text-xs leading-relaxed text-stone-600">{a.content}</p>
+                    <p className="mt-2 text-[13px] leading-relaxed text-stone-600 font-medium">{a.content}</p>
                   </article>
                 ))}
 
-              {/* Temple Helpdesk Card */}
-              <div className="rounded-2xl border border-maroon-100 bg-white p-4 shadow-2xs">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-maroon-900">Temple Office &amp; Helpdesk</span>
-                  <span className="text-[11px] text-stone-400">Open 7 Days</span>
+              {/* Temple Helpdesk Card (Refined) */}
+              <div className="rounded-2xl bg-linear-to-br from-stone-50 to-cream-50 border border-stone-200 p-4 shadow-2xs mt-2 relative overflow-hidden group">
+                <div className="absolute right-0 bottom-0 opacity-10">
+                  <Phone className="h-24 w-24 -mb-6 -mr-6 text-stone-900" />
                 </div>
-                <div className="mt-2 text-xs space-y-1 text-stone-600">
-                  {settings.phone && <p>Tel / WhatsApp: {settings.phone}</p>}
-                  {settings.email && <p>Email: {settings.email}</p>}
-                </div>
-                <div className="mt-3 flex items-center justify-between pt-2 border-t border-maroon-50 text-xs">
-                  <Link href="/contact" className="font-bold text-saffron-700 hover:underline">
-                    Contact Temple Office
-                  </Link>
-                  <ChevronRight className="h-3.5 w-3.5 text-stone-400" />
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[13px] font-bold text-stone-800">Temple Helpdesk</span>
+                    <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">Open 7 Days</span>
+                  </div>
+                  <div className="text-[12px] space-y-1 text-stone-600 font-medium">
+                    {settings.phone && <p>WhatsApp / Call: <span className="text-stone-800">{settings.phone}</span></p>}
+                    {settings.email && <p>Email: <span className="text-stone-800">{settings.email}</span></p>}
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-stone-200/80">
+                    <Link href="/contact" className="inline-flex items-center gap-1 text-[12px] font-bold text-saffron-700 hover:text-saffron-600">
+                      Contact Temple Office <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

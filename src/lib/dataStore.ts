@@ -7,6 +7,7 @@ import {
   seedTimings,
   seedVideos,
   seedSettings,
+  seedTrustSettings,
 } from "@/lib/seed";
 import { DEFAULT_SLIDES } from "@/lib/heroSlides";
 import type {
@@ -16,6 +17,7 @@ import type {
   AartiTiming,
   ShowcaseSlide,
   SiteSettings,
+  TrustSettings,
 } from "@/lib/types";
 
 export function getAdminClient(): SupabaseClient {
@@ -167,6 +169,44 @@ export async function saveSettingsData(settings: SiteSettings): Promise<void> {
   }
 }
 
+export async function getTrustSettings(): Promise<TrustSettings> {
+  const sb = getAdminClient();
+  const metaKey = "__data:trust_settings";
+
+  try {
+    const { data: meta } = await sb
+      .from("media_assets")
+      .select("url")
+      .eq("key", metaKey)
+      .maybeSingle();
+
+    if (meta?.url) {
+      const parsed = JSON.parse(meta.url);
+      return { ...seedTrustSettings, ...parsed } as TrustSettings;
+    }
+    // Init seed
+    await sb.from("media_assets").upsert({
+      key: metaKey,
+      url: JSON.stringify(seedTrustSettings),
+      updated_at: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.warn("Error in getTrustSettings:", err);
+  }
+
+  return seedTrustSettings;
+}
+
+export async function saveTrustSettings(trust: TrustSettings): Promise<void> {
+  const sb = getAdminClient();
+  const metaKey = "__data:trust_settings";
+
+  await sb.from("media_assets").upsert({
+    key: metaKey,
+    url: JSON.stringify(trust),
+    updated_at: new Date().toISOString(),
+  });
+}
 export async function getDataStats() {
   const sb = getAdminClient();
   const today = new Date().toISOString().slice(0, 10);

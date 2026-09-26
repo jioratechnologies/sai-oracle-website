@@ -7,6 +7,7 @@ import type {
   SitePage,
   SiteSettings,
   TempleEvent,
+  TrustSettings,
   YoutubeVideo,
 } from "./types";
 
@@ -36,6 +37,22 @@ export const seedSettings: SiteSettings = {
   morning_opening: "6:30 AM",
   afternoon_closing: "12:30 PM – 4:00 PM",
   night_closing: "8:30 PM",
+};
+
+export const seedTrustSettings: TrustSettings = {
+  upi_id: "30350015946@sbi",
+  payee_name: "Sri Sai Sansthan Charitable Trust",
+  account_name: "SRI SAI SANSTHAN CHARITABLE TRUST",
+  bank_name: "State Bank of India (SBI)",
+  account_number: "30350015946",
+  ifsc_code: "SBIN0001562",
+  branch_address: "Begum Pul, Meerut, Uttar Pradesh",
+  mailing_address:
+    "The Managing Trustee\nSri Sai Sansthan Charitable Trust\nH.No- 23, Godwin Estate, Roorkee Road\nMeerut, Uttar Pradesh – 250001, India",
+  trust_email: "saioracle7@gmail.com",
+  trust_phone: "+91-9997815743",
+  tax_exemption_note:
+    "This Trust is registered under Section 80G of the Income Tax Act. Donors are eligible for 50% tax exemption on their contribution.",
 };
 
 export const seedTimings: AartiTiming[] = [

@@ -178,9 +178,9 @@ export default function AdminEventsPage() {
   return (
     <div className="space-y-4">
       <BackLink />
-      <div className="flex items-center justify-between">
-        <h1 className="flex items-center gap-2 font-display text-3xl font-bold text-maroon-900">
-          <CalendarDays aria-hidden className="h-7 w-7 text-saffron-600" />
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="flex items-center gap-2 font-display text-2xl sm:text-3xl font-bold text-maroon-900">
+          <CalendarDays aria-hidden className="h-6 w-6 sm:h-7 sm:w-7 text-saffron-600 shrink-0" />
           Events
         </h1>
         {editing === null && <PrimaryButton onClick={startNew}>+ Add Event</PrimaryButton>}
@@ -314,27 +314,37 @@ export default function AdminEventsPage() {
         ) : (
           <ul className="divide-y divide-maroon-50">
             {rows.map((e) => (
-              <li key={e.id} className="flex flex-wrap items-center gap-2 py-3">
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold text-stone-800">{e.title}</p>
-                  <p className="text-xs text-stone-500">{formatEventDate(e.event_date)}</p>
+              <li key={e.id} className="py-4 space-y-2">
+                {/* Row 1: Title + Status */}
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-stone-800 leading-snug">{e.title}</p>
+                    <p className="text-xs text-stone-500 mt-0.5">{formatEventDate(e.event_date)}</p>
+                  </div>
+                  <StatusBadge status={e.status} />
                 </div>
-                <StatusBadge status={e.status} />
-                <button
-                  type="button"
-                  onClick={() => togglePublish(e)}
-                  className="rounded-full border border-maroon-200 px-3 py-1 text-xs font-semibold text-maroon-800 hover:bg-maroon-50"
-                >
-                  {e.status === "published" ? "Unpublish" : "Publish"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => startEdit(e)}
-                  className="rounded-full border border-maroon-200 px-3 py-1 text-xs font-semibold text-maroon-800 hover:bg-maroon-50"
-                >
-                  Edit
-                </button>
-                <ConfirmDelete onDelete={() => remove(e.id)} />
+                {/* Row 2: Actions */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => togglePublish(e)}
+                    className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors active:scale-95 ${
+                      e.status === "published"
+                        ? "border-stone-300 text-stone-700 hover:bg-stone-50"
+                        : "border-emerald-300 text-emerald-700 hover:bg-emerald-50"
+                    }`}
+                  >
+                    {e.status === "published" ? "Unpublish" : "Publish"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => startEdit(e)}
+                    className="rounded-full border border-saffron-300 bg-saffron-50 px-3 py-1.5 text-xs font-semibold text-saffron-800 hover:bg-saffron-100 transition-colors active:scale-95"
+                  >
+                    ✎ Edit
+                  </button>
+                  <ConfirmDelete onDelete={() => remove(e.id)} />
+                </div>
               </li>
             ))}
           </ul>

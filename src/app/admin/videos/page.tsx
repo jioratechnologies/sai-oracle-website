@@ -181,27 +181,36 @@ export default function AdminVideosPage() {
         ) : (
           <ul className="divide-y divide-maroon-50">
             {rows.map((v) => (
-              <li key={v.id} className="flex flex-wrap items-center gap-2 py-3">
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold text-stone-800">{v.title}</p>
-                  <a
-                    href={v.youtube_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="truncate text-xs text-saffron-600 hover:underline"
-                  >
-                    {v.youtube_url}
-                  </a>
+              <li key={v.id} className="py-4 space-y-2">
+                {/* Row 1: Title + Status */}
+                <div className="flex items-start justify-between gap-2">
+                  <p className="font-semibold text-stone-800 leading-snug">{v.title}</p>
+                  <StatusBadge status={String(v.published)} />
                 </div>
-                <StatusBadge status={String(v.published)} />
-                <button
-                  type="button"
-                  onClick={() => togglePublish(v)}
-                  className="rounded-full border border-maroon-200 px-3 py-1 text-xs font-semibold text-maroon-800 hover:bg-maroon-50"
+                {/* Row 2: URL */}
+                <a
+                  href={v.youtube_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block text-xs text-saffron-600 hover:underline truncate"
                 >
-                  {v.published ? "Hide" : "Show"}
-                </button>
-                <ConfirmDelete onDelete={() => remove(v.id)} />
+                  {v.youtube_url}
+                </a>
+                {/* Row 3: Actions */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => togglePublish(v)}
+                    className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors active:scale-95 ${
+                      v.published
+                        ? "border-stone-300 text-stone-700 hover:bg-stone-50"
+                        : "border-emerald-300 text-emerald-700 hover:bg-emerald-50"
+                    }`}
+                  >
+                    {v.published ? "Hide" : "Show"}
+                  </button>
+                  <ConfirmDelete onDelete={() => remove(v.id)} />
+                </div>
               </li>
             ))}
           </ul>

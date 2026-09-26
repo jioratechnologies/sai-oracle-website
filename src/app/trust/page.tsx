@@ -4,6 +4,9 @@ import { Building2, Heart, ShieldCheck, Mail, Phone, MapPin, CheckCircle2, Arrow
 import SpotlightCard from "@/components/motion/SpotlightCard";
 import UpiDonationCard from "@/components/trust/UpiDonationCard";
 import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { getTrustSettings } from "@/lib/dataStore";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Sri Sai Sansthan Charitable Trust · Sai Oracle",
@@ -11,7 +14,8 @@ export const metadata = {
     "Sri Sai Sansthan Charitable Trust — Caretaker of all activities of Satyadeep Sai Universe. Registered under Section 80G for 50% tax exemption.",
 };
 
-export default function TrustPage() {
+export default async function TrustPage() {
+  const trust = await getTrustSettings();
   return (
     <section className="mx-auto max-w-6xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-10 sm:space-y-14">
       {/* Compact, Prominent Trust Header */}
@@ -232,7 +236,7 @@ export default function TrustPage() {
         {/* Instant UPI & QR Code Donation */}
         <div id="donation" className="scroll-mt-24">
           <span id="upi" className="sr-only" />
-          <UpiDonationCard />
+          <UpiDonationCard upiId={trust.upi_id} payeeName={trust.payee_name} />
         </div>
 
         {/* Bank Account & Donation Details */}
@@ -255,27 +259,27 @@ export default function TrustPage() {
               <dl className="mt-6 divide-y divide-maroon-50 text-sm">
                 <div className="py-3 flex justify-between gap-4">
                   <dt className="text-stone-500 font-medium">Account Name</dt>
-                  <dd className="font-bold text-maroon-950 text-right">SRI SAI SANSTHAN CHARITABLE TRUST</dd>
+                  <dd className="font-bold text-maroon-950 text-right">{trust.account_name}</dd>
                 </div>
                 <div className="py-3 flex justify-between gap-4">
                   <dt className="text-stone-500 font-medium">Bank Name</dt>
-                  <dd className="font-bold text-stone-900 text-right">State Bank of India (SBI)</dd>
+                  <dd className="font-bold text-stone-900 text-right">{trust.bank_name}</dd>
                 </div>
                 <div className="py-3 flex justify-between gap-4">
                   <dt className="text-stone-500 font-medium">Account Number</dt>
                   <dd className="font-mono text-base font-bold text-saffron-700 tracking-wider text-right">
-                    30350015946
+                    {trust.account_number}
                   </dd>
                 </div>
                 <div className="py-3 flex justify-between gap-4">
                   <dt className="text-stone-500 font-medium">IFSC Code</dt>
                   <dd className="font-mono text-base font-bold text-stone-900 text-right">
-                    SBIN0001562
+                    {trust.ifsc_code}
                   </dd>
                 </div>
                 <div className="py-3 flex justify-between gap-4">
                   <dt className="text-stone-500 font-medium">Branch Address</dt>
-                  <dd className="font-semibold text-stone-800 text-right">Begum Pul, Meerut, Uttar Pradesh</dd>
+                  <dd className="font-semibold text-stone-800 text-right">{trust.branch_address}</dd>
                 </div>
               </dl>
 
@@ -286,6 +290,9 @@ export default function TrustPage() {
                   <li>Permanent Account Number (PAN) for 80G receipt</li>
                   <li>Purpose of donation (Medical Relief / Education / Relief to Poor / General)</li>
                 </ul>
+                {trust.tax_exemption_note && (
+                  <p className="mt-2 text-stone-500 italic">{trust.tax_exemption_note}</p>
+                )}
               </div>
             </SpotlightCard>
           </div>
@@ -305,11 +312,8 @@ export default function TrustPage() {
                 <p className="font-bold text-maroon-950">Mail / Courier Address:</p>
                 <div className="flex items-start gap-2">
                   <MapPin className="h-4 w-4 shrink-0 text-saffron-600 mt-0.5" />
-                  <p className="leading-relaxed">
-                    The Managing Trustee<br />
-                    Sri Sai Sansthan Charitable Trust<br />
-                    H.No- 23, Godwin Estate, Roorkee Road<br />
-                    Meerut, Uttar Pradesh – 250001, India
+                  <p className="leading-relaxed whitespace-pre-line">
+                    {trust.mailing_address}
                   </p>
                 </div>
               </div>
@@ -321,20 +325,20 @@ export default function TrustPage() {
               </h3>
               <div className="mt-3 space-y-2.5 text-xs">
                 <a
-                  href="mailto:saioracle7@gmail.com"
+                  href={`mailto:${trust.trust_email}`}
                   className="flex items-center gap-2 text-stone-700 hover:text-saffron-700 transition-colors"
                 >
                   <Mail className="h-4 w-4 text-saffron-600 shrink-0" />
-                  <span>saioracle7@gmail.com</span>
+                  <span>{trust.trust_email}</span>
                 </a>
                 <a
-                  href="https://wa.me/919997815743"
+                  href={`https://wa.me/${trust.trust_phone.replace(/[^0-9]/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-stone-700 hover:text-emerald-700 transition-colors"
                 >
                   <Phone className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span>+91-9997815743 (Telephone &amp; WhatsApp)</span>
+                  <span>{trust.trust_phone} (Telephone &amp; WhatsApp)</span>
                 </a>
               </div>
             </SpotlightCard>
