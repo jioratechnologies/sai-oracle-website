@@ -11,9 +11,11 @@ import { useRef, type ReactNode } from "react";
 export default function SpotlightCard({
   children,
   className = "",
+  id,
 }: {
   children: ReactNode;
   className?: string;
+  id?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -27,6 +29,7 @@ export default function SpotlightCard({
   return (
     <motion.div
       ref={ref}
+      id={id}
       onMouseMove={onMouseMove}
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}

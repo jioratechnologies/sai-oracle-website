@@ -1,28 +1,48 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ChevronLeft, ChevronRight, Expand, X, SlidersHorizontal } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import OmMark from "@/components/OmMark";
 import TempleArt from "@/components/TempleArt";
 import { PixelImage } from "@/components/magicui/pixel-image";
-import { albumOf } from "@/lib/albums";
+import { albumOf, ALBUMS, type AlbumLabel } from "@/lib/albums";
 import { optimizedImageUrl } from "@/lib/image";
 import type { GalleryImage } from "@/lib/types";
 
+
 export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const activeIndex = images.findIndex((g) => g.id === activeId);
-  const active = activeIndex >= 0 ? images[activeIndex] : null;
+  const [activeAlbum, setActiveAlbum] = useState<AlbumLabel>("All");
+
+  // Count per album (excluding "All")
+  const albumCounts = useMemo(() => {
+    const counts: Partial<Record<AlbumLabel, number>> = {};
+    for (const img of images) {
+      const a = albumOf(img.image_url) as AlbumLabel;
+      counts[a] = (counts[a] ?? 0) + 1;
+    }
+    return counts;
+  }, [images]);
+
+  // Filtered image list
+  const filtered = useMemo(
+    () =>
+      activeAlbum === "All" ? images : images.filter((img) => albumOf(img.image_url) === activeAlbum),
+    [images, activeAlbum],
+  );
+
+  const activeIndex = filtered.findIndex((g) => g.id === activeId);
+  const active = activeIndex >= 0 ? filtered[activeIndex] : null;
 
   const close = useCallback(() => setActiveId(null), []);
   const go = useCallback(
     (dir: 1 | -1) => {
-      if (images.length === 0) return;
-      const next = ((activeIndex < 0 ? 0 : activeIndex) + dir + images.length) % images.length;
-      setActiveId(images[next].id);
+      if (filtered.length === 0) return;
+      const next = ((activeIndex < 0 ? 0 : activeIndex) + dir + filtered.length) % filtered.length;
+      setActiveId(filtered[next].id);
     },
-    [activeIndex, images],
+    [activeIndex, filtered],
   );
 
   // Escape / arrows + scroll lock while the viewer is open.
@@ -44,8 +64,52 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-        {images.map((g) => (
+      {/* ── Album Filter Chips ── */}
+      <div className="mb-7">
+        <div className="flex items-center gap-2 mb-3">
+          <SlidersHorizontal className="h-4 w-4 text-saffron-600 shrink-0" />
+          <span className="text-xs font-bold uppercase tracking-widest text-saffron-700">Filter by Album</span>
+          {activeAlbum !== "All" && (
+            <button
+              type="button"
+              onClick={() => setActiveAlbum("All")}
+              className="ml-auto text-[11px] font-semibold text-stone-500 hover:text-maroon-800 flex items-center gap-1"
+            >
+              Clear <X className="h-3 w-3" />
+            </button>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {ALBUMS.filter((a) => a === "All" || (albumCounts[a as AlbumLabel] ?? 0) > 0).map((album) => {
+            const count = album === "All" ? images.length : (albumCounts[album as AlbumLabel] ?? 0);
+            const isActive = activeAlbum === album;
+            return (
+              <button
+                key={album}
+                type="button"
+                onClick={() => { setActiveAlbum(album as AlbumLabel); setActiveId(null); }}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[12px] font-semibold transition-all ${
+                  isActive
+                    ? "border-saffron-500 bg-saffron-500 text-white shadow-sm"
+                    : "border-maroon-200 bg-white text-stone-600 hover:border-saffron-400 hover:text-saffron-700"
+                }`}
+              >
+                {album}
+                <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${isActive ? "bg-white/20 text-white" : "bg-stone-100 text-stone-500"}`}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Photo Grid ── */}
+      {filtered.length === 0 ? (
+        <div className="py-20 text-center text-stone-500 text-sm">No photos in this album yet.</div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+        {filtered.map((g) => (
           <button
             key={g.id}
             type="button"
@@ -98,6 +162,7 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
           </button>
         ))}
       </div>
+      )}
 
       {/* Temple-framed photo viewer */}
       <AnimatePresence>
@@ -113,7 +178,7 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
             transition={{ duration: 0.2 }}
             onClick={close}
           >
-            <div aria-hidden className="absolute inset-0 bg-[#7c2d12]/45 backdrop-blur-sm" />
+            <div aria-hidden className="absolute inset-0 bg-black/80 backdrop-blur-md" />
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -169,7 +234,7 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
               </div>
               <div className="flex items-center justify-between gap-3 px-5 py-3">
                 <p className="text-sm text-saffron-700 italic">ॐ साई राम</p>
-                {images.length > 1 && (
+                {filtered.length > 1 && (
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
@@ -180,7 +245,7 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
                       <ChevronLeft className="h-4 w-4" />
                     </button>
                     <span className="text-sm font-semibold text-stone-600 tabular-nums">
-                      {activeIndex + 1} / {images.length}
+                      {activeIndex + 1} / {filtered.length}
                     </span>
                     <button
                       type="button"

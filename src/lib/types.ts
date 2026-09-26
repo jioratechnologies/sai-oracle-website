@@ -60,6 +60,7 @@ export interface SiteSettings {
   whatsapp_url: string;
   x_url: string;
   morning_opening: string;
+  afternoon_closing?: string;
   night_closing: string;
 }
 
@@ -74,6 +75,20 @@ export interface DevoteeExperience {
   name: string;
   place: string;
   quote: string;
+}
+
+/** A single devotee-experience "miracle" story on the Experiences page. */
+export interface ExperienceStory {
+  slug: string;
+  title: string;
+  /** One-line teaser shown on the chapter card. */
+  teaser: string;
+  /** Full story text, one or more paragraphs. */
+  body: string[];
+  /** Optional closing pull-quote. */
+  quote?: string;
+  chapterNum: string;
+  chapterTitle: string;
 }
 
 /** One photo in the homepage hero showcase. */

@@ -42,7 +42,18 @@ export default function DuskImage({
 
   if (reduce) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={optimizedImageUrl(src, 828)} alt={alt} className={`h-full w-full ${imageClassName} ${className}`} draggable={false} />;
+    return (
+      <img
+        src={optimizedImageUrl(src, 1200, 75)}
+        onError={(e) => {
+          const target = e.currentTarget;
+          if (target.src !== src) target.src = src;
+        }}
+        alt={alt}
+        className={`h-full w-full ${imageClassName} ${className}`}
+        draggable={false}
+      />
+    );
   }
 
   return (
@@ -50,33 +61,27 @@ export default function DuskImage({
       <div className={`h-full w-full ${ambient ? "dusk-ambient" : ""}`}>
         <motion.img
           key={src}
-          src={optimizedImageUrl(src, 828)}
+          src={optimizedImageUrl(src, 1200, 75)}
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.src !== src) {
+              target.src = src;
+            }
+          }}
           alt={alt}
           draggable={false}
           className={`h-full w-full ${imageClassName}`}
           initial={{
-            opacity: 0.35,
-            scale: 1.08,
-            filter: "blur(22px) brightness(0.55) saturate(1.15)",
+            opacity: 0.85,
+            scale: 1.02,
           }}
           animate={{
             opacity: 1,
             scale: 1,
-            filter: "blur(0px) brightness(1) saturate(1)",
           }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         />
       </div>
-      {veil && (
-        <motion.div
-          aria-hidden
-          key={`veil-${src}`}
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(100%_90%_at_50%_20%,rgb(246_220_154/0.55),rgb(247_127_0/0.25)_55%,transparent_85%)]"
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 0 }}
-          transition={{ duration: 1.3, ease: "easeOut" }}
-        />
-      )}
     </div>
   );
 }

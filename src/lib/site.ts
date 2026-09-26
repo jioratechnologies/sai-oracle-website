@@ -3,6 +3,7 @@ import {
   seedAnnouncements,
   seedEvents,
   seedExperiences,
+  seedExperienceStories,
   seedGallery,
   seedPages,
   seedSettings,
@@ -12,6 +13,7 @@ import {
 import type {
   AartiTiming,
   Announcement,
+  ExperienceStory,
   GalleryImage,
   SitePage,
   SiteSettings,
@@ -200,6 +202,16 @@ export async function getPage(slug: string): Promise<SitePage | null> {
 
 export function getExperiences() {
   return seedExperiences;
+}
+
+/** Devotee "miracle" stories shown on the Experiences page — seed-only,
+ * grouped into chapters (not admin-editable; there's no CMS UI for them). */
+export function getExperienceStories(): ExperienceStory[] {
+  return seedExperienceStories;
+}
+
+export function getExperienceStory(slug: string): ExperienceStory | null {
+  return seedExperienceStories.find((s) => s.slug === slug) ?? null;
 }
 
 /**

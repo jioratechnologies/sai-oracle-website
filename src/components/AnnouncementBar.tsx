@@ -47,14 +47,21 @@ export default async function AnnouncementBar() {
               </a>
             </>
           )}
-          <span aria-hidden className="h-3 w-px bg-white/25" />
-          <Link href="/gallery?tab=videos" className="inline-flex items-center gap-1.5 transition-colors hover:text-yellow-200">
-            <span aria-hidden className="relative flex h-2 w-2">
-              <span className="absolute h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-              <span className="h-2 w-2 rounded-full bg-red-500" />
-            </span>
-            Live Darshan
-          </Link>
+          {settings.instagram_url && (
+            <>
+              <span aria-hidden className="h-3 w-px bg-white/25" />
+              <a
+                href={settings.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-amber-400 via-pink-500 to-purple-600 px-2.5 py-0.5 font-bold text-white shadow-xs hover:scale-105 transition-transform"
+                title="Follow Sai Oracle on Instagram for Daily Darshan"
+              >
+                <span>Instagram: Daily Darshan Photos</span>
+                <span aria-hidden>→</span>
+              </a>
+            </>
+          )}
         </span>
         <Link
           href="/#announcements"

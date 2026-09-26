@@ -121,6 +121,7 @@ export default async function AdminDashboard() {
             ["+ Announcement", "/admin/announcements"],
             ["+ Add YouTube Video", "/admin/videos"],
             ["Upload Photos", "/admin/gallery"],
+            ["Manage Users", "/admin/users"],
           ].map(([label, href]) => (
             <Link
               key={href + label}

@@ -16,10 +16,11 @@ function nearestAllowedWidth(width: number): number {
  * the photo into animated pieces) still get a resized, compressed file
  * instead of the raw multi-megabyte original.
  */
-export function optimizedImageUrl(src: string, width: number, quality = 75): string {
+export function optimizedImageUrl(src: string, width: number, _quality = 75): string {
   if (!src.startsWith("/")) return src; // remote/external URLs: use as-is
   const w = nearestAllowedWidth(width);
-  return `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=${quality}`;
+  // Next.js restricts the `q` query param to 75 unless customized in next.config
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
 }
 
 /**

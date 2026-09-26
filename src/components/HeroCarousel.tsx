@@ -163,7 +163,7 @@ export default function HeroCarousel({
             variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
             className="mt-3 max-w-2xl text-[15px] leading-relaxed text-stone-600 sm:mt-4 sm:text-lg"
           >
-            {tagline} — home to the Trinity of Sai Avatars, in the holy city of Meerut.
+            {tagline} — a sacred sanctuary in the holy city of Meerut.
           </motion.p>
           <motion.blockquote
             variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
@@ -188,7 +188,7 @@ export default function HeroCarousel({
               View Events
             </Link>
             <Link
-              href="/temple#visit"
+              href="/about#worship"
               className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border-2 border-saffron-600/40 bg-white/60 px-8 py-2.5 text-center text-[17px] font-bold whitespace-nowrap text-saffron-700 transition-colors hover:border-saffron-500 hover:bg-saffron-500 hover:text-white sm:w-auto sm:min-h-13 sm:py-3 sm:text-lg lg:px-6"
             >
               <MapPin aria-hidden className="h-5 w-5" />
@@ -219,12 +219,10 @@ export default function HeroCarousel({
           initial={{ opacity: 0, scale: 0.92, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="order-1 mx-auto w-full max-w-60 pt-5 sm:max-w-85 lg:order-2 lg:w-auto lg:max-w-none lg:shrink-0"
+          className="order-1 mx-auto w-full max-w-sm pt-4 sm:max-w-md lg:order-2 lg:w-auto lg:max-w-none lg:shrink-0"
         >
           <div className="flex items-center justify-center gap-2 sm:gap-3 lg:gap-3">
-            {/* Desktop-only: previous-photo arrow + dimmed neighbour peek —
-                replaces the below-image filmstrip so the coverflow reads
-                as one wide, image-forward row instead of a tall column. */}
+            {/* Desktop-only: previous-photo arrow + dimmed neighbour peek */}
             <button
               type="button"
               onClick={() => go(-1)}
@@ -238,19 +236,19 @@ export default function HeroCarousel({
               onClick={() => jump(prevIndex)}
               aria-label={`Photo ${prevIndex + 1}: ${prevSlide.caption}`}
               title={prevSlide.caption}
-              className="hidden aspect-3/4 w-20 shrink-0 overflow-hidden rounded-t-full rounded-b-xl opacity-55 shadow-md ring-2 ring-white transition-opacity hover:opacity-85 xl:block"
+              className="hidden aspect-4/3 w-24 shrink-0 overflow-hidden rounded-2xl opacity-60 shadow-md ring-2 ring-white transition-opacity hover:opacity-90 xl:block"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={optimizedImageUrl(prevSlide.src, 220)}
+                src={optimizedImageUrl(prevSlide.src, 320, 75)}
                 alt=""
                 loading="lazy"
                 draggable={false}
-                className="h-full w-full object-cover object-top"
+                className="h-full w-full object-cover object-center"
               />
             </button>
 
-            <div className="relative w-full lg:w-80">
+            <div className="relative w-full sm:w-[380px] lg:w-[460px] xl:w-[480px]">
               {/* Halo + ring scoped to the image box itself, so they stay
                   centered on the portrait no matter how the row lays out. */}
               <div
@@ -275,10 +273,11 @@ export default function HeroCarousel({
                   src={slide.src}
                   alt={slide.caption}
                   className="w-full"
+                  aspectClassName="aspect-[3/4]"
                   imageClassName={
-                    slide.focus === "center"
-                      ? "object-cover object-center"
-                      : "object-cover object-top sm:object-center"
+                    slide.focus === "top"
+                      ? "object-cover object-top"
+                      : "object-cover object-center"
                   }
                 />
               </motion.div>
@@ -314,15 +313,15 @@ export default function HeroCarousel({
               onClick={() => jump(nextIndex)}
               aria-label={`Photo ${nextIndex + 1}: ${nextSlide.caption}`}
               title={nextSlide.caption}
-              className="hidden aspect-3/4 w-20 shrink-0 overflow-hidden rounded-t-full rounded-b-xl opacity-55 shadow-md ring-2 ring-white transition-opacity hover:opacity-85 xl:block"
+              className="hidden aspect-4/3 w-24 shrink-0 overflow-hidden rounded-2xl opacity-60 shadow-md ring-2 ring-white transition-opacity hover:opacity-90 xl:block"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={optimizedImageUrl(nextSlide.src, 220)}
+                src={optimizedImageUrl(nextSlide.src, 320, 75)}
                 alt=""
                 loading="lazy"
                 draggable={false}
-                className="h-full w-full object-cover object-top"
+                className="h-full w-full object-cover object-center"
               />
             </button>
             <button
@@ -372,21 +371,21 @@ export default function HeroCarousel({
                     aria-label={`Photo ${i + 1}: ${s.caption}`}
                     title={s.caption}
                     onClick={() => jump(i)}
-                    className={`relative aspect-[3/4] shrink-0 overflow-hidden rounded-t-full rounded-b-lg bg-white shadow-md transition-all duration-500 ${
+                    className={`relative aspect-4/3 shrink-0 overflow-hidden rounded-xl bg-white shadow-md transition-all duration-500 ${
                       distance === 0
-                        ? "z-10 w-10 -translate-y-0.5 opacity-100 ring-2 ring-saffron-500 sm:w-14"
+                        ? "z-10 w-14 -translate-y-0.5 opacity-100 ring-2 ring-saffron-500 sm:w-16"
                         : distance === 1
-                          ? "w-8 opacity-70 ring-2 ring-white hover:opacity-90 sm:w-10"
-                          : "w-6 opacity-50 ring-2 ring-white/70 hover:opacity-70 sm:w-8"
+                          ? "w-10 opacity-70 ring-2 ring-white hover:opacity-90 sm:w-12"
+                          : "w-8 opacity-50 ring-2 ring-white/70 hover:opacity-70 sm:w-10"
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={optimizedImageUrl(s.src, 128)}
+                      src={optimizedImageUrl(s.src, 160, 75)}
                       alt=""
                       loading="lazy"
                       draggable={false}
-                      className="h-full w-full object-cover object-top"
+                      className="h-full w-full object-cover object-center"
                     />
                   </button>
                 );

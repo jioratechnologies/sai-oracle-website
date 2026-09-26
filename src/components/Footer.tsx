@@ -14,95 +14,148 @@ export default function Footer({
   return (
     <footer className="section-dawn text-stone-700">
       <div aria-hidden className="divider-festive" />
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+        {/* Col 1: Brand & Sacred Presence (4 cols on lg) */}
+        <div className="lg:col-span-4 space-y-4">
           <div className="flex items-center gap-3">
-            <OmMark />
+            <OmMark className="h-10 w-10 shrink-0" />
             <div>
-              <p className="font-display text-2xl font-bold text-stone-900">
+              <p className="font-display text-2xl font-bold text-maroon-900">
                 {settings.organization_name}
               </p>
-              <p className="text-xs tracking-[0.2em] text-saffron-600 uppercase">Om Sai Ram</p>
+              <p className="text-xs font-bold tracking-[0.2em] text-saffron-600 uppercase">Om Sai Ram</p>
             </div>
           </div>
-          <p className="mt-4 text-[15px] leading-relaxed text-stone-600">
-            {settings.tagline}. Home to the Trinity of Sai Avatars — Shirdi Sai, Satya Sai and
-            Prema Sai.
+          <p className="text-[14.5px] leading-relaxed text-stone-600 max-w-sm">
+            A sacred sanctuary of Love, Service and Unity under the divine guidance of Bhagwan Sri Sathya Sai Baba and beloved Maa.
           </p>
-          <div className="mt-4">
+          <div className="pt-1">
             <SocialLinks links={buildSocialLinks(settings)} />
           </div>
         </div>
 
-        <nav aria-label="Footer">
-          <p className="mb-3 font-display text-lg font-bold text-saffron-700">Visit</p>
-          <ul className="space-y-2 text-[15px]">
+        {/* Col 2: Sanctuary & Trust (2.5 cols on lg) */}
+        <div className="lg:col-span-3">
+          <p className="mb-3.5 text-xs font-bold tracking-[0.18em] text-maroon-900 uppercase">
+            Sanctuary &amp; Trust
+          </p>
+          <ul className="space-y-2.5 text-[14px]">
             {[
               ["About Sai Oracle", "/about"],
-              ["Temple & Worship", "/temple"],
-              ["Events & Programs", "/events"],
-              ["Devotee Experiences", "/experiences"],
+              ["Beloved Maa", "/gurumaa"],
+              ["Charitable Trust (80G)", "/trust"],
+              ["Satyadeep Sai Universe", "/universe"],
+              ["Mission Karuna", "/mission-karuna"],
               ["Aims & Objectives", "/aims"],
-              ["Gallery & Videos", "/gallery"],
-              ["Contact Us", "/contact"],
             ].map(([label, href]) => (
               <li key={href}>
-                <Link href={href} className="hover:text-saffron-600">
+                <Link
+                  href={href}
+                  className="text-stone-600 transition-colors hover:text-saffron-700 hover:translate-x-0.5 inline-block"
+                >
                   {label}
                 </Link>
               </li>
             ))}
           </ul>
-        </nav>
+        </div>
 
-        <div>
-          <p className="mb-3 font-display text-lg font-bold text-gulal-700">Daily Aarti</p>
-          <ul className="space-y-2 text-[15px]">
-            {timings.slice(0, 6).map((t) => (
-              <li key={t.id} className="flex items-baseline justify-between gap-3">
-                <span className="min-w-0">{t.label}</span>
-                <span className="shrink-0 font-semibold whitespace-nowrap text-stone-900">{t.time}</span>
+        {/* Col 3: Devotion & Media (2.5 cols on lg) */}
+        <div className="lg:col-span-2">
+          <p className="mb-3.5 text-xs font-bold tracking-[0.18em] text-maroon-900 uppercase">
+            Devotion
+          </p>
+          <ul className="space-y-2.5 text-[14px]">
+            {[
+              ["Devotee Experiences", "/experiences"],
+              ["Aarti & Worship", "/about#worship"],
+              ["Events & Programs", "/events"],
+              ["Photo Gallery", "/gallery"],
+              ["Social Media", "/social"],
+              ["How to Reach", "/how-to-reach"],
+            ].map(([label, href]) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className="text-stone-600 transition-colors hover:text-saffron-700 hover:translate-x-0.5 inline-block"
+                >
+                  {label}
+                </Link>
               </li>
             ))}
           </ul>
-          <Link href="/temple" className="group mt-3 inline-flex items-center gap-1.5 text-sm text-saffron-700 underline underline-offset-2">
-            Full temple schedule <ArrowIcon className="h-3.5 w-3.5" />
-          </Link>
         </div>
 
-        <div>
-          <p className="mb-3 font-display text-lg font-bold text-peacock-700">Reach Us</p>
-          <address className="text-[15px] leading-relaxed not-italic">
-            {settings.address}
-            <br />
-            {settings.email && (
-              <>
-                Email:{" "}
-                <a href={`mailto:${settings.email}`} className="break-all hover:text-saffron-600">
-                  {settings.email}
-                </a>
-              </>
-            )}
+        {/* Col 4: Timings & Location (3 cols on lg) */}
+        <div className="lg:col-span-3 space-y-3.5">
+          <p className="text-xs font-bold tracking-[0.18em] text-maroon-900 uppercase">
+            Temple &amp; Timings
+          </p>
+
+          <div className="rounded-2xl border border-gold-200/80 bg-white/70 p-3 text-xs text-stone-700 space-y-1.5 shadow-xs">
+            <p className="font-bold text-maroon-950 flex items-center justify-between">
+              <span>Open All 7 Days</span>
+              <span className="text-emerald-700 font-semibold">6:30 AM – 8:30 PM</span>
+            </p>
+            <p className="text-stone-500">
+              Morning Aarti: 9:00 AM · Evening Aarti: 6:30 PM
+            </p>
+            <Link
+              href="/about#worship"
+              className="mt-1 inline-flex items-center gap-1 font-semibold text-saffron-700 hover:underline"
+            >
+              Full schedule <ArrowIcon className="h-3 w-3" />
+            </Link>
+          </div>
+
+          <address className="text-xs leading-relaxed text-stone-600 not-italic space-y-1">
+            <p className="font-medium text-stone-800">{settings.address}</p>
             {settings.phone && (
-              <>
-                <br />
+              <p>
                 Phone:{" "}
-                <a href={`tel:${settings.phone.replace(/\s/g, "")}`} className="hover:text-saffron-600">
+                <a href={`tel:${settings.phone.replace(/\s/g, "")}`} className="hover:text-saffron-700 font-semibold">
                   {settings.phone}
                 </a>
-              </>
+              </p>
+            )}
+            {settings.email && (
+              <p>
+                Email:{" "}
+                <a href={`mailto:${settings.email}`} className="hover:text-saffron-700">
+                  {settings.email}
+                </a>
+              </p>
             )}
           </address>
         </div>
       </div>
       <div className="border-t border-stone-900/10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-4 text-[13px] text-stone-500 sm:flex-row">
-          <p>© {new Date().getFullYear()} {settings.organization_name}. All rights reserved.</p>
-          <p className="flex gap-4">
-            <Link href="/privacy" className="hover:text-saffron-600">Privacy</Link>
-            <Link href="/terms" className="hover:text-saffron-600">Terms</Link>
-            <Link href="/admin" className="hover:text-saffron-600">Admin Login</Link>
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2.5 px-4 py-4 text-[12.5px] text-stone-500 sm:flex-row sm:gap-3">
+          {/* Copyright */}
+          <p className="text-center sm:text-left">
+            &copy; 2016–{new Date().getFullYear()}{" "}
+            <span className="font-semibold text-stone-600">Sri Sai Sansthan Charitable Trust</span>.{" "}
+            All rights reserved.
           </p>
+
+          {/* Right side: Legal links + Powered by */}
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
+            <Link href="/privacy" className="hover:text-saffron-600 transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-saffron-600 transition-colors">Terms</Link>
+            <Link href="/admin" className="hover:text-saffron-600 transition-colors">Admin</Link>
+            <span className="hidden sm:inline text-stone-300">|</span>
+            <span className="flex items-center gap-1 text-stone-500">
+              Powered by{" "}
+              <a
+                href="https://jioratech.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-maroon-800 hover:text-saffron-700 transition-colors underline-offset-2 hover:underline"
+              >
+                JioraTech
+              </a>
+            </span>
+          </div>
         </div>
       </div>
     </footer>

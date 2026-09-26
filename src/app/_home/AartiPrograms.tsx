@@ -55,7 +55,7 @@ export default function AartiPrograms({ timings }: { timings: AartiTiming[] }) {
                   </h3>
                   <p className="mt-1.5 flex-1 text-[14px] leading-relaxed text-stone-600">{a.desc}</p>
                   <Link
-                    href="/temple"
+                    href="/about#worship"
                     className="mt-3 inline-flex items-center gap-1.5 text-[14px] font-bold text-saffron-600 group-hover:text-saffron-500"
                   >
                     Attend aarti <span aria-hidden>→</span>

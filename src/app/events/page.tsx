@@ -1,4 +1,3 @@
-import PageHero from "@/components/PageHero";
 import EventCard from "@/components/EventCard";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { getAllEvents, getMediaMap } from "@/lib/site";
@@ -14,14 +13,21 @@ export default async function EventsPage() {
   const upcoming = events.filter((e) => e.event_date >= today);
   const past = events.filter((e) => e.event_date < today).reverse();
   return (
-    <>
-      <PageHero
-        eyebrow="Join Us"
-        title="Events & Programs"
-        intro="Festivals, bhajan sandhyas, discourses and seva programmes at Sai Oracle."
-        image={resolveMediaUrl(mediaMap, "/assets/events/20241119_184230.webp")}
-      />
-      <section className="mx-auto max-w-6xl px-4 py-12">
+    <section className="mx-auto max-w-6xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-10">
+      {/* Compact In-Page Header */}
+      <div className="mx-auto max-w-3xl text-center border-b border-maroon-100/80 pb-8">
+        <span className="inline-flex items-center gap-2 rounded-full border border-saffron-300/80 bg-saffron-50 px-3.5 py-1 text-xs font-bold text-saffron-800 uppercase tracking-wider">
+          Join Us · Sacred Celebrations
+        </span>
+        <h1 className="mt-3.5 font-display text-3xl font-extrabold text-maroon-900 sm:text-4xl lg:text-[2.6rem] leading-tight">
+          Events &amp; Programs
+        </h1>
+        <p className="mt-2.5 text-[15.5px] leading-relaxed text-stone-600 sm:text-[16.5px]">
+          Festivals, bhajan sandhyas, discourses and seva programmes at Satyadeep Sai Universe.
+        </p>
+      </div>
+
+      <div>
         <h2 className="font-display text-2xl font-bold text-maroon-900">Upcoming</h2>
         {upcoming.length > 0 ? (
           <RevealGroup className="mt-5 grid gap-6 md:grid-cols-3">
@@ -49,7 +55,7 @@ export default async function EventsPage() {
             </RevealGroup>
           </>
         )}
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

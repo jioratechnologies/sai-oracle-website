@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import PageHero from "@/components/PageHero";
 import ArrowLink from "@/components/ArrowLink";
 import TempleArt from "@/components/TempleArt";
 import { formatEventDate, formatTime } from "@/lib/format";
@@ -25,13 +24,23 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
   if (!event) notFound();
 
   return (
-    <>
-      <PageHero
-        eyebrow={formatEventDate(event.event_date)}
-        title={event.title}
-        crumbs={[{ label: "Events", href: "/events" }, { label: event.title }]}
-      />
-      <section className="mx-auto max-w-3xl px-4 py-12">
+    <section className="mx-auto max-w-3xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-8">
+      {/* Compact In-Page Header */}
+      <div className="border-b border-maroon-100/80 pb-6">
+        <ArrowLink
+          href="/events"
+          back
+          className="text-xs font-bold text-saffron-700 hover:text-maroon-900 uppercase tracking-wider mb-3 inline-flex"
+        >
+          All Events &amp; Programs
+        </ArrowLink>
+        <span className="block text-xs font-bold text-saffron-700 uppercase tracking-wider">
+          {formatEventDate(event.event_date)}
+        </span>
+        <h1 className="mt-2 font-display text-3xl font-extrabold text-maroon-900 sm:text-4xl leading-tight">
+          {event.title}
+        </h1>
+      </div>
         <div className="relative aspect-[16/8] overflow-hidden rounded-2xl border border-maroon-100 shadow-sm">
           {event.image_url ? (
             <Image src={event.image_url} alt={event.title} fill className="object-cover" />
@@ -132,6 +141,5 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           </ArrowLink>
         </div>
       </section>
-    </>
   );
 }

@@ -1,6 +1,9 @@
+import Link from "next/link";
+
 /**
  * Minimal Markdown renderer for admin-edited temple pages.
- * Supports: ## / ### headings, **bold**, -/* lists, paragraphs.
+ * Supports: ## / ### headings, **bold**, [text](url) links,
+ * ![alt](src) standalone images, -/* lists, paragraphs.
  * No dependency, no raw HTML — safe by construction.
  */
 export default function Markdown({ content }: { content: string }) {
@@ -23,7 +26,19 @@ export default function Markdown({ content }: { content: string }) {
 
   for (const raw of lines) {
     const line = raw.trim();
-    if (line.startsWith("### ")) {
+    const image = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (image) {
+      flushList();
+      blocks.push(
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={`b${key++}`}
+          src={image[2]}
+          alt={image[1]}
+          className="my-5 w-full rounded-2xl border border-maroon-100 object-cover shadow-sm"
+        />,
+      );
+    } else if (line.startsWith("### ")) {
       flushList();
       blocks.push(
         <h3 key={`b${key++}`} className="mt-6 mb-2 font-display text-2xl font-bold text-maroon-800">
@@ -56,14 +71,23 @@ export default function Markdown({ content }: { content: string }) {
 }
 
 export function markdownInline(text: string): React.ReactNode {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((p, i) =>
-    p.startsWith("**") && p.endsWith("**") ? (
-      <strong key={i} className="font-semibold text-maroon-900">
-        {p.slice(2, -2)}
-      </strong>
-    ) : (
-      <span key={i}>{p}</span>
-    ),
-  );
+  const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g);
+  return parts.map((p, i) => {
+    if (p.startsWith("**") && p.endsWith("**")) {
+      return (
+        <strong key={i} className="font-semibold text-maroon-900">
+          {p.slice(2, -2)}
+        </strong>
+      );
+    }
+    const link = p.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (link) {
+      return (
+        <Link key={i} href={link[2]} className="font-semibold text-saffron-700 underline underline-offset-2 hover:text-saffron-600">
+          {link[1]}
+        </Link>
+      );
+    }
+    return <span key={i}>{p}</span>;
+  });
 }

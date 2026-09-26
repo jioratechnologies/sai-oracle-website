@@ -1,11 +1,20 @@
+import Image from "next/image";
+
 export default function OmMark({ className = "h-10 w-10" }: { className?: string }) {
   return (
     <span
       aria-hidden
-      className={`inline-flex shrink-0 rounded-full bg-[linear-gradient(135deg,var(--color-gulal-400),var(--color-saffron-400),var(--color-gold-400))] p-[2.5px] shadow-sm ${className}`}
+      className={`relative inline-flex shrink-0 overflow-hidden rounded-full bg-linear-to-br from-amber-400 via-saffron-500 to-maroon-700 p-[2px] shadow-md ring-1 ring-gold-400/40 ${className}`}
     >
-      <span className="flex h-full w-full items-center justify-center rounded-full bg-cream-50 font-display text-saffron-600">
-        <span className="-mt-0.5 text-[1.35em] leading-none">ॐ</span>
+      <span className="relative flex h-full w-full overflow-hidden rounded-full bg-cream-100">
+        <Image
+          src="/logo.png"
+          alt="Sai Oracle — Bhagwan Sri Sathya Sai Baba"
+          width={150}
+          height={150}
+          priority
+          className="h-full w-full object-cover object-top"
+        />
       </span>
     </span>
   );

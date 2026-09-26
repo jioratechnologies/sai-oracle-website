@@ -1,11 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Bell, Clock, Mail, Phone } from "lucide-react";
+import {
+  Bell,
+  Clock,
+  Mail,
+  Phone,
+  Play,
+  Flame,
+  Calendar,
+  ChevronRight,
+  ExternalLink,
+  ArrowRight,
+} from "lucide-react";
 import ArrowLink, { ArrowIcon } from "@/components/ArrowLink";
-import EventCard from "@/components/EventCard";
 import HeroCarousel from "@/components/HeroCarousel";
 import SectionHeading from "@/components/SectionHeading";
-import TimingsTable from "@/components/TimingsTable";
 import VideoCard from "@/components/VideoCard";
 import SocialLinks, { buildSocialLinks } from "@/components/SocialLinks";
 import Testimonials from "@/components/Testimonials";
@@ -28,18 +37,16 @@ import { DEFAULT_SLIDES } from "@/lib/heroSlides";
 import GalleryPreview from "./_home/GalleryPreview";
 import SevaServices from "./_home/SevaServices";
 import AboutTemple from "./_home/AboutTemple";
-import AartiPrograms from "./_home/AartiPrograms";
-import LiveDarshanBanner from "./_home/LiveDarshanBanner";
-import HelpdeskCard from "./_home/HelpdeskCard";
 
 export const revalidate = 300;
 
-/**
- * Homepage — Kashi Vishwanath portal flow, Sai Oracle theme:
- * hero → quick seva services → about temple → sacred stories →
- * deities → daily aartis → events → timings/updates/helpdesk →
- * live darshan → videos → gallery → experiences → visit.
- */
+const AARTI_DESCRIPTIONS: Record<string, string> = {
+  Kakad: "Dawn awakening of the Lord — begin the day at Baba's feet.",
+  Madhyan: "Midday worship and offerings in the sanctum.",
+  Dhoop: "Evening lamp worship with bhajans and Naam Smaranam.",
+  Shej: "Night rest ceremony and prasad distribution.",
+};
+
 export default async function Home() {
   const [settings, events, timings, announcements, videos, gallery, showcase, mediaMap] =
     await Promise.all([
@@ -58,6 +65,19 @@ export default async function Home() {
       ? showcase
       : DEFAULT_SLIDES.map((s) => ({ ...s, src: resolveMediaUrl(mediaMap, s.src) }));
 
+  // Extract the 4 primary aartis cleanly
+  const aartis = timings.filter((t) => /aarti/i.test(t.label)).slice(0, 4);
+  const aartiRows = (aartis.length > 0 ? aartis : timings.slice(0, 4)).map((t, i) => {
+    const key = Object.keys(AARTI_DESCRIPTIONS).find((k) =>
+      t.label.toLowerCase().includes(k.toLowerCase())
+    );
+    return {
+      ...t,
+      desc: (key && AARTI_DESCRIPTIONS[key]) || "Daily worship at the sanctum — all devotees welcome.",
+      accent: ["text-saffron-700 bg-saffron-50 border-saffron-200", "text-gulal-700 bg-gulal-50 border-gulal-200", "text-peacock-700 bg-peacock-50 border-peacock-200", "text-maroon-700 bg-gold-50 border-gold-200"][i % 4],
+    };
+  });
+
   return (
     <>
       <HeroCarousel
@@ -67,13 +87,13 @@ export default async function Home() {
         slides={heroSlides}
       />
 
-      {/* ── Quick seva services (overlaps hero, like Kashi's service grid) ── */}
+      {/* ── Quick seva services ── */}
       <SevaServices />
 
-      {/* ── Welcome / About Temple ─────────────────────── */}
+      {/* ── Welcome / About Temple ── */}
       <AboutTemple />
 
-      {/* ── Sacred stories from the temple ─────────────── */}
+      {/* ── Sacred stories from the temple ── */}
       <section className="mx-auto max-w-6xl px-4 pt-12 pb-14">
         <RevealGroup className="grid gap-6 md:grid-cols-3">
           {[
@@ -84,25 +104,25 @@ export default async function Home() {
               eyebrowColor: "text-saffron-600",
               title: "Mission Karuna",
               text: "Empowering poor children through education — helping them earn their livelihood and support themselves with dignity.",
-              href: "/aims",
+              href: "/mission-karuna",
             },
             {
               src: "/legacy/home/Pujniye_maa.webp",
-              alt: "Pujniye Maa",
+              alt: "Maa",
               eyebrow: "Our Guide",
               eyebrowColor: "text-gulal-600",
-              title: "Miraculous Life of Pujniye Maa",
+              title: "Miraculous Life of Maa",
               text: "Guru — Gu (darkness) and Ru (light): the preceptor who leads us from darkness to light, under Baba's blessings.",
-              href: "/experiences",
+              href: "/experiences?tab=miracles",
             },
             {
-              src: resolveMediaUrl(mediaMap, "/assets/temple/other/20250112_182606.webp"),
-              alt: "The Trinity of Sai Avatars enthroned at the temple",
+              src: "/assets/content/home/trinity_of_sai_avatars.webp",
+              alt: "The Trinity of Sai Avatars — Shirdi Sai, Satya Sai, Prema Sai",
               eyebrow: "Our Faith",
               eyebrowColor: "text-peacock-600",
               title: "The Trinity of Sai Avatars",
               text: "Shirdi Sai · Satya Sai · Prema Sai — Sai Oracle is dedicated to spreading the mission of the Sai Baba Avatars.",
-              href: "/about",
+              href: "/#deities",
             },
           ].map((c) => (
             <RevealItem key={c.title}>
@@ -138,173 +158,367 @@ export default async function Home() {
         </RevealGroup>
       </section>
 
-      {/* ── Deities of the temple ────────────────────────── */}
+      {/* ── Deities of the temple ── */}
       <DeitiesSection />
 
-      {/* ── Daily aartis (Kashi "Our Programs") ──────────── */}
-      <AartiPrograms timings={timings} />
-
-      {/* ── Upcoming events ──────────────────────────────── */}
-      <section className="mx-auto max-w-6xl px-4 py-14">
+      {/* ── Consolidated Temple Worship & Updates Hub (Clean & Calm) ── */}
+      <section id="worship" className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
         <SectionHeading
-          eyebrow="Join Us"
-          title="Upcoming Events"
-          intro="Festivals, bhajan sandhyas and seva programmes at the temple."
+          eyebrow="Temple Life"
+          title="Daily Worship & Updates"
+          intro={`Open all 7 days from ${settings.morning_opening} to ${settings.night_closing}. Join us in the sacred rhythm of daily aartis and community seva.`}
         />
-        {events.length > 0 ? (
-          <>
-            <RevealGroup className="mt-8 grid gap-6 md:grid-cols-3">
-              {events.map((e) => (
-                <RevealItem key={e.id}>
-                  <EventCard event={e} />
-                </RevealItem>
-              ))}
-            </RevealGroup>
-            <div className="mt-8 text-center">
-              <ArrowLink
-                href="/events"
-                variant="outline"
-                className="border-saffron-400 px-6 py-2.5 text-saffron-700 hover:bg-saffron-500 hover:text-white"
-              >
-                View All Events
-              </ArrowLink>
-            </div>
-          </>
-        ) : (
-          <p className="mt-8 text-center text-stone-600">
-            New programmes will be announced soon. Please check back or follow us for updates.
-          </p>
-        )}
-      </section>
 
-      {/* ── Timings + announcements + helpdesk (Kashi helpdesk row) ── */}
-      <section
-        id="announcements"
-        className="scroll-mt-24 border-y border-maroon-100 bg-cream-100/60"
-      >
-        <div className="mx-auto max-w-6xl px-4 py-14">
-          <SectionHeading
-            eyebrow="Temple Updates"
-            title="Timings & Announcements"
-            intro="Daily darshan hours, latest updates and the temple helpdesk."
-          />
-          <div className="mt-8 grid gap-6 lg:grid-cols-3">
-            <div>
-              <TimingsTable timings={timings} />
-              <p className="mt-3 text-center text-sm text-stone-500">
-                Open {settings.morning_opening} – {settings.night_closing} · all 7 days
-              </p>
+        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+          {/* Left Column: 4 Daily Aartis in a Clean 2x2 Grid */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center justify-between border-b border-maroon-100 pb-2">
+              <span className="text-xs font-bold tracking-[0.18em] text-saffron-700 uppercase flex items-center gap-1.5">
+                <Flame className="h-3.5 w-3.5 text-saffron-600" />
+                Daily Aarti Schedule
+              </span>
+              <span className="text-xs text-stone-500">Sanctum Sanctorum</span>
             </div>
-            <RevealGroup className="space-y-4">
-              {announcements.length === 0 && (
-                <p className="text-stone-600">No announcements right now. Om Sai Ram!</p>
-              )}
-              {announcements.map((a, i) => (
-                <RevealItem key={a.id}>
-                  <article
-                    className={`rounded-2xl border-l-4 bg-white p-5 shadow-sm ${
-                      ["border-saffron-500", "border-gulal-500", "border-peacock-500"][i % 3]
-                    }`}
-                  >
-                    <h3 className="flex items-center gap-2 font-display text-xl font-bold text-maroon-900">
-                      <Bell aria-hidden className="h-5 w-5 shrink-0 text-saffron-600" />
-                      {a.title}
-                    </h3>
-                    <p className="mt-1 text-[16px] leading-relaxed text-stone-600">{a.content}</p>
-                  </article>
-                </RevealItem>
+
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+              {aartiRows.map((a) => (
+                <SpotlightCard
+                  key={a.id}
+                  className="rounded-2xl border border-maroon-100 bg-white p-4 shadow-2xs flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2">
+                      <h4 className="font-display text-base font-bold text-maroon-900">
+                        {a.label}
+                      </h4>
+                      <span
+                        className={`rounded-full border px-2.5 py-0.5 text-xs font-bold shrink-0 ${a.accent}`}
+                      >
+                        {a.time}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-stone-600">{a.desc}</p>
+                  </div>
+                  <div className="mt-3 pt-2 border-t border-maroon-50 flex items-center justify-between text-[11px]">
+                    <span className="text-stone-400">All devotees welcome</span>
+                    <Link
+                      href="/about#worship"
+                      className="font-semibold text-saffron-700 hover:text-saffron-800"
+                    >
+                      Aarti guide →
+                    </Link>
+                  </div>
+                </SpotlightCard>
               ))}
-            </RevealGroup>
-            <Reveal y={24}>
-              <HelpdeskCard settings={settings} />
-            </Reveal>
+            </div>
+
+            {/* Quick Timing Summary Strip */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-xl border border-gold-300/60 bg-cream-100/70 p-3.5 text-xs text-stone-700">
+              <span className="flex items-center gap-2 font-medium text-maroon-950">
+                <Clock className="h-4 w-4 text-saffron-600 shrink-0" />
+                <span>
+                  <strong>Temple Hours:</strong> {settings.morning_opening} – {settings.night_closing}{" "}
+                  (Daily)
+                </span>
+              </span>
+              <Link
+                href="/about#worship"
+                className="font-bold text-saffron-700 hover:underline shrink-0"
+              >
+                Directions &amp; Visit Guide →
+              </Link>
+            </div>
+          </div>
+
+          {/* Right Column: Events & Announcements */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="flex items-center justify-between border-b border-maroon-100 pb-2">
+              <span className="text-xs font-bold tracking-[0.18em] text-saffron-700 uppercase flex items-center gap-1.5">
+                <Bell className="h-3.5 w-3.5 text-saffron-600" />
+                Latest Announcements
+              </span>
+              <Link href="/events" className="text-xs font-semibold text-saffron-700 hover:underline">
+                All Events
+              </Link>
+            </div>
+
+            {/* Upcoming Event Invitation Card */}
+            <div className="rounded-3xl border-2 border-gold-400/80 bg-linear-to-br from-amber-50/90 via-white to-orange-50/80 p-5 shadow-sm">
+              <div className="flex items-center justify-between border-b border-gold-200/80 pb-3">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-saffron-500 px-3 py-0.5 text-[11px] font-bold text-white uppercase tracking-wider">
+                  Upcoming Sacred Event
+                </span>
+                <span className="text-xs font-bold text-maroon-900">23 Nov 2026</span>
+              </div>
+              <div className="mt-4 flex gap-4 items-start">
+                <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-2xl border-2 border-gold-300 shadow-xs bg-white">
+                  <Image
+                    src="/assets/content/universe/sai_baba4_b.webp"
+                    alt="Bhagawan Sri Sathya Sai Baba"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="font-display text-base font-bold text-maroon-950 leading-snug">
+                    The 101st Birthday of Bhagawan Sri Sathya Sai Baba
+                  </h4>
+                  <p className="text-xs text-stone-600 leading-relaxed line-clamp-3">
+                    With hearts full of devotion and gratitude, we joyfully invite you to join us in
+                    celebrating The 101st Birthday of Bhagawan Sri Sathya Sai Baba.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-3.5 pt-3 border-t border-gold-200/70 text-xs text-stone-700 space-y-1">
+                <p>
+                  <strong>Timing:</strong> 5:00 PM onwards
+                </p>
+                <p>
+                  <strong>Venue:</strong> Satyadeep Sai baba temple, NH-58, Godwin Estate, Roorkee Road, Meerut, UP
+                </p>
+              </div>
+              <div className="mt-4 flex items-center justify-between">
+                <Link
+                  href="/events"
+                  className="btn-festive inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold text-white shadow-xs"
+                >
+                  View Event Details →
+                </Link>
+              </div>
+            </div>
+
+            {/* Announcements List */}
+            <div className="space-y-3">
+              {announcements.length > 0 &&
+                announcements.map((a) => (
+                  <article
+                    key={a.id}
+                    className="rounded-2xl border border-maroon-100 bg-white p-4 shadow-2xs transition-all hover:border-saffron-300"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <h4 className="font-display text-sm font-bold text-maroon-900">
+                        {a.title}
+                      </h4>
+                      <span className="rounded-md bg-cream-100 px-2 py-0.5 text-[10px] font-bold text-maroon-800 shrink-0">
+                        Notice
+                      </span>
+                    </div>
+                    <p className="mt-1.5 text-xs leading-relaxed text-stone-600">{a.content}</p>
+                  </article>
+                ))}
+
+              {/* Temple Helpdesk Card */}
+              <div className="rounded-2xl border border-maroon-100 bg-white p-4 shadow-2xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-maroon-900">Temple Office &amp; Helpdesk</span>
+                  <span className="text-[11px] text-stone-400">Open 7 Days</span>
+                </div>
+                <div className="mt-2 text-xs space-y-1 text-stone-600">
+                  {settings.phone && <p>Tel / WhatsApp: {settings.phone}</p>}
+                  {settings.email && <p>Email: {settings.email}</p>}
+                </div>
+                <div className="mt-3 flex items-center justify-between pt-2 border-t border-maroon-50 text-xs">
+                  <Link href="/contact" className="font-bold text-saffron-700 hover:underline">
+                    Contact Temple Office
+                  </Link>
+                  <ChevronRight className="h-3.5 w-3.5 text-stone-400" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Pujniye Maa's message ────────────────────────── */}
-      <section className="section-dawn relative overflow-hidden">
-        <div aria-hidden className="pattern-jali absolute inset-0 opacity-50" />
-        <Reveal className="relative mx-auto max-w-6xl px-4 py-14 text-center">
-          <p className="text-xs font-semibold tracking-[0.25em] text-saffron-700 uppercase">
-            Pujniye Maa&apos;s Message
-          </p>
-          <blockquote className="mx-auto mt-4 max-w-3xl font-display text-2xl leading-relaxed font-medium text-balance text-red-700 sm:text-3xl">
-            “Love all, serve all. Every act of service offered with a pure heart reaches
-            Baba&apos;s lotus feet.”
-          </blockquote>
-          <Link
-            href="/about"
-            className="btn-festive mt-6 inline-block min-h-12 rounded-full px-6 py-2.5 font-bold text-white shadow-lg transition-all hover:shadow-xl active:scale-[0.98]"
-          >
-            About Sai Oracle
-          </Link>
-        </Reveal>
-      </section>
+      {/* ── Unified Spiritual Sanctuary Banner (Maa's Message + Instagram Highlight) ── */}
+      <section className="section-dawn relative overflow-hidden py-14 border-y border-maroon-100/70">
+        <div aria-hidden className="pattern-jali absolute inset-0 opacity-40" />
+        <div className="relative mx-auto max-w-6xl px-4">
+          <div className="grid grid-cols-1 gap-8 items-center lg:grid-cols-12">
+            {/* Left: Maa's Wisdom */}
+            <div className="lg:col-span-7">
+              <span className="inline-flex items-center gap-2 rounded-full border border-saffron-300/60 bg-saffron-100/70 px-3 py-1 text-xs font-bold tracking-wider text-saffron-800 uppercase">
+                Maa&apos;s Divine Message
+              </span>
+              <blockquote className="mt-4 font-display text-2xl leading-relaxed font-bold text-red-700 sm:text-3xl">
+                &ldquo;Love all, serve all. Every act of service offered with a pure heart reaches
+                Baba&apos;s lotus feet.&rdquo;
+              </blockquote>
+              <p className="mt-2 text-stone-600 text-sm">
+                Under the supreme guidance of beloved Maa, devotees walk the sacred path of
+                spiritual awakening, universal love, and selfless service.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link
+                  href="/gurumaa-life-sketch"
+                  className="rounded-full border border-maroon-300 bg-white/90 px-5 py-2 text-xs font-bold text-maroon-900 transition-colors hover:border-saffron-500 hover:bg-saffron-50 hover:text-saffron-800"
+                >
+                  Maa Life Sketch
+                </Link>
+                <Link
+                  href="/trust"
+                  className="rounded-full border border-maroon-300 bg-white/90 px-5 py-2 text-xs font-bold text-maroon-900 transition-colors hover:border-saffron-500 hover:bg-saffron-50 hover:text-saffron-800"
+                >
+                  Charitable Trust (80G)
+                </Link>
+                <Link
+                  href="/aims"
+                  className="rounded-full border border-maroon-300 bg-white/90 px-5 py-2 text-xs font-bold text-maroon-900 transition-colors hover:border-saffron-500 hover:bg-saffron-50 hover:text-saffron-800"
+                >
+                  Aims &amp; Objectives
+                </Link>
+              </div>
+            </div>
 
-      {/* ── Live darshan banner (Kashi free-darshan strip) ── */}
-      <LiveDarshanBanner youtubeUrl={settings.youtube_url} />
-
-      {/* ── Videos ───────────────────────────────────────── */}
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <SectionHeading
-          eyebrow="Bhajans & Darshan"
-          title="Latest from YouTube"
-          intro="Aartis, bhajans and discourses for your daily sadhana."
-        />
-        <RevealGroup className="mt-8 grid gap-6 md:grid-cols-3">
-          {videos.map((v) => (
-            <RevealItem key={v.id}>
-              <VideoCard video={v} />
-            </RevealItem>
-          ))}
-        </RevealGroup>
-        <div className="mt-8 text-center">
-          <ArrowLink
-            href="/gallery?tab=videos"
-            variant="outline"
-            className="border-gulal-400 px-6 py-2.5 text-gulal-700 hover:bg-gulal-500 hover:text-white"
-          >
-            Watch More Videos
-          </ArrowLink>
+            {/* Right: Instagram Highlight Card */}
+            <div className="lg:col-span-5">
+              <div className="rounded-2xl border border-pink-300/70 bg-white/95 p-6 shadow-md backdrop-blur-xs">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-pink-500/10 px-2.5 py-0.5 text-[11px] font-bold tracking-wider text-pink-700 uppercase">
+                  Featured On Instagram
+                </span>
+                <h3 className="mt-2 font-display text-xl font-bold text-maroon-900">
+                  Daily Darshan &amp; Sacred Moments
+                </h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-stone-600">
+                  Follow official daily darshan photographs, festive reels, and inspirational quotes on Instagram.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2.5">
+                  <a
+                    href={settings.instagram_url || "https://www.instagram.com/satyadeepsaioracle?stkn=MTVseDV6eGxmbW1odQ=="}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-pink-600 via-rose-600 to-purple-600 px-5 py-2 text-xs font-bold text-white shadow-xs hover:opacity-95 transition-opacity"
+                  >
+                    <span>Follow on Instagram</span>
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                  <Link
+                    href="/gallery"
+                    className="rounded-full border border-maroon-200 bg-cream-50 px-4 py-2 text-xs font-semibold text-maroon-800 hover:bg-maroon-100/60"
+                  >
+                    View Photo Gallery
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── Gallery preview ──────────────────────────────── */}
+      {/* ── Sacred Temple Video Archive (Videos 214312, 0037, 0030) ── */}
+      <section id="temple-videos" className="mx-auto max-w-6xl px-4 py-14">
+        <SectionHeading
+          eyebrow="Temple Video Archive"
+          title="Sacred Temple Moments &amp; Bhajans"
+          intro="Authentic video recordings of daily aartis, devotional satsangs, and Narayan Seva."
+        />
+        <RevealGroup className={`mt-8 grid gap-6 ${videos.length <= 2 ? "md:grid-cols-2 max-w-4xl mx-auto" : "md:grid-cols-3"}`}>
+          {videos.map((v) => {
+            const thumb = v.thumbnail_url || (v.youtube_url.includes("v=") ? `https://img.youtube.com/vi/${v.youtube_url.split("v=")[1].split("&")[0]}/hqdefault.jpg` : "/assets/content/gallery/20241024_195531.webp");
+            return (
+              <RevealItem key={v.id}>
+                <SpotlightCard className="overflow-hidden rounded-3xl border border-maroon-100 bg-white shadow-xs flex flex-col justify-between h-full">
+                  <div>
+                    <div className="relative aspect-video w-full overflow-hidden bg-stone-900">
+                      <Image
+                        src={thumb}
+                        alt={v.title}
+                        fill
+                        className="object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg transition-transform hover:scale-110">
+                          <Play className="h-5 w-5 ml-0.5" fill="currentColor" />
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-5">
+                      <h3 className="font-display text-lg font-bold text-maroon-900 leading-snug">
+                        {v.title}
+                      </h3>
+                      <p className="mt-2 text-xs leading-relaxed text-stone-600">
+                        Darshan, sacred rituals, and divine satsang at Satyadeep Sai Universe.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="p-5 pt-0">
+                    <a
+                      href={v.youtube_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50/80 px-4 py-2 text-xs font-bold text-red-700 transition-colors hover:bg-red-600 hover:text-white"
+                    >
+                      <span>Watch on YouTube</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                </SpotlightCard>
+              </RevealItem>
+            );
+          })}
+        </RevealGroup>
+        <div className="mt-8 text-center flex items-center justify-center gap-4">
+          <Link
+            href="/gallery"
+            className="btn-festive inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-xs font-bold text-white shadow-xs"
+          >
+            <span>Explore Photos &amp; Video Gallery</span>
+            <ChevronRight className="h-3.5 w-3.5" />
+          </Link>
+          <a
+            href={settings.youtube_url || "https://www.youtube.com"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-maroon-200 bg-white px-5 py-2.5 text-xs font-semibold text-maroon-900 hover:bg-maroon-50"
+          >
+            Visit YouTube Channel
+          </a>
+        </div>
+      </section>
+
+      {/* ── Gallery Preview ── */}
       {gallery.length > 0 && (
-        <section className="border-y border-maroon-100 bg-cream-100/60">
-          <div className="mx-auto max-w-6xl px-4 py-14">
-            <SectionHeading eyebrow="Moments" title="Temple Gallery" />
-            <Reveal>
-              <GalleryPreview images={gallery} />
-            </Reveal>
-            <div className="mt-8 text-center">
-              <ArrowLink
-                href="/gallery"
-                variant="outline"
-                className="border-peacock-400 px-6 py-2.5 text-peacock-700 hover:bg-peacock-500 hover:text-white"
-              >
-                Open Full Gallery
-              </ArrowLink>
-            </div>
+        <section className="mx-auto max-w-6xl px-4 pb-14">
+          <SectionHeading eyebrow="Moments" title="Temple Gallery" />
+          <Reveal>
+            <GalleryPreview images={gallery} />
+          </Reveal>
+          <div className="mt-8 text-center">
+            <ArrowLink
+              href="/gallery"
+              variant="outline"
+              className="border-peacock-400 px-6 py-2.5 text-peacock-700 hover:bg-peacock-500 hover:text-white"
+            >
+              Open Full Gallery
+            </ArrowLink>
           </div>
         </section>
       )}
 
-      {/* ── Devotee experiences ──────────────────────────── */}
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <SectionHeading
-          eyebrow="Devotees Speak"
-          title="Experiences of Faith"
-          intro="Stories of grace shared by devotees of Sai Oracle."
-        />
-        <Reveal className="mt-8">
-          <Testimonials items={experiences} />
-        </Reveal>
+      {/* ── Devotee Experiences ── */}
+      <section className="border-t border-maroon-100/70 bg-cream-50/80 py-14 sm:py-18">
+        <div className="mx-auto max-w-6xl px-4">
+          <SectionHeading
+            eyebrow="Devotees Speak"
+            title="Experiences of Faith"
+            intro="Stories of grace shared by devotees of Sai Oracle."
+          />
+          <Reveal className="mt-8">
+            <Testimonials items={experiences} />
+          </Reveal>
+          <div className="mt-10 text-center">
+            <Link
+              href="/experiences"
+              className="btn-festive inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold text-white shadow-md transition-all hover:shadow-xl active:scale-[0.98]"
+            >
+              <span>Read All Devotee Experiences (8 Chapters · 16 Stories)</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
       </section>
 
-      {/* ── Visit / contact + social ─────────────────────── */}
-      <section className="section-dawn text-stone-900">
+      {/* ── Plan Your Visit ── */}
+      <section className="section-dawn text-stone-900 border-t border-maroon-100">
         <div aria-hidden className="divider-festive" />
         <RevealGroup className="mx-auto grid max-w-6xl gap-10 px-4 py-14 lg:grid-cols-2">
           <RevealItem>
@@ -317,16 +531,18 @@ export default async function Home() {
             <address className="mt-4 text-[16px] leading-relaxed text-stone-600 not-italic">
               {settings.address}
             </address>
-            <p className="mt-2 flex items-center gap-1.5 text-[16px] text-stone-600">
-              <Clock aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />
-              Daily {settings.morning_opening} – {settings.night_closing}
-            </p>
+            <div className="mt-3 space-y-1 text-[15px] text-stone-600">
+              <p className="flex items-center gap-1.5 font-medium text-maroon-900">
+                <Clock aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />
+                Temple Hours: 6:30 AM – 12:30 PM &amp; 4:00 PM – 8:30 PM (All 7 Days)
+              </p>
+            </div>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link
-                href="/contact"
+                href="/how-to-reach"
                 className="btn-festive min-h-12 rounded-full px-6 py-2.5 font-bold text-white shadow-lg transition-all hover:shadow-xl active:scale-[0.98]"
               >
-                Contact & Directions
+                Visit Temple &amp; How to Reach
               </Link>
               {settings.maps_url && (
                 <a

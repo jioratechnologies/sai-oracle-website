@@ -17,12 +17,14 @@ export default function FloatingShowcase({
   alt,
   className = "",
   imageClassName = "",
+  aspectClassName = "aspect-4/3",
 }: {
   src: string;
   alt: string;
   className?: string;
   /** object-fit/position for the photo, e.g. focus the top on mobile crops. */
   imageClassName?: string;
+  aspectClassName?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
@@ -74,21 +76,21 @@ export default function FloatingShowcase({
         style={tilt ? { rotateX, rotateY, transformStyle: "preserve-3d" } : undefined}
       >
         <div className={reduce ? "relative" : "float-bob relative"}>
-          {/* Double festive arch outline — gold rim + offset saffron echo */}
+          {/* Double festive border outline — gold rim + offset saffron echo */}
           <div
             aria-hidden
-            className="absolute -inset-2 rounded-t-full rounded-b-[2rem] border-2 border-gold-400/70"
+            className="absolute -inset-2 rounded-3xl border-2 border-gold-400/80"
           />
           <div
             aria-hidden
-            className="absolute -inset-4 rounded-t-full rounded-b-[2.5rem] border border-saffron-400/40"
+            className="absolute -inset-4 rounded-3xl border border-saffron-400/40"
           />
           <div
-            className="relative overflow-hidden rounded-t-full rounded-b-[1.75rem] shadow-[0_35px_60px_-15px_rgba(194,42,62,0.30)]"
+            className="relative overflow-hidden rounded-3xl shadow-[0_35px_60px_-15px_rgba(194,42,62,0.30)] bg-stone-900"
             style={
               {
                 WebkitBoxReflect:
-                  "below 4px linear-gradient(transparent 68%, rgba(255,235,190,0.20))",
+                  "below 4px linear-gradient(transparent 75%, rgba(255,235,190,0.25))",
               } as React.CSSProperties
             }
           >
@@ -96,8 +98,8 @@ export default function FloatingShowcase({
               key={src}
               src={src}
               alt={alt}
-              imageClassName={imageClassName || "object-cover"}
-              className="aspect-[3/4] w-full sm:aspect-736/1298"
+              imageClassName={imageClassName || "object-cover object-center"}
+              className={`${aspectClassName} w-full`}
             />
           </div>
         </div>

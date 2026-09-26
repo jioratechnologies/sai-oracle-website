@@ -1,11 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 import { Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import WhatsAppFab from "@/components/WhatsAppFab";
+import PublicSiteLayout from "@/components/PublicSiteLayout";
 import { getSettings, getTimings } from "@/lib/site";
 
 const display = Playfair_Display({
@@ -26,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | Sai Oracle",
   },
   description:
-    "Sai Oracle (Satyadeep Sai Organisation), Meerut — a temple dedicated to the Trinity of Sai Avatars. Daily aartis, bhajans, events, Narayan Seva and discourses. Om Sai Ram.",
+    "Sai Oracle (Satyadeep Sai Organisation), Meerut — a temple of Love, Service and Unity under the divine guidance of Bhagwan Sri Sathya Sai Baba and beloved Maa. Daily aartis, bhajans, events, Narayan Seva and discourses. Om Sai Ram.",
   metadataBase: new URL("https://saioracle.com"),
   openGraph: {
     title: "Sai Oracle — Om Sai Ram",
@@ -35,8 +31,11 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: [
+      { url: "/logo.png", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/logo.png",
   },
 };
 
@@ -46,35 +45,13 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const [settings, timings] = await Promise.all([getSettings(), getTimings()]);
-  const headerList = await headers();
-  const isAdmin = headerList.get("x-admin-route") === "1";
 
   return (
     <html lang="en" className={`${display.variable} ${sans.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
-        {isAdmin ? (
-          <main id="main" className="flex-1">
-            {children}
-          </main>
-        ) : (
-          <>
-            <a
-              href="#main"
-              className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-gold-300 focus:px-4 focus:py-2"
-            >
-              Skip to content
-            </a>
-            <div className="sticky top-0 z-40">
-              <AnnouncementBar />
-              <Header organizationName={settings.organization_name} />
-            </div>
-            <main id="main" className="flex-1">
-              {children}
-            </main>
-            <Footer settings={settings} timings={timings} />
-            <WhatsAppFab whatsappUrl={settings.whatsapp_url} />
-          </>
-        )}
+        <PublicSiteLayout settings={settings} timings={timings}>
+          {children}
+        </PublicSiteLayout>
       </body>
     </html>
   );

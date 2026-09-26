@@ -18,6 +18,40 @@ import {
 export const dynamic = "force-dynamic";
 const BUCKET = "temple-media";
 
+async function compressImageClient(file: File, maxWidth = 1920, quality = 0.82): Promise<{ blob: Blob; ext: string }> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let { width, height } = img;
+      if (width > maxWidth) {
+        height = Math.round((height * maxWidth) / width);
+        width = maxWidth;
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return resolve({ blob: file, ext: file.name.split(".").pop() || "jpg" });
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) return resolve({ blob: file, ext: file.name.split(".").pop() || "jpg" });
+          resolve({ blob, ext: "webp" });
+        },
+        "image/webp",
+        quality
+      );
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      resolve({ blob: file, ext: file.name.split(".").pop() || "jpg" });
+    };
+    img.src = url;
+  });
+}
+
 export default function AdminGalleryPage() {
   const [rows, setRows] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,8 +73,6 @@ export default function AdminGalleryPage() {
   }
 
   useEffect(() => {
-    // Mount fetch for the admin list — legitimate external sync.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
   }, []);
 
@@ -56,10 +88,13 @@ export default function AdminGalleryPage() {
       let done = 0;
       for (const file of Array.from(files)) {
         if (!file.type.startsWith("image/")) throw new Error(`“${file.name}” is not an image.`);
-        if (file.size > 8 * 1024 * 1024) throw new Error(`“${file.name}” is larger than 8 MB.`);
-        const ext = file.name.split(".").pop() || "jpg";
-        const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-        const { error: upErr } = await sb.storage.from(BUCKET).upload(path, file);
+        setProgress(`Compressing and optimizing “${file.name}”…`);
+        const { blob, ext } = await compressImageClient(file);
+        const path = `gallery/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+        const { error: upErr } = await sb.storage.from(BUCKET).upload(path, blob, {
+          contentType: ext === "webp" ? "image/webp" : file.type,
+          upsert: true,
+        });
         if (upErr) throw new Error(`Upload failed: ${upErr.message}`);
         const {
           data: { publicUrl },
@@ -69,7 +104,7 @@ export default function AdminGalleryPage() {
           .insert({ title: title.trim() || file.name, image_url: publicUrl });
         if (dbErr) throw dbErr;
         done += 1;
-        setProgress(`Uploaded ${done} of ${files.length}…`);
+        setProgress(`Uploaded & compressed ${done} of ${files.length}…`);
       }
       setFiles(null);
       setTitle("");

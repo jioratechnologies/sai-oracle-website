@@ -1,6 +1,5 @@
 import type { CSSProperties } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
-import PageHero from "@/components/PageHero";
 import ArrowLink from "@/components/ArrowLink";
 import TimingsTable from "@/components/TimingsTable";
 import SocialLinks, { buildSocialLinks } from "@/components/SocialLinks";
@@ -14,14 +13,21 @@ export default async function ContactPage() {
   const [settings, timings] = await Promise.all([getSettings(), getTimings()]);
   const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(settings.address)}&output=embed`;
   return (
-    <>
-      <PageHero
-        eyebrow="We Welcome You"
-        title="Contact Us"
-        intro="For programme details, seva contributions or general enquiries, reach the temple office."
-      />
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid gap-8 lg:grid-cols-2">
+    <section className="mx-auto max-w-6xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-10">
+      {/* Compact In-Page Header */}
+      <div className="mx-auto max-w-3xl text-center border-b border-maroon-100/80 pb-8">
+        <span className="inline-flex items-center gap-2 rounded-full border border-saffron-300/80 bg-saffron-50 px-3.5 py-1 text-xs font-bold text-saffron-800 uppercase tracking-wider">
+          We Welcome You · Temple Information
+        </span>
+        <h1 className="mt-3.5 font-display text-3xl font-extrabold text-maroon-900 sm:text-4xl lg:text-[2.6rem] leading-tight">
+          Contact Us
+        </h1>
+        <p className="mt-2.5 text-[15.5px] leading-relaxed text-stone-600 sm:text-[16.5px]">
+          For programme details, seva contributions or general enquiries, reach the temple office.
+        </p>
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-2">
           <div className="space-y-6">
             <div className="rounded-2xl border border-maroon-100 bg-white p-6 shadow-sm">
               <h2 className="font-display text-2xl font-bold text-maroon-900">Temple Office</h2>
@@ -102,13 +108,14 @@ export default async function ContactPage() {
               <p className="font-semibold text-maroon-900">Directions to reach</p>
               <p className="mt-1">
                 Located on NH-58 (Roorkee Road), Meerut Cantt — near the 3rd Milestone Restaurant,
-                Godwin Estate, Sofipur. Easily reachable by road from Delhi, Haridwar and
-                Muzaffarnagar.
+                Godwin Estate, Sofipur. NH-58 connects Delhi with Haridwar and Rishikesh, about 65 km
+                from Delhi by road and roughly 60 km from Delhi&apos;s ISBT. The nearest railway
+                station and bus stand are in Meerut, about 5 km away; Delhi&apos;s IGI Airport is
+                around 100 km, with taxis available for the onward drive.
               </p>
             </div>
           </div>
         </div>
       </section>
-    </>
   );
 }
