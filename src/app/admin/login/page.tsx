@@ -60,6 +60,7 @@ export default function AdminLoginPage() {
                   alt="Sai Oracle — Bhagwan Sri Sathya Sai Baba"
                   fill
                   priority
+                  sizes="96px"
                   className="object-cover object-top"
                 />
               </div>
