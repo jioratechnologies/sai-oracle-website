@@ -28,6 +28,7 @@ interface AdminUser {
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<AdminUser[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -59,6 +60,9 @@ export default function AdminUsersPage() {
       }
       const data = await res.json();
       setUsers(data.users || []);
+      if (data.currentUserId) {
+        setCurrentUserId(data.currentUserId);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load users");
     } finally {
@@ -330,14 +334,34 @@ export default function AdminUsersPage() {
                       >
                         <Edit2 className="h-3.5 w-3.5" />
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => setDeletingUser(user)}
-                        title="Delete user"
-                        className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
+                      {(() => {
+                        const adminCount = users.filter((u) => u.role === "admin").length;
+                        const isSelf = user.id === currentUserId;
+                        const isSoleAdmin = adminCount <= 1 && user.role === "admin";
+                        const canDelete = !isSelf && !isSoleAdmin;
+
+                        return (
+                          <button
+                            type="button"
+                            disabled={!canDelete}
+                            onClick={() => canDelete && setDeletingUser(user)}
+                            title={
+                              isSelf
+                                ? "You cannot delete your own logged-in account"
+                                : isSoleAdmin
+                                ? "Cannot delete the only remaining admin account"
+                                : "Delete user"
+                            }
+                            className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border transition-colors ${
+                              canDelete
+                                ? "border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 cursor-pointer"
+                                : "border-stone-200 text-stone-300 cursor-not-allowed bg-stone-50"
+                            }`}
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        );
+                      })()}
                     </div>
                   </td>
                 </tr>

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { MonitorPlay } from "lucide-react";
-import { supabaseBrowser } from "@/lib/supabase";
 import { getYouTubeId, youtubeThumbnail } from "@/lib/youtube";
 import type { YoutubeVideo } from "@/lib/types";
 import {
@@ -30,22 +29,25 @@ export default function AdminVideosPage() {
   const previewId = getYouTubeId(url);
 
   async function load() {
-    const sb = supabaseBrowser();
-    if (!sb) {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/videos");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Failed to load videos (status ${res.status})`);
+      }
+      const data = await res.json();
+      setRows(data.rows ?? []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load videos.");
+      setRows([]);
+    } finally {
       setLoading(false);
-      return;
     }
-    const { data } = await sb
-      .from("youtube_videos")
-      .select("*")
-      .order("created_at", { ascending: false });
-    setRows((data ?? []) as YoutubeVideo[]);
-    setLoading(false);
   }
 
   useEffect(() => {
-    // Mount fetch for the admin list — legitimate external sync.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
   }, []);
 
@@ -54,16 +56,20 @@ export default function AdminVideosPage() {
     setSaving(true);
     setError("");
     try {
-      const sb = supabaseBrowser();
-      if (!sb) throw new Error("Supabase is not configured.");
       if (!title.trim()) throw new Error("A title is required.");
       if (!getYouTubeId(url)) throw new Error("That doesn't look like a valid YouTube link or video ID.");
-      const { error } = await sb.from("youtube_videos").insert({
-        title: title.trim(),
-        youtube_url: url.trim(),
-        published: true,
+
+      const res = await fetch("/api/admin/videos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: title.trim(), url: url.trim() }),
       });
-      if (error) throw error;
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to save video.");
+      }
+
       setTitle("");
       setUrl("");
       await load();
@@ -75,17 +81,29 @@ export default function AdminVideosPage() {
   }
 
   async function togglePublish(v: YoutubeVideo) {
-    const sb = supabaseBrowser();
-    if (!sb) return;
-    await sb.from("youtube_videos").update({ published: !v.published }).eq("id", v.id);
-    load();
+    try {
+      const res = await fetch("/api/admin/videos", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: v.id, published: !v.published }),
+      });
+      if (res.ok) {
+        setRows((prev) =>
+          prev.map((item) => (item.id === v.id ? { ...item, published: !item.published } : item))
+        );
+      }
+    } catch {}
   }
 
   async function remove(id: string) {
-    const sb = supabaseBrowser();
-    if (!sb) return;
-    await sb.from("youtube_videos").delete().eq("id", id);
-    load();
+    try {
+      const res = await fetch(`/api/admin/videos?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setRows((prev) => prev.filter((item) => item.id !== id));
+      }
+    } catch {}
   }
 
   if (!isAdminConfigured) {

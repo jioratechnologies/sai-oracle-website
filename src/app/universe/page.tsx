@@ -4,7 +4,7 @@ import { Sparkles, Heart, Compass, Clock, MapPin, ArrowRight, ShieldCheck, Sun, 
 import SpotlightCard from "@/components/motion/SpotlightCard";
 import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import SectionHeading from "@/components/SectionHeading";
-import { getSettings } from "@/lib/site";
+import { getSettings, getTimings } from "@/lib/site";
 import UniverseVideoSection from "./UniverseVideoSection";
 
 export const metadata = {
@@ -14,7 +14,11 @@ export const metadata = {
 };
 
 export default async function UniversePage() {
-  const settings = await getSettings();
+  const [settings, timings] = await Promise.all([getSettings(), getTimings()]);
+  const aartis = timings.filter((t) => !/open|clos/i.test(t.label));
+  const aartiSummary = aartis.length > 0
+    ? aartis.slice(0, 3).map((a) => `${a.label}: ${a.time}`).join(" · ")
+    : "Morning, Midday & Evening Daily Aartis";
 
   const healingPillars = [
     {
@@ -236,9 +240,8 @@ export default async function UniversePage() {
               <h3 className="font-display text-xl font-bold text-maroon-900">
                 Open All 7 Days
               </h3>
-              <p className="text-xs text-stone-600">
-                Morning: 6:30 AM – 12:30 PM<br />
-                Evening: 4:00 PM – 8:30 PM
+              <p className="text-xs text-stone-600 font-medium">
+                Sanctum Hours: {settings.morning_opening} – {settings.night_closing}
               </p>
             </div>
 
@@ -247,8 +250,8 @@ export default async function UniversePage() {
                 <Sparkles className="h-4 w-4" />
                 Daily Aarti Schedule
               </span>
-              <h3 className="font-display text-base font-bold text-maroon-900">
-                Morning: 9:00 AM · Afternoon: 12:00 PM · Evening: 6:30 PM
+              <h3 className="font-display text-sm sm:text-base font-bold text-maroon-900">
+                {aartiSummary}
               </h3>
               <p className="text-xs text-stone-600">
                 All devotees are warmly invited to take part and receive sacred prasad.

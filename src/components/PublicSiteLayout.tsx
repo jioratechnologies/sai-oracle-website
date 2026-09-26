@@ -3,17 +3,18 @@
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import DonationFab from "@/components/DonationFab";
-import type { SiteSettings, AartiTiming } from "@/lib/types";
+import AnnouncementBarClient from "@/components/AnnouncementBarClient";
+import type { SiteSettings, AartiTiming, Announcement } from "@/lib/types";
 
 export default function PublicSiteLayout({
   settings,
   timings,
+  announcements = [],
   children,
 }: {
   settings: SiteSettings;
   timings: AartiTiming[];
+  announcements?: Announcement[];
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -32,7 +33,9 @@ export default function PublicSiteLayout({
         Skip to content
       </a>
       <div className="sticky top-0 z-40">
-        <AnnouncementBar />
+        {announcements.length > 0 && (
+          <AnnouncementBarClient latest={announcements[0]} settings={settings} />
+        )}
         <Header organizationName={settings.organization_name} />
       </div>
       <main id="main" className="flex-1">
@@ -41,7 +44,6 @@ export default function PublicSiteLayout({
       <div className="pb-24 sm:pb-0">
         <Footer settings={settings} timings={timings} />
       </div>
-      <DonationFab />
     </>
   );
 }

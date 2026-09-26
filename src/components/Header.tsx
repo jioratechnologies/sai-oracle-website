@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu as MenuIcon, X, ChevronDown, Search } from "lucide-react";
+import { Menu as MenuIcon, X, ChevronDown, Search, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import OmMark from "./OmMark";
 import { Menu, MenuItem, HoveredLink, ProductItem } from "./ui/navbar-menu";
@@ -538,6 +538,18 @@ export default function Header({ organizationName }: HeaderProps) {
               </kbd>
             </button>
 
+            {/* Donation CTA Button */}
+            <Link
+              href="/trust#donation"
+              className="flex items-center gap-1.5 rounded-full bg-linear-to-r from-saffron-600 via-amber-600 to-maroon-800 px-3.5 xl:px-4 py-2 text-xs xl:text-[13px] font-bold text-white shadow-md ring-1 ring-gold-300/50 transition-all hover:scale-105 hover:shadow-lg active:scale-95 shrink-0 whitespace-nowrap"
+            >
+              <Heart className="h-3.5 w-3.5 fill-gold-300 text-gold-300 animate-pulse" />
+              <span>Donate</span>
+              <span className="rounded-full bg-amber-400/30 px-1.5 py-0.2 text-[9.5px] font-extrabold text-amber-100 ring-1 ring-amber-300/40">
+                80G
+              </span>
+            </Link>
+
             {/* Action CTA Button pointing to /how-to-reach */}
             <Link
               href="/how-to-reach"
@@ -549,6 +561,14 @@ export default function Header({ organizationName }: HeaderProps) {
 
           {/* Mobile Search & Hamburger Actions */}
           <div className="flex items-center gap-1.5 lg:hidden shrink-0">
+            <Link
+              href="/trust#donation"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-r from-saffron-600 via-amber-600 to-maroon-800 text-white shadow-md ring-1 ring-gold-300/50 transition-transform active:scale-95 shrink-0"
+              aria-label="Donate via UPI & Bank"
+            >
+              <Heart className="h-4 w-4 fill-gold-300 text-gold-300 animate-pulse" />
+            </Link>
+
             <button
               type="button"
               onClick={() => setSearchOpen(true)}

@@ -41,7 +41,7 @@ export async function GET() {
       last_sign_in_at: u.last_sign_in_at,
     }));
 
-    return NextResponse.json({ users: sanitizedUsers });
+    return NextResponse.json({ users: sanitizedUsers, currentUserId: caller.id });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to fetch users";
     return NextResponse.json({ error: message }, { status: 500 });
@@ -156,10 +156,33 @@ export async function DELETE(req: NextRequest) {
 
     // Prevent user from accidentally deleting themselves
     if (caller.id === id) {
-      return NextResponse.json({ error: "You cannot delete your own logged-in account" }, { status: 400 });
+      return NextResponse.json(
+        { error: "You cannot delete your own logged-in account." },
+        { status: 400 },
+      );
     }
 
     const sb = getAdminClient();
+    const { data: { users }, error: listErr } = await sb.auth.admin.listUsers();
+    if (listErr) throw listErr;
+
+    const targetUser = users.find((u) => u.id === id);
+    if (!targetUser) {
+      return NextResponse.json({ error: "User not found." }, { status: 404 });
+    }
+
+    // Check if target is admin and if they are the last remaining admin
+    const targetRole = targetUser.user_metadata?.role || "admin";
+    if (targetRole === "admin") {
+      const adminCount = users.filter((u) => (u.user_metadata?.role || "admin") === "admin").length;
+      if (adminCount <= 1) {
+        return NextResponse.json(
+          { error: "Cannot delete the only remaining admin account. At least one admin is required." },
+          { status: 400 },
+        );
+      }
+    }
+
     const { error } = await sb.auth.admin.deleteUser(id);
     if (error) throw error;
 

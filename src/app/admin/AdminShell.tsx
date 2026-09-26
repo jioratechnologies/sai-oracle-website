@@ -6,12 +6,12 @@ import {
   CalendarDays,
   Clock,
   ExternalLink,
-  FileText,
   Images,
   LayoutDashboard,
   Megaphone,
   MonitorPlay,
   Settings,
+  Sliders,
   Users,
 } from "lucide-react";
 import OmMark from "@/components/OmMark";
@@ -23,8 +23,8 @@ const NAV = [
   [Megaphone, "Announcements", "/admin/announcements"],
   [MonitorPlay, "YouTube", "/admin/videos"],
   [Images, "Gallery", "/admin/gallery"],
+  [Sliders, "Hero Slider", "/admin/slider"],
   [Clock, "Temple Timings", "/admin/timings"],
-  [FileText, "Pages", "/admin/pages"],
   [Users, "Users", "/admin/users"],
   [Settings, "Settings", "/admin/settings"],
 ] as const;
@@ -39,10 +39,10 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <div className="min-h-screen bg-cream-100 lg:flex">
-      {/* Sidebar */}
-      <aside className="bg-maroon-950 text-cream-100 lg:flex lg:w-60 lg:shrink-0 lg:flex-col shadow-xl">
-        <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10">
+    <div className="min-h-screen bg-cream-100 lg:flex lg:h-screen lg:overflow-hidden">
+      {/* Fixed Desktop Sidebar */}
+      <aside className="bg-maroon-950 text-cream-100 lg:flex lg:w-64 lg:shrink-0 lg:flex-col lg:h-screen lg:overflow-y-auto shadow-xl z-20">
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10 shrink-0">
           <OmMark className="h-10 w-10 shrink-0" />
           <div className="leading-tight">
             <p className="font-display text-lg font-bold tracking-tight text-white">Sai Oracle</p>
@@ -57,7 +57,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             View Site <ExternalLink aria-hidden className="h-3 w-3" />
           </a>
         </div>
-        <nav aria-label="Admin" className="flex gap-1 overflow-x-auto p-3 lg:flex-col lg:overflow-visible">
+        <nav aria-label="Admin" className="flex flex-1 flex-col gap-1 overflow-x-auto p-3 lg:overflow-visible">
           {NAV.map(([Icon, label, href]) => (
             <Link
               key={href}
@@ -72,15 +72,15 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               <span>{label}</span>
             </Link>
           ))}
-          <div className="hidden lg:mt-4 lg:block lg:border-t lg:border-white/10 lg:pt-3">
+          <div className="hidden lg:mt-auto lg:block lg:border-t lg:border-white/10 lg:pt-3">
             <LogoutButton />
           </div>
         </nav>
       </aside>
 
-      {/* Content */}
-      <div className="flex-1 lg:min-w-0">
-        <div className="hidden items-center justify-between border-b border-maroon-100 bg-white/90 backdrop-blur-xs px-8 py-3.5 lg:flex shadow-2xs">
+      {/* Main Content Area (Independent scroll) */}
+      <div className="flex-1 lg:min-w-0 lg:h-screen lg:overflow-y-auto flex flex-col">
+        <div className="sticky top-0 z-10 hidden items-center justify-between border-b border-maroon-100 bg-white/95 backdrop-blur-xs px-8 py-3.5 lg:flex shadow-2xs shrink-0">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-semibold text-stone-500 tracking-wide">

@@ -1,51 +1,23 @@
 import Link from "next/link";
 import { CalendarDays, Images, Megaphone, MonitorPlay } from "lucide-react";
 import { Card, SetupNotice } from "@/components/admin/ui";
-import { isSupabaseConfigured, supabaseServer } from "@/lib/supabase";
-import { seedAnnouncements, seedEvents, seedGallery, seedVideos } from "@/lib/seed";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import { formatEventDate } from "@/lib/format";
+import { getDataStats } from "@/lib/dataStore";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = { title: "Admin Dashboard" };
 
 async function getStats() {
-  const sb = await supabaseServer();
-  if (!sb) {
-    const today = new Date().toISOString().slice(0, 10);
-    return {
-      configured: false as const,
-      events: seedEvents.filter((e) => e.status === "published").length,
-      announcements: seedAnnouncements.filter((a) => a.status === "published").length,
-      gallery: seedGallery.length,
-      videos: seedVideos.filter((v) => v.published).length,
-      upcoming: seedEvents
-        .filter((e) => e.status === "published" && e.event_date >= today)
-        .sort((a, b) => a.event_date.localeCompare(b.event_date))
-        .slice(0, 5),
-    };
-  }
-  const today = new Date().toISOString().slice(0, 10);
-  const [events, announcements, gallery, videos, upcoming] = await Promise.all([
-    sb.from("events").select("id", { count: "exact", head: true }).eq("status", "published"),
-    sb.from("announcements").select("id", { count: "exact", head: true }).eq("status", "published"),
-    sb.from("gallery").select("id", { count: "exact", head: true }),
-    sb.from("youtube_videos").select("id", { count: "exact", head: true }).eq("published", true),
-    sb
-      .from("events")
-      .select("id,title,event_date")
-      .eq("status", "published")
-      .gte("event_date", today)
-      .order("event_date", { ascending: true })
-      .limit(5),
-  ]);
+  const stats = await getDataStats();
   return {
     configured: true as const,
-    events: events.count ?? 0,
-    announcements: announcements.count ?? 0,
-    gallery: gallery.count ?? 0,
-    videos: videos.count ?? 0,
-    upcoming: (upcoming.data ?? []) as { id: string; title: string; event_date: string }[],
+    events: stats.eventsCount,
+    announcements: stats.announcementsCount,
+    gallery: stats.galleryCount,
+    videos: stats.videosCount,
+    upcoming: stats.upcoming,
   };
 }
 
@@ -122,6 +94,7 @@ export default async function AdminDashboard() {
             ["+ Add YouTube Video", "/admin/videos"],
             ["Upload Photos", "/admin/gallery"],
             ["Manage Users", "/admin/users"],
+            ["+ Hero Slider", "/admin/slider"],
           ].map(([label, href]) => (
             <Link
               key={href + label}

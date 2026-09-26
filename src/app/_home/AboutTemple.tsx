@@ -4,10 +4,15 @@ import { Heart, HandHeart, Globe2, Sparkles, ArrowRight, Clock } from "lucide-re
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import { resolveMediaUrl } from "@/lib/image";
-import { getMediaMap } from "@/lib/site";
+import { getMediaMap, getSettings, getTimings } from "@/lib/site";
 
 export default async function AboutTemple() {
-  const mediaMap = await getMediaMap();
+  const [mediaMap, settings, timings] = await Promise.all([
+    getMediaMap(),
+    getSettings(),
+    getTimings(),
+  ]);
+  const aartiCount = timings.filter((t) => /aarti/i.test(t.label)).length || 3;
 
   const pillars = [
     {
@@ -114,8 +119,8 @@ export default async function AboutTemple() {
           <dl className="mt-7 grid grid-cols-3 gap-3 border-t border-maroon-100 pt-5">
             {[
               ["Love All", "Serve All"],
-              ["3 Daily", "Aartis"],
-              ["7 Days", "Open 6:30 AM – 8:30 PM"],
+              [`${aartiCount} Daily`, "Aartis"],
+              ["7 Days", `Open ${settings.morning_opening} – ${settings.night_closing}`],
             ].map(([big, small]) => (
               <div key={big + small}>
                 <dt className="sr-only">{big}</dt>
@@ -160,7 +165,7 @@ export default async function AboutTemple() {
           <div className="absolute -bottom-6 left-4 hidden rounded-2xl border border-maroon-100 bg-white/95 px-4 py-3 shadow-lg backdrop-blur sm:block">
             <p className="flex items-center gap-1.5 font-display text-lg leading-none font-extrabold text-maroon-900">
               <Clock aria-hidden className="h-4 w-4 text-saffron-600" />
-              6:30 AM
+              {settings.morning_opening}
             </p>
             <p className="mt-1 text-xs text-stone-500">Opens Daily · 7 Days</p>
           </div>

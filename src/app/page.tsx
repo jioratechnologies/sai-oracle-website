@@ -25,6 +25,7 @@ import {
   getAnnouncements,
   getExperiences,
   getGallery,
+  getHeroSlides,
   getMediaMap,
   getSettings,
   getTimings,
@@ -32,23 +33,31 @@ import {
   getVideos,
 } from "@/lib/site";
 import { resolveMediaUrl } from "@/lib/image";
-import { getShowcaseSlides } from "@/lib/showcase";
 import { DEFAULT_SLIDES } from "@/lib/heroSlides";
+import { formatEventDate, formatTime } from "@/lib/format";
+import { seedEvents, seedTimings } from "@/lib/seed";
+import type { AartiTiming } from "@/lib/types";
 import GalleryPreview from "./_home/GalleryPreview";
 import SevaServices from "./_home/SevaServices";
 import AboutTemple from "./_home/AboutTemple";
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 const AARTI_DESCRIPTIONS: Record<string, string> = {
   Kakad: "Dawn awakening of the Lord — begin the day at Baba's feet.",
+  Morning: "Morning prayers, bhajans and sacred offerings at the sanctum.",
   Madhyan: "Midday worship and offerings in the sanctum.",
+  Afternoon: "Midday worship and offerings in the sanctum.",
   Dhoop: "Evening lamp worship with bhajans and Naam Smaranam.",
+  Evening: "Evening lamp worship with bhajans and Naam Smaranam.",
   Shej: "Night rest ceremony and prasad distribution.",
+  Night: "Night rest ceremony and prasad distribution.",
+  Opening: "Temple doors open for morning darshan and prayer.",
+  Closing: "Temple sanctum closing after night aarti.",
 };
 
 export default async function Home() {
-  const [settings, events, timings, announcements, videos, gallery, showcase, mediaMap] =
+  const [settings, events, timings, announcements, videos, gallery, savedSlides, mediaMap] =
     await Promise.all([
       getSettings(),
       getUpcomingEvents(3),
@@ -56,34 +65,70 @@ export default async function Home() {
       getAnnouncements(3),
       getVideos(3),
       getGallery(6),
-      getShowcaseSlides(),
+      getHeroSlides(),
       getMediaMap(),
     ]);
   const experiences = getExperiences();
-  const heroSlides =
-    showcase.length > 0
-      ? showcase
-      : DEFAULT_SLIDES.map((s) => ({ ...s, src: resolveMediaUrl(mediaMap, s.src) }));
+  const rawSlides = savedSlides && savedSlides.length > 0 ? savedSlides : DEFAULT_SLIDES;
+  const heroSlides = rawSlides.map((s) => ({
+    ...s,
+    src: resolveMediaUrl(mediaMap, s.src),
+  }));
 
-  // Extract the 4 primary aartis cleanly
-  const aartis = timings.filter((t) => /aarti/i.test(t.label)).slice(0, 4);
-  const aartiRows = (aartis.length > 0 ? aartis : timings.slice(0, 4)).map((t, i) => {
+  // Render all active temple timings configured in Admin
+  const displayTimings = timings.length > 0 ? timings : seedTimings;
+  const aartiRows = displayTimings.map((t, i) => {
     const key = Object.keys(AARTI_DESCRIPTIONS).find((k) =>
       t.label.toLowerCase().includes(k.toLowerCase())
     );
+    let desc = "Daily worship at the sanctum — all devotees welcome.";
+    if (key && AARTI_DESCRIPTIONS[key]) {
+      desc = AARTI_DESCRIPTIONS[key];
+    } else if (/open/i.test(t.label)) {
+      desc = "Sanctum gates open for morning darshan and prayer.";
+    } else if (/clos/i.test(t.label)) {
+      desc = "Sanctum gates close after evening prayers and Shej Aarti.";
+    }
     return {
       ...t,
-      desc: (key && AARTI_DESCRIPTIONS[key]) || "Daily worship at the sanctum — all devotees welcome.",
-      accent: ["text-saffron-700 bg-saffron-50 border-saffron-200", "text-gulal-700 bg-gulal-50 border-gulal-200", "text-peacock-700 bg-peacock-50 border-peacock-200", "text-maroon-700 bg-gold-50 border-gold-200"][i % 4],
+      desc,
+      accent: [
+        "text-saffron-700 bg-saffron-50 border-saffron-200",
+        "text-gulal-700 bg-gulal-50 border-gulal-200",
+        "text-peacock-700 bg-peacock-50 border-peacock-200",
+        "text-maroon-700 bg-gold-50 border-gold-200",
+        "text-amber-800 bg-amber-50 border-amber-200",
+        "text-emerald-800 bg-emerald-50 border-emerald-200",
+      ][i % 6],
     };
   });
+
+  const openingTime =
+    timings.find((t) => /open/i.test(t.label))?.time ??
+    timings[0]?.time ??
+    settings.morning_opening;
+
+  // Dynamic Featured Event (connects to live events from DB, falling back to seedEvents[0])
+  const featuredEvent = events[0] || seedEvents[0];
+  const featuredDate = featuredEvent.event_date ? formatEventDate(featuredEvent.event_date) : "23 Nov 2026";
+  const featuredImage = resolveMediaUrl(
+    mediaMap,
+    featuredEvent.image_url || "/assets/content/universe/sai_baba4_b.webp"
+  );
+  const featuredTime = featuredEvent.start_time
+    ? `${formatTime(featuredEvent.start_time)} onwards`
+    : "5:00 PM onwards";
+  const featuredVenue =
+    featuredEvent.location ||
+    "Satyadeep Sai baba temple, NH-58, Godwin Estate, Roorkee Road, Meerut, UP";
+  const featuredLink = featuredEvent.slug ? `/events/${featuredEvent.slug}` : "/events";
 
   return (
     <>
       <HeroCarousel
         organizationName={settings.organization_name}
         tagline={settings.tagline}
-        openingTime={timings[0]?.time ?? settings.morning_opening}
+        openingTime={openingTime}
         slides={heroSlides}
       />
 
@@ -231,7 +276,7 @@ export default async function Home() {
           </div>
 
           {/* Right Column: Events & Announcements */}
-          <div className="lg:col-span-5 space-y-4">
+          <div id="announcements" className="lg:col-span-5 space-y-4 scroll-mt-32 transition-all duration-300">
             <div className="flex items-center justify-between border-b border-maroon-100 pb-2">
               <span className="text-xs font-bold tracking-[0.18em] text-saffron-700 uppercase flex items-center gap-1.5">
                 <Bell className="h-3.5 w-3.5 text-saffron-600" />
@@ -243,49 +288,95 @@ export default async function Home() {
             </div>
 
             {/* Upcoming Event Invitation Card */}
-            <div className="rounded-3xl border-2 border-gold-400/80 bg-linear-to-br from-amber-50/90 via-white to-orange-50/80 p-5 shadow-sm">
-              <div className="flex items-center justify-between border-b border-gold-200/80 pb-3">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-saffron-500 px-3 py-0.5 text-[11px] font-bold text-white uppercase tracking-wider">
-                  Upcoming Sacred Event
-                </span>
-                <span className="text-xs font-bold text-maroon-900">23 Nov 2026</span>
-              </div>
-              <div className="mt-4 flex gap-4 items-start">
-                <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-2xl border-2 border-gold-300 shadow-xs bg-white">
-                  <Image
-                    src="/assets/content/universe/sai_baba4_b.webp"
-                    alt="Bhagawan Sri Sathya Sai Baba"
-                    fill
-                    className="object-cover"
-                  />
+            {featuredEvent && (
+              <div className="rounded-3xl border-2 border-gold-400/80 bg-linear-to-br from-amber-50/90 via-white to-orange-50/80 p-5 shadow-sm">
+                <div className="flex items-center justify-between border-b border-gold-200/80 pb-3">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-saffron-500 px-3 py-0.5 text-[11px] font-bold text-white uppercase tracking-wider">
+                    Upcoming Sacred Event
+                  </span>
+                  <span className="text-xs font-bold text-maroon-900">{featuredDate}</span>
                 </div>
-                <div className="space-y-1">
-                  <h4 className="font-display text-base font-bold text-maroon-950 leading-snug">
-                    The 101st Birthday of Bhagawan Sri Sathya Sai Baba
-                  </h4>
-                  <p className="text-xs text-stone-600 leading-relaxed line-clamp-3">
-                    With hearts full of devotion and gratitude, we joyfully invite you to join us in
-                    celebrating The 101st Birthday of Bhagawan Sri Sathya Sai Baba.
+                <div className="mt-4 flex gap-4 items-start">
+                  <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-2xl border-2 border-gold-300 shadow-xs bg-white">
+                    <Image
+                      src={featuredImage}
+                      alt={featuredEvent.title}
+                      fill
+                      sizes="80px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="font-display text-base font-bold text-maroon-950 leading-snug">
+                      {featuredEvent.title}
+                    </h4>
+                    <p className="text-xs text-stone-600 leading-relaxed line-clamp-3">
+                      {featuredEvent.description || "Join us in celebrating this sacred occasion at the temple."}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-3.5 pt-3 border-t border-gold-200/70 text-xs text-stone-700 space-y-1">
+                  <p>
+                    <strong>Timing:</strong> {featuredTime}
+                  </p>
+                  <p>
+                    <strong>Venue:</strong> {featuredVenue}
                   </p>
                 </div>
+                <div className="mt-4 flex items-center justify-between">
+                  <Link
+                    href={featuredLink}
+                    className="btn-festive inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold text-white shadow-xs"
+                  >
+                    View Event Details →
+                  </Link>
+                </div>
               </div>
-              <div className="mt-3.5 pt-3 border-t border-gold-200/70 text-xs text-stone-700 space-y-1">
-                <p>
-                  <strong>Timing:</strong> 5:00 PM onwards
-                </p>
-                <p>
-                  <strong>Venue:</strong> Satyadeep Sai baba temple, NH-58, Godwin Estate, Roorkee Road, Meerut, UP
-                </p>
+            )}
+
+            {/* Subsequent Upcoming Events List */}
+            {events.length > 1 && (
+              <div className="space-y-2">
+                {events.slice(1, 3).map((e) => {
+                  const dParts = e.event_date ? e.event_date.split("-") : [];
+                  const monthName = e.event_date
+                    ? new Date(e.event_date + "T00:00:00").toLocaleDateString("en-IN", { month: "short" })
+                    : "Event";
+                  const dayNum = dParts[2] || "--";
+
+                  return (
+                    <Link
+                      key={e.id}
+                      href={e.slug ? `/events/${e.slug}` : "/events"}
+                      className="group flex items-center justify-between gap-3 rounded-2xl border border-gold-200/80 bg-linear-to-r from-amber-50/70 to-white p-3 shadow-2xs transition-all hover:border-gold-400 hover:shadow-xs"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="flex flex-col items-center justify-center rounded-xl bg-saffron-500/10 border border-saffron-500/25 px-2.5 py-1 text-center shrink-0">
+                          <span className="text-[10px] font-bold text-saffron-800 uppercase leading-none">
+                            {monthName}
+                          </span>
+                          <span className="text-sm font-extrabold text-maroon-900 leading-tight">
+                            {dayNum}
+                          </span>
+                        </span>
+                        <div className="min-w-0">
+                          <h5 className="font-display text-xs sm:text-[13px] font-bold text-maroon-950 truncate group-hover:text-maroon-700">
+                            {e.title}
+                          </h5>
+                          <p className="text-[11px] text-stone-500 truncate">
+                            {e.start_time ? `${formatTime(e.start_time)} · ` : ""}
+                            {e.location || "Temple Sanctum"}
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-bold text-saffron-700 shrink-0 group-hover:translate-x-0.5 transition-transform">
+                        Details →
+                      </span>
+                    </Link>
+                  );
+                })}
               </div>
-              <div className="mt-4 flex items-center justify-between">
-                <Link
-                  href="/events"
-                  className="btn-festive inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold text-white shadow-xs"
-                >
-                  View Event Details →
-                </Link>
-              </div>
-            </div>
+            )}
 
             {/* Announcements List */}
             <div className="space-y-3">
@@ -423,6 +514,7 @@ export default async function Home() {
                         src={thumb}
                         alt={v.title}
                         fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover transition-transform duration-300 hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
@@ -534,7 +626,7 @@ export default async function Home() {
             <div className="mt-3 space-y-1 text-[15px] text-stone-600">
               <p className="flex items-center gap-1.5 font-medium text-maroon-900">
                 <Clock aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />
-                Temple Hours: 6:30 AM – 12:30 PM &amp; 4:00 PM – 8:30 PM (All 7 Days)
+                Temple Hours: {settings.morning_opening} – {settings.night_closing} (All 7 Days)
               </p>
             </div>
             <div className="mt-5 flex flex-wrap gap-3">

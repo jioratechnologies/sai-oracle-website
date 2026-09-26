@@ -28,13 +28,15 @@ export default function AdminSettingsPage() {
 
   useEffect(() => {
     (async () => {
-      const sb = supabaseBrowser();
-      if (!sb) {
-        setLoading(false);
-        return;
+      try {
+        const res = await fetch("/api/admin/settings");
+        if (res.ok) {
+          const { settings } = await res.json();
+          if (settings) setForm(settings);
+        }
+      } catch (err) {
+        console.error(err);
       }
-      const { data } = await sb.from("site_settings").select("*").limit(1).single();
-      if (data) setForm({ ...seedSettings, ...data });
       setLoading(false);
     })();
   }, []);
@@ -49,17 +51,14 @@ export default function AdminSettingsPage() {
     setError("");
     setSaved("");
     try {
-      const sb = supabaseBrowser();
-      if (!sb) throw new Error("Supabase is not configured.");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, ...payload } = form;
-      if (form.id) {
-        const { error } = await sb.from("site_settings").update(payload).eq("id", form.id);
-        if (error) throw error;
-      } else {
-        const { data, error } = await sb.from("site_settings").insert(payload).select().single();
-        if (error) throw error;
-        if (data) setForm((f) => ({ ...f, id: data.id }));
+      const res = await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ settings: form }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to save");
       }
       setSaved("✓ Settings saved — the website header, footer and contact page are updated.");
     } catch (err) {

@@ -15,11 +15,13 @@ import type {
   Announcement,
   ExperienceStory,
   GalleryImage,
+  ShowcaseSlide,
   SitePage,
   SiteSettings,
   TempleEvent,
   YoutubeVideo,
 } from "./types";
+import { DEFAULT_SLIDES } from "./heroSlides";
 
 /**
  * Public read layer.
@@ -43,91 +45,109 @@ async function query<T>(table: string, apply: (q: never) => never): Promise<T[] 
   }
 }
 
+import { getCollection } from "./dataStore";
+
 function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
 export async function getUpcomingEvents(limit = 6): Promise<TempleEvent[]> {
-  const rows = await query<TempleEvent>("events", (q) =>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (q as any)
-      .select("*")
-      .eq("status", "published")
-      .gte("event_date", todayISO())
-      .order("event_date", { ascending: true })
-      .limit(limit) as never,
-  );
-  if (rows) return rows;
-  return seedEvents
+  const events = await getCollection<TempleEvent>("events", seedEvents);
+  return events
     .filter((e) => e.status === "published" && e.event_date >= todayISO())
     .sort((a, b) => a.event_date.localeCompare(b.event_date))
     .slice(0, limit);
 }
 
 export async function getAllEvents(): Promise<TempleEvent[]> {
-  const rows = await query<TempleEvent>("events", (q) =>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (q as any).select("*").eq("status", "published").order("event_date", { ascending: true }) as never,
-  );
-  if (rows) return rows;
-  return seedEvents
+  const events = await getCollection<TempleEvent>("events", seedEvents);
+  return events
     .filter((e) => e.status === "published")
     .sort((a, b) => a.event_date.localeCompare(b.event_date));
 }
 
 export async function getEventBySlug(slug: string): Promise<TempleEvent | null> {
-  try {
-    const sb = await supabaseServer();
-    if (sb) {
-      const { data, error } = await sb
-        .from("events")
-        .select("*")
-        .eq("slug", slug)
-        .eq("status", "published")
-        .single();
-      if (!error && data) return data as TempleEvent;
-      if (sb) return null; // configured: DB is source of truth
-    }
-  } catch {
-    // fall through to seed
-  }
-  return seedEvents.find((e) => e.slug === slug && e.status === "published") ?? null;
+  const events = await getCollection<TempleEvent>("events", seedEvents);
+  return events.find((e) => e.slug === slug && e.status === "published") ?? null;
 }
 
 export async function getAnnouncements(limit = 5): Promise<Announcement[]> {
-  const rows = await query<Announcement>("announcements", (q) =>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (q as any)
-      .select("*")
-      .eq("status", "published")
-      .order("created_at", { ascending: false })
-      .limit(limit) as never,
-  );
-  if (rows) return rows;
-  return seedAnnouncements
+  const announcements = await getCollection<Announcement>("announcements", seedAnnouncements);
+  return announcements
     .filter((a) => a.status === "published")
     .slice(0, limit);
 }
 
 export async function getVideos(limit = 6): Promise<YoutubeVideo[]> {
-  const rows = await query<YoutubeVideo>("youtube_videos", (q) =>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (q as any)
-      .select("*")
-      .eq("published", true)
-      .order("created_at", { ascending: false })
-      .limit(limit) as never,
-  );
-  if (rows) return rows;
-  return seedVideos.filter((v) => v.published).slice(0, limit);
+  const videos = await getCollection<YoutubeVideo>("youtube_videos", seedVideos);
+  return videos.filter((v) => v.published).slice(0, limit);
+}
+
+export async function getHeroSlides(): Promise<ShowcaseSlide[]> {
+  const slides = await getCollection<ShowcaseSlide>("hero_slides", DEFAULT_SLIDES);
+  return slides;
+}
+
+function cleanGalleryTitle(key: string): string {
+  const filename = key.split("/").pop() || "";
+  const name = filename.replace(/\.[^/.]+$/, "");
+  return name
+    .replace(/^\d+[-_]/, "")
+    .replace(/^images_/, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .trim();
 }
 
 export async function getGallery(limit = 12): Promise<GalleryImage[]> {
-  const rows = await query<GalleryImage>("gallery", (q) =>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (q as any).select("*").order("created_at", { ascending: false }).limit(limit) as never,
-  );
-  if (rows) return rows;
+  try {
+    const sb = await supabaseServer();
+    if (sb) {
+      // 1. Try gallery table
+      const { data: gData, error: gErr } = await sb
+        .from("gallery")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(limit);
+      if (!gErr && gData && gData.length > 0) return gData as GalleryImage[];
+
+      // 2. Query media_assets
+      const { data: mData, error: mErr } = await sb
+        .from("media_assets")
+        .select("key, url, updated_at")
+        .not("key", "like", "\\_\\_%")
+        .order("updated_at", { ascending: false })
+        .limit(limit);
+
+      if (!mErr && mData && mData.length > 0) {
+        const { data: meta } = await sb
+          .from("media_assets")
+          .select("url")
+          .eq("key", "__meta:gallery_captions")
+          .maybeSingle();
+
+        let captions: Record<string, string> = {};
+        if (meta?.url) {
+          try {
+            captions = JSON.parse(meta.url);
+          } catch {}
+        }
+
+        return mData
+          .filter(
+            (m) =>
+              !m.key.startsWith("__") &&
+              (m.url.startsWith("http://") || m.url.startsWith("https://") || m.url.startsWith("/"))
+          )
+          .map((m) => ({
+            id: m.key,
+            title: captions[m.key] || captions[m.url] || cleanGalleryTitle(m.key),
+            image_url: m.url,
+            created_at: m.updated_at || new Date().toISOString(),
+          }));
+      }
+    }
+  } catch {}
   return seedGallery.slice(0, limit);
 }
 
@@ -139,50 +159,68 @@ export async function getGallery(limit = 12): Promise<GalleryImage[]> {
 export async function getMediaMap(): Promise<Record<string, string>> {
   const rows = await query<{ key: string; url: string }>("media_assets", (q) =>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (q as any).select("key, url") as never,
+    (q as any)
+      .select("key, url")
+      .not("key", "like", "\\_\\_%") as never,
   );
   if (!rows) return {};
-  return Object.fromEntries(rows.map((r) => [r.key, r.url]));
+  return Object.fromEntries(
+    rows
+      .filter((r) => !r.key.startsWith("__"))
+      .map((r) => [r.key, r.url])
+  );
 }
 
 export async function getTimings(): Promise<AartiTiming[]> {
-  const rows = await query<AartiTiming>("temple_timings", (q) =>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (q as any).select("*").order("sort_order", { ascending: true }) as never,
-  );
-  if (rows) return rows;
-  return seedTimings;
+  const timings = await getCollection<AartiTiming>("temple_timings", seedTimings);
+  return [...timings].sort((a, b) => a.sort_order - b.sort_order);
 }
 
 export async function getSettings(): Promise<SiteSettings> {
+  let settings: SiteSettings = { ...seedSettings };
   try {
-    const sb = await supabaseServer();
-    if (sb) {
-      const { data, error } = await sb.from("site_settings").select("*").limit(1).single();
-      if (!error && data) {
-        return {
-          organization_name: data.organization_name ?? seedSettings.organization_name,
-          tagline: data.tagline ?? seedSettings.tagline,
-          description: data.description ?? seedSettings.description,
-          phone: data.phone ?? "",
-          email: data.email ?? "",
-          address: data.address ?? "",
-          maps_url: data.maps_url ?? "",
-          instagram_url: data.instagram_url ?? "",
-          facebook_url: data.facebook_url ?? "",
-          youtube_url: data.youtube_url ?? "",
-          whatsapp_url: data.whatsapp_url ?? "",
-          x_url: data.x_url ?? "",
-          morning_opening: data.morning_opening ?? seedSettings.morning_opening,
-          night_closing: data.night_closing ?? seedSettings.night_closing,
-        };
-      }
-      if (sb) return seedSettings; // configured but row missing → seed defaults
+    const { getSettingsData } = await import("@/lib/dataStore");
+    const data = await getSettingsData();
+    if (data) {
+      settings = {
+        organization_name: data.organization_name ?? seedSettings.organization_name,
+        tagline: data.tagline ?? seedSettings.tagline,
+        description: data.description ?? seedSettings.description,
+        phone: data.phone ?? "",
+        email: data.email ?? "",
+        address: data.address ?? "",
+        maps_url: data.maps_url ?? "",
+        instagram_url: data.instagram_url ?? "",
+        facebook_url: data.facebook_url ?? "",
+        youtube_url: data.youtube_url ?? "",
+        whatsapp_url: data.whatsapp_url ?? "",
+        x_url: data.x_url ?? "",
+        morning_opening: data.morning_opening ?? seedSettings.morning_opening,
+        night_closing: data.night_closing ?? seedSettings.night_closing,
+      };
     }
   } catch {
     // fall through
   }
-  return seedSettings;
+
+  // Dynamically sync morning_opening and night_closing from temple_timings collection
+  try {
+    const timings = await getTimings();
+    if (timings && timings.length > 0) {
+      const openTiming = timings.find((t) => /open/i.test(t.label)) || timings[0];
+      const closeTiming = timings.find((t) => /clos/i.test(t.label)) || timings[timings.length - 1];
+      if (openTiming?.time) {
+        settings.morning_opening = openTiming.time;
+      }
+      if (closeTiming?.time) {
+        settings.night_closing = closeTiming.time;
+      }
+    }
+  } catch {
+    // preserve base defaults
+  }
+
+  return settings;
 }
 
 export async function getPage(slug: string): Promise<SitePage | null> {

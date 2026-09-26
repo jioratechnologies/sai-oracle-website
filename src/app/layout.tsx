@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
 import PublicSiteLayout from "@/components/PublicSiteLayout";
-import { getSettings, getTimings } from "@/lib/site";
+import { getAnnouncements, getSettings, getTimings } from "@/lib/site";
 
 const display = Playfair_Display({
   variable: "--font-display",
@@ -44,12 +44,24 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const [settings, timings] = await Promise.all([getSettings(), getTimings()]);
+  const [settings, timings, announcements] = await Promise.all([
+    getSettings(),
+    getTimings(),
+    getAnnouncements(3),
+  ]);
 
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${display.variable} ${sans.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col">
-        <PublicSiteLayout settings={settings} timings={timings}>
+        <PublicSiteLayout
+          settings={settings}
+          timings={timings}
+          announcements={announcements}
+        >
           {children}
         </PublicSiteLayout>
       </body>

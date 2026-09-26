@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Clock } from "lucide-react";
-import { supabaseBrowser } from "@/lib/supabase";
 import type { AartiTiming } from "@/lib/types";
 import {
   BackLink,
@@ -27,19 +26,25 @@ export default function AdminTimingsPage() {
   const [saved, setSaved] = useState("");
 
   async function load() {
-    const sb = supabaseBrowser();
-    if (!sb) {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/timings");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Failed to load timings (status ${res.status})`);
+      }
+      const data = await res.json();
+      setRows(data.rows ?? []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load temple timings.");
+      setRows([]);
+    } finally {
       setLoading(false);
-      return;
     }
-    const { data } = await sb.from("temple_timings").select("*").order("sort_order");
-    setRows((data ?? []) as AartiTiming[]);
-    setLoading(false);
   }
 
   useEffect(() => {
-    // Mount fetch for the admin list — legitimate external sync.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
   }, []);
 
@@ -49,17 +54,29 @@ export default function AdminTimingsPage() {
     setError("");
     setSaved("");
     try {
-      const sb = supabaseBrowser();
-      if (!sb) throw new Error("Supabase is not configured.");
       for (let i = 0; i < rows.length; i++) {
         const r = rows[i];
         if (!r.label.trim() || !r.time.trim()) throw new Error("Every row needs a name and a time.");
-        const { error } = await sb
-          .from("temple_timings")
-          .update({ label: r.label.trim(), time: r.time.trim(), sort_order: i + 1 })
-          .eq("id", r.id);
-        if (error) throw error;
       }
+
+      const res = await fetch("/api/admin/timings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          rows: rows.map((r, i) => ({
+            ...r,
+            label: r.label.trim(),
+            time: r.time.trim(),
+            sort_order: i + 1,
+          })),
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to save timings.");
+      }
+
       setSaved("✓ Timings saved — the website is updated.");
       await load();
     } catch (err) {
@@ -73,13 +90,23 @@ export default function AdminTimingsPage() {
     e.preventDefault();
     setError("");
     try {
-      const sb = supabaseBrowser();
-      if (!sb) throw new Error("Supabase is not configured.");
       if (!label.trim() || !time.trim()) throw new Error("Give the new row a name and a time.");
-      const { error } = await sb
-        .from("temple_timings")
-        .insert({ label: label.trim(), time: time.trim(), sort_order: rows.length + 1 });
-      if (error) throw error;
+      const newRow: AartiTiming = {
+        id: `timing-${Date.now()}`,
+        label: label.trim(),
+        time: time.trim(),
+        sort_order: rows.length + 1,
+      };
+      const updated = [...rows, newRow];
+      const res = await fetch("/api/admin/timings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rows: updated }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to add timing.");
+      }
       setLabel("");
       setTime("");
       await load();
@@ -89,10 +116,15 @@ export default function AdminTimingsPage() {
   }
 
   async function remove(id: string) {
-    const sb = supabaseBrowser();
-    if (!sb) return;
-    await sb.from("temple_timings").delete().eq("id", id);
-    setRows((r) => r.filter((x) => x.id !== id));
+    const updated = rows.filter((x) => x.id !== id);
+    setRows(updated);
+    try {
+      await fetch("/api/admin/timings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rows: updated }),
+      });
+    } catch {}
   }
 
   function move(index: number, dir: -1 | 1) {

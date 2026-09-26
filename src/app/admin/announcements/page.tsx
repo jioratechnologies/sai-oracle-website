@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Bell, Megaphone } from "lucide-react";
-import { supabaseBrowser } from "@/lib/supabase";
 import type { Announcement } from "@/lib/types";
 import {
   BackLink,
@@ -28,22 +27,25 @@ export default function AdminAnnouncementsPage() {
   const [error, setError] = useState("");
 
   async function load() {
-    const sb = supabaseBrowser();
-    if (!sb) {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/announcements");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Failed to load announcements (status ${res.status})`);
+      }
+      const data = await res.json();
+      setRows(data.rows ?? []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load announcements.");
+      setRows([]);
+    } finally {
       setLoading(false);
-      return;
     }
-    const { data } = await sb
-      .from("announcements")
-      .select("*")
-      .order("created_at", { ascending: false });
-    setRows((data ?? []) as Announcement[]);
-    setLoading(false);
   }
 
   useEffect(() => {
-    // Mount fetch for the admin list — legitimate external sync.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
   }, []);
 
@@ -59,20 +61,28 @@ export default function AdminAnnouncementsPage() {
     setSaving(true);
     setError("");
     try {
-      const sb = supabaseBrowser();
-      if (!sb) throw new Error("Supabase is not configured.");
       if (!title.trim() || !content.trim()) throw new Error("Title and message are required.");
+
       if (editing) {
-        const { error } = await sb
-          .from("announcements")
-          .update({ title: title.trim(), content: content.trim() })
-          .eq("id", editing);
-        if (error) throw error;
+        const res = await fetch("/api/admin/announcements", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: editing, title: title.trim(), content: content.trim() }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || "Failed to update announcement.");
+        }
       } else {
-        const { error } = await sb
-          .from("announcements")
-          .insert({ title: title.trim(), content: content.trim(), status: "published" });
-        if (error) throw error;
+        const res = await fetch("/api/admin/announcements", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title: title.trim(), content: content.trim() }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || "Failed to publish announcement.");
+        }
       }
       reset();
       await load();
@@ -84,20 +94,30 @@ export default function AdminAnnouncementsPage() {
   }
 
   async function togglePublish(a: Announcement) {
-    const sb = supabaseBrowser();
-    if (!sb) return;
-    await sb
-      .from("announcements")
-      .update({ status: a.status === "published" ? "draft" : "published" })
-      .eq("id", a.id);
-    load();
+    const nextStatus = a.status === "published" ? "draft" : "published";
+    try {
+      const res = await fetch("/api/admin/announcements", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: a.id, status: nextStatus }),
+      });
+      if (res.ok) {
+        setRows((prev) =>
+          prev.map((item) => (item.id === a.id ? { ...item, status: nextStatus } : item))
+        );
+      }
+    } catch {}
   }
 
   async function remove(id: string) {
-    const sb = supabaseBrowser();
-    if (!sb) return;
-    await sb.from("announcements").delete().eq("id", id);
-    load();
+    try {
+      const res = await fetch(`/api/admin/announcements?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setRows((prev) => prev.filter((item) => item.id !== id));
+      }
+    } catch {}
   }
 
   if (!isAdminConfigured) {

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Navigation, Car, Train, Plane, Clock, Phone, Mail, ExternalLink } from "lucide-react";
 import SpotlightCard from "@/components/motion/SpotlightCard";
-import { getSettings } from "@/lib/site";
+import { getSettings, getTimings } from "@/lib/site";
 
 export const metadata = {
   title: "Visit Temple & How to Reach · Sai Oracle",
@@ -11,7 +11,7 @@ export const metadata = {
 };
 
 export default async function HowToReachPage() {
-  const settings = await getSettings();
+  const [settings, timings] = await Promise.all([getSettings(), getTimings()]);
 
   return (
     <section className="mx-auto max-w-6xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-10 sm:space-y-12">
@@ -71,20 +71,25 @@ export default async function HowToReachPage() {
 
             {/* Timings card */}
             <div className="rounded-2xl border border-saffron-200 bg-saffron-50/70 p-4 space-y-2 text-xs text-stone-700">
-              <div className="flex items-center gap-2 font-bold text-maroon-950 text-sm">
-                <Clock className="h-4 w-4 text-saffron-600" />
-                <span>Visiting Timings (Open All 7 Days)</span>
+              <div className="flex items-center justify-between gap-2 font-bold text-maroon-950 text-sm">
+                <span className="flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-saffron-600" />
+                  <span>Sanctum Hours (All 7 Days)</span>
+                </span>
+                <span className="text-xs text-saffron-700 bg-saffron-100/80 px-2.5 py-0.5 rounded-full font-bold">
+                  {settings.morning_opening} – {settings.night_closing}
+                </span>
               </div>
-              <div className="grid grid-cols-2 gap-2 pt-1 border-t border-saffron-200/60">
-                <div>
-                  <span className="text-stone-500 font-medium">Morning:</span>{" "}
-                  <strong className="text-stone-900">6:30 AM – 12:30 PM</strong>
+              {timings.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-2 border-t border-saffron-200/60">
+                  {timings.slice(0, 6).map((t) => (
+                    <div key={t.id} className="bg-white/80 rounded-xl p-2 border border-saffron-100">
+                      <div className="text-[11px] text-stone-500 font-medium truncate">{t.label}</div>
+                      <div className="text-xs font-bold text-maroon-900 mt-0.5">{t.time}</div>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <span className="text-stone-500 font-medium">Evening:</span>{" "}
-                  <strong className="text-stone-900">4:00 PM – 8:30 PM</strong>
-                </div>
-              </div>
+              )}
             </div>
 
             {/* Address & Direct Map CTA */}

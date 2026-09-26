@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { CalendarDays } from "lucide-react";
-import { supabaseBrowser } from "@/lib/supabase";
 import { slugify, formatEventDate } from "@/lib/format";
 import type { TempleEvent } from "@/lib/types";
+import ImageUploader from "@/components/admin/ImageUploader";
 import {
   BackLink,
   Card,
@@ -41,19 +41,25 @@ export default function AdminEventsPage() {
   const [error, setError] = useState("");
 
   async function load() {
-    const sb = supabaseBrowser();
-    if (!sb) {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/events");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Failed to load events (status ${res.status})`);
+      }
+      const data = await res.json();
+      setRows(data.rows ?? []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load events.");
+      setRows([]);
+    } finally {
       setLoading(false);
-      return;
     }
-    const { data } = await sb.from("events").select("*").order("event_date", { ascending: false });
-    setRows((data ?? []) as TempleEvent[]);
-    setLoading(false);
   }
 
   useEffect(() => {
-    // Mount fetch for the admin list — legitimate external sync.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
   }, []);
 
@@ -85,8 +91,6 @@ export default function AdminEventsPage() {
     setSaving(true);
     setError("");
     try {
-      const sb = supabaseBrowser();
-      if (!sb) throw new Error("Supabase is not configured.");
       const payload = {
         title: form.title.trim(),
         slug: (form.slug.trim() || slugify(form.title)) ?? "",
@@ -100,12 +104,27 @@ export default function AdminEventsPage() {
         status: form.status,
       };
       if (!payload.title || !payload.event_date) throw new Error("Title and date are required.");
+
       if (editing === "new") {
-        const { error } = await sb.from("events").insert(payload);
-        if (error) throw error;
+        const res = await fetch("/api/admin/events", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || "Failed to create event.");
+        }
       } else {
-        const { error } = await sb.from("events").update(payload).eq("id", editing);
-        if (error) throw error;
+        const res = await fetch("/api/admin/events", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: editing, ...payload }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || "Failed to update event.");
+        }
       }
       setEditing(null);
       await load();
@@ -117,20 +136,30 @@ export default function AdminEventsPage() {
   }
 
   async function togglePublish(e: TempleEvent) {
-    const sb = supabaseBrowser();
-    if (!sb) return;
-    await sb
-      .from("events")
-      .update({ status: e.status === "published" ? "draft" : "published" })
-      .eq("id", e.id);
-    load();
+    const nextStatus = e.status === "published" ? "draft" : "published";
+    try {
+      const res = await fetch("/api/admin/events", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: e.id, status: nextStatus }),
+      });
+      if (res.ok) {
+        setRows((prev) =>
+          prev.map((item) => (item.id === e.id ? { ...item, status: nextStatus } : item))
+        );
+      }
+    } catch {}
   }
 
   async function remove(id: string) {
-    const sb = supabaseBrowser();
-    if (!sb) return;
-    await sb.from("events").delete().eq("id", id);
-    load();
+    try {
+      const res = await fetch(`/api/admin/events?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setRows((prev) => prev.filter((item) => item.id !== id));
+      }
+    } catch {}
   }
 
   if (!isAdminConfigured) {
@@ -228,24 +257,22 @@ export default function AdminEventsPage() {
                 onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
               />
             </Field>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Image URL" hint="Upload in Gallery first, then paste the URL here.">
-                <input
-                  className={inputCls}
-                  value={form.image_url}
-                  onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
-                  placeholder="https://…"
-                />
-              </Field>
-              <Field label="Registration URL (optional)">
-                <input
-                  className={inputCls}
-                  value={form.registration_url}
-                  onChange={(e) => setForm((f) => ({ ...f, registration_url: e.target.value }))}
-                  placeholder="https://…"
-                />
-              </Field>
-            </div>
+            <ImageUploader
+              label="Event Banner / Photo"
+              hint="Upload an image directly from your device (phone or laptop). It will be optimized and saved to Supabase storage."
+              value={form.image_url}
+              onChange={(url) => setForm((f) => ({ ...f, image_url: url }))}
+              folder="events"
+              aspectClass="aspect-video"
+            />
+            <Field label="Registration URL (optional)" hint="External link for devotee ticket or sign-up.">
+              <input
+                className={inputCls}
+                value={form.registration_url}
+                onChange={(e) => setForm((f) => ({ ...f, registration_url: e.target.value }))}
+                placeholder="https://…"
+              />
+            </Field>
             <Field label="Status">
               <select
                 className={inputCls}

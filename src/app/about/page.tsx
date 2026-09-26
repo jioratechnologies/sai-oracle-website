@@ -134,7 +134,7 @@ export default async function AboutPage() {
                 yearn to perform selfless service (Nishkama Seva) are welcomed with open arms.
               </p>
               <div className="rounded-2xl border border-saffron-200 bg-saffron-50/80 p-4 text-xs sm:text-sm text-maroon-950 font-medium">
-                <span className="font-bold">Sacred Sanctuary Hours:</span> Visitors and devotees can experience darshan daily in the morning from <strong>7:00 AM to 12:00 PM</strong> and in the evening from <strong>4:00 PM to 8:30 PM</strong>.
+                <span className="font-bold">Sacred Sanctuary Hours:</span> Visitors and devotees can experience darshan daily from <strong>{settings.morning_opening} to {settings.night_closing}</strong>.
               </div>
             </div>
 

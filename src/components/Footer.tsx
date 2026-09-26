@@ -11,6 +11,13 @@ export default function Footer({
   settings: SiteSettings;
   timings: AartiTiming[];
 }) {
+  const opening = settings.morning_opening || timings?.find((t) => /open/i.test(t.label))?.time || "6:30 AM";
+  const closing = settings.night_closing || timings?.find((t) => /clos/i.test(t.label))?.time || "8:30 PM";
+  const aartis = timings?.filter((t) => !/open|clos/i.test(t.label)) ?? [];
+  const aartiSummary = aartis.length > 0
+    ? aartis.slice(0, 2).map((a) => `${a.label}: ${a.time}`).join(" · ")
+    : "Daily Aartis & Sanctum Darshan";
+
   return (
     <footer className="section-dawn text-stone-700">
       <div aria-hidden className="divider-festive" />
@@ -95,10 +102,10 @@ export default function Footer({
           <div className="rounded-2xl border border-gold-200/80 bg-white/70 p-3 text-xs text-stone-700 space-y-1.5 shadow-xs">
             <p className="font-bold text-maroon-950 flex items-center justify-between">
               <span>Open All 7 Days</span>
-              <span className="text-emerald-700 font-semibold">6:30 AM – 8:30 PM</span>
+              <span className="text-emerald-700 font-semibold">{opening} – {closing}</span>
             </p>
             <p className="text-stone-500">
-              Morning Aarti: 9:00 AM · Evening Aarti: 6:30 PM
+              {aartiSummary}
             </p>
             <Link
               href="/about#worship"
