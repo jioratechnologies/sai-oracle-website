@@ -20,11 +20,11 @@ import type {
   TrustSettings,
 } from "@/lib/types";
 
-export function getAdminClient(): SupabaseClient {
+export function getAdminClient(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const secretKey = process.env.SUPABASE_SECRET_KEY;
   if (!url || !secretKey) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SECRET_KEY");
+    return null;
   }
   return createClient(url, secretKey, {
     auth: { autoRefreshToken: false, persistSession: false },
@@ -44,6 +44,9 @@ export async function verifyAuthUser() {
 
 export async function getCollection<T>(table: string, defaultSeed: T[]): Promise<T[]> {
   const sb = getAdminClient();
+  if (!sb) {
+    return defaultSeed;
+  }
 
   // 1. Try querying native table first
   try {
@@ -90,6 +93,9 @@ export async function getCollection<T>(table: string, defaultSeed: T[]): Promise
 
 export async function saveCollection<T>(table: string, items: T[]): Promise<void> {
   const sb = getAdminClient();
+  if (!sb) {
+    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SECRET_KEY");
+  }
   const metaKey = `__data:${table}`;
 
   // 1. Always save into Supabase media_assets metadata store
@@ -110,6 +116,9 @@ export async function saveCollection<T>(table: string, items: T[]): Promise<void
 
 export async function getSettingsData(): Promise<SiteSettings> {
   const sb = getAdminClient();
+  if (!sb) {
+    return seedSettings;
+  }
   const metaKey = "__data:site_settings";
 
   // 1. Try querying native table first
@@ -152,6 +161,9 @@ export async function getSettingsData(): Promise<SiteSettings> {
 
 export async function saveSettingsData(settings: SiteSettings): Promise<void> {
   const sb = getAdminClient();
+  if (!sb) {
+    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SECRET_KEY");
+  }
   const metaKey = "__data:site_settings";
 
   // 1. Always save into Supabase media_assets metadata store
@@ -171,6 +183,9 @@ export async function saveSettingsData(settings: SiteSettings): Promise<void> {
 
 export async function getTrustSettings(): Promise<TrustSettings> {
   const sb = getAdminClient();
+  if (!sb) {
+    return seedTrustSettings;
+  }
   const metaKey = "__data:trust_settings";
 
   try {
@@ -199,6 +214,9 @@ export async function getTrustSettings(): Promise<TrustSettings> {
 
 export async function saveTrustSettings(trust: TrustSettings): Promise<void> {
   const sb = getAdminClient();
+  if (!sb) {
+    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SECRET_KEY");
+  }
   const metaKey = "__data:trust_settings";
 
   await sb.from("media_assets").upsert({
@@ -208,7 +226,6 @@ export async function saveTrustSettings(trust: TrustSettings): Promise<void> {
   });
 }
 export async function getDataStats() {
-  const sb = getAdminClient();
   const today = new Date().toISOString().slice(0, 10);
 
   const [videos, announcements, events] = await Promise.all([
@@ -217,16 +234,20 @@ export async function getDataStats() {
     getCollection<TempleEvent>("events", seedEvents),
   ]);
 
+  const sb = getAdminClient();
+
   // Count photos in Supabase media_assets (excluding __meta and __data)
-  let galleryCount = 0;
-  try {
-    const { count } = await sb
-      .from("media_assets")
-      .select("key", { count: "exact", head: true })
-      .not("key", "like", "\\_\\_%");
-    galleryCount = count ?? seedGallery.length;
-  } catch {
-    galleryCount = seedGallery.length;
+  let galleryCount = seedGallery.length;
+  if (sb) {
+    try {
+      const { count } = await sb
+        .from("media_assets")
+        .select("key", { count: "exact", head: true })
+        .not("key", "like", "\\_\\_%");
+      galleryCount = count ?? seedGallery.length;
+    } catch {
+      galleryCount = seedGallery.length;
+    }
   }
 
   const publishedEvents = events.filter((e) => e.status === "published");
