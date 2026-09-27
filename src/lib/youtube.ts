@@ -43,5 +43,12 @@ export function youtubeWatchUrl(input: string | null | undefined): string {
   const id = getYouTubeId(input);
   return id ? `https://www.youtube.com/watch?v=${id}` : "#";
 }
-/* NOTE: link-only by design — no youtube-nocookie embeds. Cards link
- * out to YouTube so the repo ships zero video bytes. */
+
+export function youtubeEmbedUrl(
+  input: string | null | undefined,
+  autoplay = true
+): string | null {
+  const id = getYouTubeId(input);
+  if (!id) return null;
+  return `https://www.youtube-nocookie.com/embed/${id}?autoplay=${autoplay ? "1" : "0"}&rel=0&modestbranding=1`;
+}

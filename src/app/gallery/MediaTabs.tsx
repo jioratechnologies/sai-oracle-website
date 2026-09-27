@@ -1,10 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Images, PlayCircle, Video } from "lucide-react";
+import { Images, PlayCircle, Video, RotateCcw } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import GalleryWithFilter from "./AlbumFilter";
 import VideoCard from "@/components/VideoCard";
-import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import VideoModal from "@/components/VideoModal";
 import type { GalleryImage, YoutubeVideo } from "@/lib/types";
 
 const TABS = [
@@ -12,11 +13,57 @@ const TABS = [
   { id: "videos" as const, label: "Videos", icon: PlayCircle },
 ];
 
-const VIDEO_CATEGORIES = [
-  { id: "all", label: "All Videos" },
-  { id: "abhishek", label: "Abhishek & Darshan", match: ["abhishek", "darshan"] },
-  { id: "bhajan", label: "Bhajans & Aarti", match: ["bhajan", "aarti", "satsang"] },
-] as const;
+export interface VideoCategoryDef {
+  id: string;
+  label: string;
+  match: string[];
+}
+
+export const VIDEO_CATEGORIES: VideoCategoryDef[] = [
+  { id: "all", label: "All Videos", match: [] },
+  {
+    id: "bhajan",
+    label: "Bhajans & Devotion",
+    match: [
+      "bhajan",
+      "aarti",
+      "satsang",
+      "kirtan",
+      "devotion",
+      "offering",
+      "bal vikas",
+      "prema",
+      "love",
+      "geet",
+      "chant",
+      "song",
+    ],
+  },
+  {
+    id: "darshan",
+    label: "Darshan & Abhishek",
+    match: ["abhishek", "darshan", "puja", "snan", "sanctum", "murti", "mandir"],
+  },
+  {
+    id: "festivals",
+    label: "Festivals & Utsav",
+    match: [
+      "visarjan",
+      "ganesh",
+      "chaturthi",
+      "celebration",
+      "utsav",
+      "festival",
+      "birthday",
+      "gurupurnima",
+      "diwali",
+      "navratri",
+      "shivratri",
+      "ram navami",
+      "holi",
+    ],
+  },
+];
 
 export default function MediaTabs({
   images,
@@ -29,15 +76,32 @@ export default function MediaTabs({
 }) {
   const [tab, setTab] = useState<"photos" | "videos">(defaultTab);
   const [videoFilter, setVideoFilter] = useState<string>("all");
+  const [activeVideo, setActiveVideo] = useState<YoutubeVideo | null>(null);
 
+  // Filter video list based on selected category
   const filteredVideos = useMemo(() => {
     if (videoFilter === "all") return videos;
     const cat = VIDEO_CATEGORIES.find((c) => c.id === videoFilter);
-    if (!cat || !("match" in cat)) return videos;
-    return videos.filter((v) =>
-      cat.match.some((m) => v.title.toLowerCase().includes(m))
-    );
+    if (!cat || cat.match.length === 0) return videos;
+    return videos.filter((v) => {
+      const titleLower = v.title.toLowerCase();
+      return cat.match.some((keyword) => titleLower.includes(keyword));
+    });
   }, [videos, videoFilter]);
+
+  // Only display categories that have matching videos (or All)
+  const availableCategories = useMemo(() => {
+    return VIDEO_CATEGORIES.map((cat) => {
+      const count =
+        cat.id === "all"
+          ? videos.length
+          : videos.filter((v) => {
+              const titleLower = v.title.toLowerCase();
+              return cat.match.some((keyword) => titleLower.includes(keyword));
+            }).length;
+      return { ...cat, count };
+    }).filter((cat) => cat.id === "all" || cat.count > 0);
+  }, [videos]);
 
   return (
     <>
@@ -49,7 +113,7 @@ export default function MediaTabs({
             role="tab"
             aria-selected={tab === id}
             onClick={() => setTab(id)}
-            className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-all ${
+            className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-all cursor-pointer ${
               tab === id
                 ? "btn-festive text-white shadow-md scale-105"
                 : "border-2 border-maroon-200 text-maroon-800 hover:bg-maroon-50"
@@ -83,47 +147,78 @@ export default function MediaTabs({
       ) : (
         <div className="space-y-6">
           {/* Video Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="Filter videos">
-            {VIDEO_CATEGORIES.map((cat) => {
-              const count =
-                cat.id === "all"
-                  ? videos.length
-                  : videos.filter((v) =>
-                      "match" in cat && cat.match.some((m) => v.title.toLowerCase().includes(m))
-                    ).length;
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setVideoFilter(cat.id)}
-                  aria-pressed={videoFilter === cat.id}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-bold transition-all ${
-                    videoFilter === cat.id
-                      ? "btn-festive text-white shadow-md scale-105"
-                      : "border border-maroon-200/90 bg-white text-maroon-800 hover:bg-maroon-50"
-                  }`}
-                >
-                  <Video className="h-3.5 w-3.5 opacity-80" />
-                  <span>{cat.label}</span>
-                  <span
-                    className={`rounded-full px-1.5 py-0.2 text-[10px] sm:text-[11px] font-bold ${
-                      videoFilter === cat.id ? "bg-white/30 text-white" : "bg-stone-100 text-stone-600"
+          {availableCategories.length > 1 && (
+            <div
+              className="flex flex-wrap justify-center gap-2"
+              role="group"
+              aria-label="Filter videos"
+            >
+              {availableCategories.map((cat) => {
+                const isActive = videoFilter === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setVideoFilter(cat.id)}
+                    aria-pressed={isActive}
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                      isActive
+                        ? "btn-festive text-white shadow-md scale-105"
+                        : "border border-maroon-200/90 bg-white text-maroon-800 hover:bg-maroon-50"
                     }`}
                   >
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+                    <Video className="h-3.5 w-3.5 opacity-80" />
+                    <span>{cat.label}</span>
+                    <span
+                      className={`rounded-full px-1.5 py-0.2 text-[10px] sm:text-[11px] font-bold ${
+                        isActive ? "bg-white/30 text-white" : "bg-stone-100 text-stone-600"
+                      }`}
+                    >
+                      {cat.count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
-          <RevealGroup className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredVideos.map((v) => (
-              <RevealItem key={v.id}>
-                <VideoCard video={v} />
-              </RevealItem>
-            ))}
-          </RevealGroup>
+          {/* Videos Grid with Smooth Fade Animation */}
+          {filteredVideos.length === 0 ? (
+            <div className="rounded-3xl border border-maroon-100 bg-white p-10 text-center shadow-xs">
+              <p className="text-stone-600 font-medium">No videos found in this category.</p>
+              <button
+                type="button"
+                onClick={() => setVideoFilter("all")}
+                className="mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold btn-festive text-white shadow-sm cursor-pointer"
+              >
+                <RotateCcw className="h-3.5 w-3.5" />
+                Show All Videos ({videos.length})
+              </button>
+            </div>
+          ) : (
+            <motion.div
+              layout
+              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredVideos.map((v) => (
+                  <motion.div
+                    key={v.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                  >
+                    <VideoCard video={v} onPlay={(selected) => setActiveVideo(selected)} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          )}
+
+          {/* In-Website Video Modal Player */}
+          <VideoModal video={activeVideo} onClose={() => setActiveVideo(null)} />
         </div>
       )}
     </>

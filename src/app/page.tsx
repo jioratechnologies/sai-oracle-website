@@ -527,50 +527,11 @@ export default async function Home() {
           intro="Authentic video recordings of daily aartis, devotional satsangs, and Narayan Seva."
         />
         <RevealGroup className={`mt-8 grid gap-6 ${videos.length <= 2 ? "md:grid-cols-2 max-w-4xl mx-auto" : "md:grid-cols-3"}`}>
-          {videos.map((v) => {
-            const thumb = v.thumbnail_url || (v.youtube_url.includes("v=") ? `https://img.youtube.com/vi/${v.youtube_url.split("v=")[1].split("&")[0]}/hqdefault.jpg` : "/assets/content/gallery/20241024_195531.webp");
-            return (
-              <RevealItem key={v.id}>
-                <SpotlightCard className="overflow-hidden rounded-3xl border border-maroon-100 bg-white shadow-xs flex flex-col justify-between h-full">
-                  <div>
-                    <div className="relative aspect-video w-full overflow-hidden bg-stone-900">
-                      <Image
-                        src={thumb}
-                        alt={v.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-300 hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg transition-transform hover:scale-110">
-                          <Play className="h-5 w-5 ml-0.5" fill="currentColor" />
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-5">
-                      <h3 className="font-display text-lg font-bold text-maroon-900 leading-snug">
-                        {v.title}
-                      </h3>
-                      <p className="mt-2 text-xs leading-relaxed text-stone-600">
-                        Darshan, sacred rituals, and divine satsang at Satyadeep Sai Universe.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="p-5 pt-0">
-                    <a
-                      href={v.youtube_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50/80 px-4 py-2 text-xs font-bold text-red-700 transition-colors hover:bg-red-600 hover:text-white"
-                    >
-                      <span>Watch on YouTube</span>
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
-                  </div>
-                </SpotlightCard>
-              </RevealItem>
-            );
-          })}
+          {videos.map((v) => (
+            <RevealItem key={v.id}>
+              <VideoCard video={v} />
+            </RevealItem>
+          ))}
         </RevealGroup>
         <div className="mt-8 text-center flex items-center justify-center gap-4">
           <Link
