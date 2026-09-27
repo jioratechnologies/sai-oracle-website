@@ -34,24 +34,10 @@ export async function GET(
     return new NextResponse("Asset not found", { status: 404 });
   }
 
-  try {
-    const upstreamRes = await fetch(targetUrl);
-    if (!upstreamRes.ok) {
-      return new NextResponse("Asset not found upstream", { status: upstreamRes.status });
-    }
-
-    const contentType = upstreamRes.headers.get("content-type") || "application/octet-stream";
-    const buffer = await upstreamRes.arrayBuffer();
-
-    return new NextResponse(buffer, {
-      status: 200,
-      headers: {
-        "Content-Type": contentType,
-        "Cache-Control": "public, max-age=31536000, immutable",
-      },
-    });
-  } catch (err) {
-    console.error("Failed to proxy asset:", key, err);
-    return new NextResponse("Internal Server Error", { status: 500 });
-  }
+  return NextResponse.redirect(targetUrl, {
+    status: 307,
+    headers: {
+      "Cache-Control": "public, max-age=86400, s-maxage=31536000",
+    },
+  });
 }
