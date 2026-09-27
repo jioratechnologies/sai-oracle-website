@@ -175,6 +175,7 @@ export async function saveSettingsData(settings: SiteSettings): Promise<void> {
 
   // 2. Best-effort write to native table if it exists
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await sb.from("site_settings").upsert(settings as any);
   } catch {
     // table doesn't exist yet
