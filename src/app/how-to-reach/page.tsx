@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Navigation, Car, Train, Plane, Clock, Phone, Mail, ExternalLink } from "lucide-react";
 import SpotlightCard from "@/components/motion/SpotlightCard";
-import { getSettings, getTimings } from "@/lib/site";
+import { getMediaMap, getSettings, getTimings } from "@/lib/site";
+import { resolveMediaUrl } from "@/lib/image";
 
 export const metadata = {
   title: "Visit Temple & How to Reach · Sai Oracle",
@@ -11,7 +12,7 @@ export const metadata = {
 };
 
 export default async function HowToReachPage() {
-  const [settings, timings] = await Promise.all([getSettings(), getTimings()]);
+  const [settings, timings, mediaMap] = await Promise.all([getSettings(), getTimings(), getMediaMap()]);
 
   return (
     <section className="mx-auto max-w-6xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-10 sm:space-y-12">
@@ -33,7 +34,7 @@ export default async function HowToReachPage() {
           <div className="lg:col-span-6">
             <div className="relative overflow-hidden rounded-3xl border-4 border-gold-300/70 shadow-xl bg-white">
               <Image
-                src="/assets/content/universe/img_7403-copy.webp"
+                src={resolveMediaUrl(mediaMap, "/assets/content/universe/img_7403-copy.webp")}
                 alt="Front view of Satyadeep Sai Temple sanctum"
                 width={1200}
                 height={800}

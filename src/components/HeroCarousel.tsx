@@ -137,10 +137,10 @@ export default function HeroCarousel({
       {/* Soften the base into the festive divider */}
       <div aria-hidden className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#fbdcec]/80 to-transparent" />
 
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 pt-1 pb-10 sm:gap-10 sm:pt-14 sm:pb-16 lg:flex-row lg:justify-center lg:gap-12 lg:pt-10 lg:pb-20">
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 pt-1 pb-10 sm:gap-10 sm:pt-14 sm:pb-16 lg:flex-row lg:justify-center lg:gap-8 xl:gap-10 2xl:gap-12 lg:pt-10 lg:pb-20">
         {/* Welcome text — below showcase on mobile, left on desktop */}
         <motion.div
-          className="order-2 text-center sm:text-left lg:order-1 lg:w-115 lg:shrink-0"
+          className="order-2 text-center sm:text-left lg:order-1 lg:w-[380px] xl:w-[420px] 2xl:w-115 lg:shrink-0"
           initial="hidden"
           animate="show"
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
@@ -236,7 +236,7 @@ export default function HeroCarousel({
               onClick={() => jump(prevIndex)}
               aria-label={`Photo ${prevIndex + 1}: ${prevSlide.caption}`}
               title={prevSlide.caption}
-              className="hidden aspect-4/3 w-24 shrink-0 overflow-hidden rounded-2xl opacity-60 shadow-md ring-2 ring-white transition-opacity hover:opacity-90 xl:block"
+              className="hidden aspect-4/3 w-24 shrink-0 overflow-hidden rounded-2xl opacity-60 shadow-md ring-2 ring-white transition-opacity hover:opacity-90 2xl:block"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -248,7 +248,7 @@ export default function HeroCarousel({
               />
             </button>
 
-            <div className="relative w-full sm:w-[380px] lg:w-[460px] xl:w-[480px]">
+            <div className="relative w-full sm:w-[380px] lg:w-[400px] xl:w-[440px] 2xl:w-[480px]">
               {/* Halo + ring scoped to the image box itself, so they stay
                   centered on the portrait no matter how the row lays out. */}
               <div
@@ -313,7 +313,7 @@ export default function HeroCarousel({
               onClick={() => jump(nextIndex)}
               aria-label={`Photo ${nextIndex + 1}: ${nextSlide.caption}`}
               title={nextSlide.caption}
-              className="hidden aspect-4/3 w-24 shrink-0 overflow-hidden rounded-2xl opacity-60 shadow-md ring-2 ring-white transition-opacity hover:opacity-90 xl:block"
+              className="hidden aspect-4/3 w-24 shrink-0 overflow-hidden rounded-2xl opacity-60 shadow-md ring-2 ring-white transition-opacity hover:opacity-90 2xl:block"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

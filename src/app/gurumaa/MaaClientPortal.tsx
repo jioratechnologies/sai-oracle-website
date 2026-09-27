@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import SpotlightCard from "@/components/motion/SpotlightCard";
 import FloatingShowcase from "@/components/motion/FloatingShowcase";
+import { resolveMediaUrl } from "@/lib/image";
 
 type TabKey = "glorious-life" | "life-sketch" | "teachings" | "meditation" | "discourses" | "miracles";
 
@@ -108,7 +109,7 @@ const MIRACLES_LIST = [
   },
 ];
 
-export default function MaaClientPortal() {
+export default function MaaClientPortal({ mediaMap }: { mediaMap: Record<string, string> }) {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
 
@@ -277,7 +278,7 @@ export default function MaaClientPortal() {
               </div>
               <div className="lg:col-span-4 overflow-hidden rounded-2xl border-2 border-gold-200 shadow-sm">
                 <Image
-                  src="/assets/content/maa-life-sketch/abhishek.webp"
+                  src={resolveMediaUrl(mediaMap, "/assets/content/maa-life-sketch/abhishek.webp")}
                   alt="Maa performing abhishek"
                   width={500}
                   height={350}
@@ -850,7 +851,7 @@ export default function MaaClientPortal() {
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative overflow-hidden rounded-3xl border-4 border-gold-300/70 shadow-xl bg-stone-900 p-2 max-w-sm w-full">
                 <Image
-                  src="/assets/content/archive/meditation.gif"
+                  src={resolveMediaUrl(mediaMap, "/assets/content/archive/meditation.gif")}
                   alt="Jyoti Flame Meditation as taught by Maa"
                   width={400}
                   height={500}
@@ -1016,7 +1017,7 @@ export default function MaaClientPortal() {
               >
                 <div className={`relative ${item.aspect} w-full overflow-hidden bg-cream-50/70 border-b border-maroon-100/60`}>
                   <Image
-                    src={item.image}
+                    src={resolveMediaUrl(mediaMap, item.image)}
                     alt={item.title}
                     fill
                     className="object-contain p-2.5 transition-transform duration-500 group-hover:scale-105"

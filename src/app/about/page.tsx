@@ -141,7 +141,7 @@ export default async function AboutPage() {
             <div className="lg:col-span-5">
               <div className="overflow-hidden rounded-3xl border-4 border-gold-300/60 shadow-lg bg-white">
                 <Image
-                  src="/assets/content/archive/public.jpg"
+                  src={resolveMediaUrl(mediaMap, "/assets/content/archive/public.jpg")}
                   alt="Satyadeep Sai Universe Sarva Dharma Sthal"
                   width={600}
                   height={450}

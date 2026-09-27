@@ -9,7 +9,8 @@ import {
   BookOpen,
   Compass,
 } from "lucide-react";
-import { getPageWithFallback } from "@/lib/site";
+import { getMediaMap, getPageWithFallback } from "@/lib/site";
+import { resolveMediaUrl } from "@/lib/image";
 import AimsInteractiveGrid, { type SevaSection, type SevaPhoto } from "./AimsInteractiveGrid";
 
 export const revalidate = 300;
@@ -175,7 +176,15 @@ const MISSION_KARUNA_PHOTOS: SevaPhoto[] = [
 ];
 
 export default async function AimsPage() {
-  const page = await getPageWithFallback("aims");
+  const [page, mediaMap] = await Promise.all([getPageWithFallback("aims"), getMediaMap()]);
+  const resolvedSections: SevaSection[] = SECTIONS.map((sec) => ({
+    ...sec,
+    photos: sec.photos.map((p) => ({ ...p, src: resolveMediaUrl(mediaMap, p.src) })),
+  }));
+  const resolvedMissionKarunaPhotos: SevaPhoto[] = MISSION_KARUNA_PHOTOS.map((p) => ({
+    ...p,
+    src: resolveMediaUrl(mediaMap, p.src),
+  }));
 
   return (
     <section className="mx-auto max-w-6xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
@@ -234,8 +243,8 @@ export default async function AimsPage() {
 
         {/* Interactive Responsive Grid with Lightbox Modal */}
         <AimsInteractiveGrid
-          sections={SECTIONS}
-          missionKarunaPhotos={MISSION_KARUNA_PHOTOS}
+          sections={resolvedSections}
+          missionKarunaPhotos={resolvedMissionKarunaPhotos}
         />
 
         {/* Explore More Landscape Strip */}

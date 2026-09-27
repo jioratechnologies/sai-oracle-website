@@ -5,6 +5,8 @@ import SpotlightCard from "@/components/motion/SpotlightCard";
 import UpiDonationCard from "@/components/trust/UpiDonationCard";
 import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { getTrustSettings } from "@/lib/dataStore";
+import { getMediaMap } from "@/lib/site";
+import { resolveMediaUrl } from "@/lib/image";
 
 export const dynamic = "force-dynamic";
 
@@ -15,7 +17,7 @@ export const metadata = {
 };
 
 export default async function TrustPage() {
-  const trust = await getTrustSettings();
+  const [trust, mediaMap] = await Promise.all([getTrustSettings(), getMediaMap()]);
   return (
     <section className="mx-auto max-w-6xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-10 sm:space-y-14">
       {/* Compact, Prominent Trust Header */}
@@ -78,7 +80,7 @@ export default async function TrustPage() {
           <div className="lg:col-span-5">
             <div className="overflow-hidden rounded-3xl border-4 border-gold-300/60 shadow-lg bg-white">
               <Image
-                src="/assets/content/archive/chart_trust_147updt.jpg"
+                src={resolveMediaUrl(mediaMap, "/assets/content/archive/chart_trust_147updt.jpg")}
                 alt="Sri Sai Sansthan Charitable Trust activities"
                 width={800}
                 height={600}
@@ -192,7 +194,7 @@ export default async function TrustPage() {
               >
                 <div className="relative aspect-4/3 w-full overflow-hidden bg-stone-100">
                   <Image
-                    src={photo.src}
+                    src={resolveMediaUrl(mediaMap, photo.src)}
                     alt={photo.title}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"

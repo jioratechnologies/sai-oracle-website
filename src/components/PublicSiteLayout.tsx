@@ -10,11 +10,13 @@ export default function PublicSiteLayout({
   settings,
   timings,
   announcements = [],
+  mediaMap = {},
   children,
 }: {
   settings: SiteSettings;
   timings: AartiTiming[];
   announcements?: Announcement[];
+  mediaMap?: Record<string, string>;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -36,7 +38,7 @@ export default function PublicSiteLayout({
         {announcements.length > 0 && (
           <AnnouncementBarClient latest={announcements[0]} settings={settings} />
         )}
-        <Header organizationName={settings.organization_name} />
+        <Header organizationName={settings.organization_name} mediaMap={mediaMap} />
       </div>
       <main id="main" className="flex-1">
         {children}

@@ -184,7 +184,7 @@ export const MenuItem = ({
             ctx?.closeImmediately();
             propSetActive?.(null);
           }}
-          className={`relative z-10 flex items-center gap-1 rounded-full px-3 py-1.5 text-[14px] xl:text-[15px] font-semibold transition-colors ${
+          className={`relative z-10 flex items-center gap-1 rounded-full px-2.5 py-1.5 text-[13px] xl:text-[14px] font-semibold transition-colors ${
             isSelected
               ? "bg-saffron-100/95 text-saffron-800 font-bold shadow-2xs ring-1 ring-saffron-400/60"
               : "text-maroon-900 hover:bg-cream-100/90 hover:text-saffron-700"
@@ -209,7 +209,7 @@ export const MenuItem = ({
             }
           }}
           aria-expanded={isOpen}
-          className={`group relative z-10 flex items-center gap-1 rounded-full px-3 py-1.5 text-[14px] xl:text-[15px] font-semibold transition-colors cursor-pointer ${
+          className={`group relative z-10 flex items-center gap-1 rounded-full px-2.5 py-1.5 text-[13px] xl:text-[14px] font-semibold transition-colors cursor-pointer ${
             isSelected
               ? "bg-saffron-100/95 text-saffron-800 font-bold shadow-2xs ring-1 ring-saffron-400/60"
               : isOpen

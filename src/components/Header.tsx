@@ -9,12 +9,14 @@ import OmMark from "./OmMark";
 import { Menu, MenuItem, HoveredLink, ProductItem } from "./ui/navbar-menu";
 import { socialIcons } from "./SocialLinks";
 import GlobalSearchModal from "./GlobalSearchModal";
+import { resolveMediaUrl } from "@/lib/image";
 
 interface HeaderProps {
   organizationName: string;
+  mediaMap?: Record<string, string>;
 }
 
-export default function Header({ organizationName }: HeaderProps) {
+export default function Header({ organizationName, mediaMap = {} }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
@@ -110,7 +112,7 @@ export default function Header({ organizationName }: HeaderProps) {
           </Link>
 
           {/* Aceternity Desktop Navbar Menu */}
-          <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+          <div className="hidden xl:flex items-center gap-1">
             <Menu setActive={setActive}>
               {/* Home Link */}
               <MenuItem
@@ -180,14 +182,14 @@ export default function Header({ organizationName }: HeaderProps) {
                       title="Temple Overview"
                       description="Sarva Dharma Sthal and sanctum of divine bliss."
                       href="/about#overview"
-                      src="/assets/content/archive/public.jpg"
+                      src={resolveMediaUrl(mediaMap, "/assets/content/archive/public.jpg")}
                       badge="Overview"
                     />
                     <ProductItem
                       title="Mission Karuna"
                       description="Education and financial support for poor children."
                       href="/mission-karuna"
-                      src="/assets/content/mission-karuna/dsc_0205.webp"
+                      src={resolveMediaUrl(mediaMap, "/assets/content/mission-karuna/dsc_0205.webp")}
                       badge="Sacred Cause"
                     />
                   </div>
@@ -254,14 +256,14 @@ export default function Header({ organizationName }: HeaderProps) {
                       title="Maa on Meditation"
                       description="Experience inner bliss through the Jyoti Flame technique."
                       href="/gurumaa?tab=meditation"
-                      src="/assets/content/archive/meditation.gif"
+                      src={resolveMediaUrl(mediaMap, "/assets/content/archive/meditation.gif")}
                       badge="Dhyana"
                     />
                     <ProductItem
                       title="Teachings & Seva"
                       description="Love All, Serve All — Nishkama Seva wisdom."
                       href="/gurumaa?tab=teachings"
-                      src="/assets/content/maa/1.webp"
+                      src={resolveMediaUrl(mediaMap, "/assets/content/maa/1.webp")}
                       badge="Wisdom"
                     />
                   </div>
@@ -316,14 +318,14 @@ export default function Header({ organizationName }: HeaderProps) {
                       title="Divine Healing"
                       description="Satyadeep Sai Universe of Divine Healing in Meerut."
                       href="/universe"
-                      src="/assets/content/universe/img_7403-copy.webp"
+                      src={resolveMediaUrl(mediaMap, "/assets/content/universe/img_7403-copy.webp")}
                       badge="Sanctum"
                     />
                     <ProductItem
                       title="Shiv Sai Temple"
                       description="Sacred abhishek, shivling sanctum and divine aartis."
                       href="/universe"
-                      src="/assets/content/archive/shivji_temple.jpg"
+                      src={resolveMediaUrl(mediaMap, "/assets/content/archive/shivji_temple.jpg")}
                       badge="Shiv Mandir"
                     />
                   </div>
@@ -378,14 +380,14 @@ export default function Header({ organizationName }: HeaderProps) {
                       title="Narayan Seva & Camps"
                       description="Food distribution and health relief for the needy."
                       href="/trust"
-                      src="/assets/content/archive/chart_trust_62.jpg"
+                      src={resolveMediaUrl(mediaMap, "/assets/content/archive/chart_trust_62.jpg")}
                       badge="80G Seva"
                     />
                     <ProductItem
                       title="Balvikas & Children Aid"
                       description="Secular and spiritual guidance under Mission Karuna."
                       href="/mission-karuna"
-                      src="/assets/content/archive/chart_trust_76.jpg"
+                      src={resolveMediaUrl(mediaMap, "/assets/content/archive/chart_trust_76.jpg")}
                       badge="Education"
                     />
                   </div>
@@ -428,7 +430,7 @@ export default function Header({ organizationName }: HeaderProps) {
                       title="Temple Moments"
                       description="High-resolution sacred photographs."
                       href="/gallery"
-                      src="/assets/content/gallery/20241024_195531.webp"
+                      src={resolveMediaUrl(mediaMap, "/assets/content/gallery/20241024_195531.webp")}
                       badge="Gallery"
                     />
                   </div>
@@ -495,7 +497,7 @@ export default function Header({ organizationName }: HeaderProps) {
                       title="Social Media Hub"
                       description="Explore YouTube, Instagram, Facebook & WhatsApp."
                       href="/social"
-                      src="/assets/content/home/love-service-devotion-main-page-photo-small-size-me.webp"
+                      src={resolveMediaUrl(mediaMap, "/assets/content/home/love-service-devotion-main-page-photo-small-size-me.webp")}
                       badge="Live"
                     />
                     <div className="rounded-xl border border-saffron-300/60 bg-saffron-50/70 p-2.5 text-xs text-stone-700">
@@ -523,7 +525,7 @@ export default function Header({ organizationName }: HeaderProps) {
               id="global-search-trigger"
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="group flex items-center justify-between gap-2 rounded-full border border-maroon-200/90 bg-white/95 hover:bg-white pl-3.5 pr-2 xl:pr-2.5 py-1.5 text-xs text-stone-500 hover:border-gold-400 hover:text-maroon-950 transition-all shadow-2xs hover:shadow-xs cursor-pointer w-36 lg:w-44 xl:w-56 shrink-0"
+              className="group flex items-center justify-between gap-2 rounded-full border border-maroon-200/90 bg-white/95 hover:bg-white pl-3 pr-2 py-1.5 text-xs text-stone-500 hover:border-gold-400 hover:text-maroon-950 transition-all shadow-2xs hover:shadow-xs cursor-pointer w-28 xl:w-36 2xl:w-52 shrink-0"
               title="Search all pages, teachings, aartis (⌘K / Ctrl+K)"
               aria-label="Search site"
             >
@@ -541,7 +543,7 @@ export default function Header({ organizationName }: HeaderProps) {
             {/* Donation CTA Button */}
             <Link
               href="/trust#donation"
-              className="flex items-center gap-1.5 rounded-full bg-linear-to-r from-saffron-600 via-amber-600 to-maroon-800 px-3.5 xl:px-4 py-2 text-xs xl:text-[13px] font-bold text-white shadow-md ring-1 ring-gold-300/50 transition-all hover:scale-105 hover:shadow-lg active:scale-95 shrink-0 whitespace-nowrap"
+              className="flex items-center gap-1.5 rounded-full bg-linear-to-r from-saffron-600 via-amber-600 to-maroon-800 px-3 xl:px-3.5 py-2 text-xs xl:text-[13px] font-bold text-white shadow-md ring-1 ring-gold-300/50 transition-all hover:scale-105 hover:shadow-lg active:scale-95 shrink-0 whitespace-nowrap"
             >
               <Heart className="h-3.5 w-3.5 fill-gold-300 text-gold-300 animate-pulse" />
               <span>Donate</span>
@@ -553,14 +555,14 @@ export default function Header({ organizationName }: HeaderProps) {
             {/* Action CTA Button pointing to /how-to-reach */}
             <Link
               href="/how-to-reach"
-              className="btn-festive btn-glow rounded-full px-3.5 xl:px-4 py-2 text-xs xl:text-[13px] font-bold text-white shadow-md transition-all hover:shadow-lg active:scale-[0.98] shrink-0 whitespace-nowrap"
+              className="btn-festive btn-glow rounded-full px-3 xl:px-3.5 py-2 text-xs xl:text-[13px] font-bold text-white shadow-md transition-all hover:shadow-lg active:scale-[0.98] shrink-0 whitespace-nowrap"
             >
               Visit Temple
             </Link>
           </div>
 
           {/* Mobile Search & Hamburger Actions */}
-          <div className="flex items-center gap-1.5 lg:hidden shrink-0">
+          <div className="flex items-center gap-1.5 xl:hidden shrink-0">
             <Link
               href="/trust#donation"
               className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-r from-saffron-600 via-amber-600 to-maroon-800 text-white shadow-md ring-1 ring-gold-300/50 transition-transform active:scale-95 shrink-0"
@@ -604,7 +606,7 @@ export default function Header({ organizationName }: HeaderProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-x-0 bottom-0 top-[60px] sm:top-[68px] z-30 bg-black/60 backdrop-blur-xs lg:hidden"
+              className="fixed inset-x-0 bottom-0 top-[60px] sm:top-[68px] z-30 bg-black/60 backdrop-blur-xs xl:hidden"
               onClick={() => setMobileOpen(false)}
             />
             <motion.nav
@@ -613,7 +615,7 @@ export default function Header({ organizationName }: HeaderProps) {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="relative z-40 overflow-hidden border-t border-maroon-100 bg-cream-50 shadow-2xl lg:hidden"
+              className="relative z-40 overflow-hidden border-t border-maroon-100 bg-cream-50 shadow-2xl xl:hidden"
               aria-label="Mobile"
             >
               <div className="max-h-[calc(100dvh-5rem)] overflow-y-auto px-4 py-4 space-y-2">

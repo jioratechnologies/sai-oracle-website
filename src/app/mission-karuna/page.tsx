@@ -2,12 +2,15 @@ import Image from "next/image";
 import ArrowLink from "@/components/ArrowLink";
 import { markdownInline } from "@/components/Markdown";
 import { missionKarunaContent } from "@/lib/seed";
+import { getMediaMap } from "@/lib/site";
+import { resolveMediaUrl } from "@/lib/image";
 
 export const revalidate = 300;
 
 export const metadata = { title: "Mission Karuna" };
 
-export default function MissionKarunaPage() {
+export default async function MissionKarunaPage() {
+  const mediaMap = await getMediaMap();
   return (
     <section className="mx-auto max-w-3xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-8">
       {/* Compact In-Page Header */}
@@ -25,11 +28,23 @@ export default function MissionKarunaPage() {
       </div>
         <div className="relative aspect-video overflow-hidden rounded-3xl border border-maroon-100 shadow-lg">
           <Image
-            src="/legacy/home/mission-karuna.webp"
+            src={resolveMediaUrl(mediaMap, "/legacy/home/mission-karuna.webp")}
             alt="Mission Karuna — empowering poor children through education"
             fill
             className="object-cover"
           />
+        </div>
+
+        <div className="relative aspect-video overflow-hidden rounded-3xl border border-maroon-100 shadow-lg">
+          <Image
+            src={resolveMediaUrl(mediaMap, "/assets/content/mission-karuna/karuna-children-darshan.jpg")}
+            alt="Mission Karuna children at temple darshan"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/80 via-black/30 to-transparent p-3.5 text-xs font-semibold text-white">
+            Mission Karuna children at temple darshan
+          </div>
         </div>
 
         <div className="mt-8 space-y-4 text-[17px] leading-relaxed text-stone-700">

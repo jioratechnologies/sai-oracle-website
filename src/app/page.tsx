@@ -152,7 +152,7 @@ export default async function Home() {
               href: "/mission-karuna",
             },
             {
-              src: "/legacy/home/Pujniye_maa.webp",
+              src: resolveMediaUrl(mediaMap, "/legacy/home/Pujniye_maa.webp"),
               alt: "Maa",
               eyebrow: "Our Guide",
               eyebrowColor: "text-gulal-600",
@@ -161,7 +161,7 @@ export default async function Home() {
               href: "/experiences?tab=miracles",
             },
             {
-              src: "/assets/content/home/trinity_of_sai_avatars.webp",
+              src: resolveMediaUrl(mediaMap, "/assets/content/home/trinity_of_sai_avatars.webp"),
               alt: "The Trinity of Sai Avatars — Shirdi Sai, Satya Sai, Prema Sai",
               eyebrow: "Our Faith",
               eyebrowColor: "text-peacock-600",

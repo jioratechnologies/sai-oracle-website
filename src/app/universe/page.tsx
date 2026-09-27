@@ -4,7 +4,8 @@ import { Sparkles, Heart, Compass, Clock, MapPin, ArrowRight, ShieldCheck, Sun, 
 import SpotlightCard from "@/components/motion/SpotlightCard";
 import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import SectionHeading from "@/components/SectionHeading";
-import { getSettings, getTimings } from "@/lib/site";
+import { getMediaMap, getSettings, getTimings } from "@/lib/site";
+import { resolveMediaUrl } from "@/lib/image";
 import UniverseVideoSection from "./UniverseVideoSection";
 
 export const metadata = {
@@ -14,7 +15,7 @@ export const metadata = {
 };
 
 export default async function UniversePage() {
-  const [settings, timings] = await Promise.all([getSettings(), getTimings()]);
+  const [settings, timings, mediaMap] = await Promise.all([getSettings(), getTimings(), getMediaMap()]);
   const aartis = timings.filter((t) => !/open|clos/i.test(t.label));
   const aartiSummary = aartis.length > 0
     ? aartis.slice(0, 3).map((a) => `${a.label}: ${a.time}`).join(" · ")
@@ -103,7 +104,7 @@ export default async function UniversePage() {
           <div className="lg:col-span-6">
             <div className="relative overflow-hidden rounded-3xl border-4 border-gold-300/80 bg-white shadow-xl">
               <Image
-                src="/assets/content/universe/img_7403-copy.webp"
+                src={resolveMediaUrl(mediaMap, "/assets/content/universe/img_7403-copy.webp")}
                 alt="Satyadeep Sai Universe of Divine Healing Front View"
                 width={1200}
                 height={800}
@@ -167,7 +168,7 @@ export default async function UniversePage() {
             <div className="group overflow-hidden rounded-2xl border border-maroon-100 bg-white shadow-xs">
               <div className="relative aspect-4/3 overflow-hidden bg-stone-100">
                 <Image
-                  src="/assets/content/universe/sai_baba4_b.webp"
+                  src={resolveMediaUrl(mediaMap, "/assets/content/universe/sai_baba4_b.webp")}
                   alt="Bhagawan Sri Sathya Sai Baba"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -184,7 +185,7 @@ export default async function UniversePage() {
             <div className="group overflow-hidden rounded-2xl border border-maroon-100 bg-white shadow-xs">
               <div className="relative aspect-4/3 overflow-hidden bg-stone-100">
                 <Image
-                  src="/assets/content/universe/mata-rani-krishna.webp"
+                  src={resolveMediaUrl(mediaMap, "/assets/content/universe/mata-rani-krishna.webp")}
                   alt="Mata Rani & Radha Krishna Darshan"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -201,7 +202,7 @@ export default async function UniversePage() {
             <div className="group overflow-hidden rounded-2xl border border-maroon-100 bg-white shadow-xs">
               <div className="relative aspect-4/3 overflow-hidden bg-stone-100">
                 <Image
-                  src="/assets/content/universe/sssumix.webp"
+                  src={resolveMediaUrl(mediaMap, "/assets/content/universe/sssumix.webp")}
                   alt="Devotional Gathering and Abhishek"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
