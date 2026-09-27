@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.supabase.co" },
     ],
   },
-  redirects() {
+  async redirects() {
     return [
       {
         source: "/videos",
