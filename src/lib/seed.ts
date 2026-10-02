@@ -16,7 +16,7 @@ import type {
  *
  * Used when Supabase is not configured yet, and as the initial
  * `supabase/seed.sql` data. Carries over the key facts from the
- * legacy saioracle.com site (Meerut temple, Gurumaa, Trinity).
+ * legacy saioracle.com site (Meerut temple, beloved Maa, Trinity).
  */
 
 export const seedSettings: SiteSettings = {
@@ -42,6 +42,8 @@ export const seedSettings: SiteSettings = {
 export const seedTrustSettings: TrustSettings = {
   upi_id: "30350015946@sbi",
   payee_name: "Sri Sai Sansthan Charitable Trust",
+  upi_enabled: false,
+  upi_status_note: "Under process — will be active soon",
   account_name: "SRI SAI SANSTHAN CHARITABLE TRUST",
   bank_name: "State Bank of India (SBI)",
   account_number: "30350015946",
@@ -52,7 +54,7 @@ export const seedTrustSettings: TrustSettings = {
   trust_email: "saioracle7@gmail.com",
   trust_phone: "+91-9997815743",
   tax_exemption_note:
-    "This Trust is registered under Section 80G of the Income Tax Act. Donors are eligible for 50% tax exemption on their contribution.",
+    "This Trust is registered under Section 80G of the Income Tax Act. Donors are eligible for tax exemption on their contribution.",
 };
 
 export const seedTimings: AartiTiming[] = [
@@ -114,7 +116,7 @@ export const seedEvents: TempleEvent[] = [
     title: "Narayan Seva — Annadanam",
     slug: "narayan-seva-annadanam",
     description:
-      "Monthly food service for the poor and needy. Devotees may volunteer or contribute provisions. Serving food is serving Sai.",
+      "Monthly food service for the community and families in need. Devotees may volunteer or contribute provisions. Serving food is serving Sai.",
     event_date: "2026-09-20",
     start_time: "11:00",
     end_time: "14:00",
@@ -161,6 +163,14 @@ export const seedAnnouncements: Announcement[] = [
 ];
 
 export const seedVideos: YoutubeVideo[] = [
+  {
+    id: "seed-v-maa-bday",
+    title: "Maa Birthday Celebrations",
+    youtube_url: "https://www.youtube.com/watch?v=Nfr_LeJq6bM",
+    thumbnail_url: "https://img.youtube.com/vi/Nfr_LeJq6bM/hqdefault.jpg",
+    published: true,
+    created_at: "2026-09-03T00:00:00Z",
+  },
   {
     id: "seed-v1",
     title: "Sacred Abhishek & Divine Darshan — Satyadeep Sai Universe",
@@ -319,15 +329,15 @@ export const seedExperiences: DevoteeExperience[] = [
   },
 ];
 
-const aboutContent = `Satyadeep Sai Organisation is a non-political, non-profit organisation, founded by Gurumaa, under the inspiration of Bhagwan Satya Sai Baba. The organisation was formed by Gurumaa for the sole benefit of helping mankind, and providing opportunities to participate in service activities such as Narayan Seva (providing food to the poor and destitute persons), educating a poor child to make him self-reliant, and promoting the practice of human values in daily life.
+const aboutContent = `Satyadeep Sai Organisation is a non-political, non-profit organisation, founded by beloved Maa, under the inspiration of Bhagwan Satya Sai Baba. The organisation was formed by Maa for the sole benefit of helping mankind, and providing opportunities to participate in service activities such as Narayan Seva (providing sanctified food to all seekers and families in need), educating Balvikas children to make them self-reliant, and promoting the practice of human values in daily life.
 
-People from all walks of life and religions are cordially invited by Satyadeep Organisation to come forward and spread the mission left by Sathya Sai Baba, under the guidance of Gurumaa. This organisation was established with the sole purpose of bringing together people of all faiths, to spare some time in this fast-paced life to progress towards personal spiritual development, and to help others also in the same spiritual journey.
+People from all walks of life and religions are cordially invited by Satyadeep Organisation to come forward and spread the mission left by Sathya Sai Baba, under the guidance of beloved Maa. This organisation was established with the sole purpose of bringing together people of all faiths, to spare some time in this fast-paced life to progress towards personal spiritual development, and to help others also in the same spiritual journey.
 
 ## Satyadeep Sai Universe
 
 To accomplish this purpose of uniting mankind for sacred activities, Satyadeep Sai Organisation developed Satyadeep Sai Universe, Satyadeep Shiv Sai Universe and Satyadeep Sai Baba Charitable School — to spread the universal unitary faith, the Atmic principle (principle of the spirit), the path of love (Prema), the path of Dharma (righteousness), the path of Ahimsa (non-violence), and the path of Shanti (peace and happiness).
 
-For fulfilling this mission of Sai Baba, Gurumaa embarked upon constructing and developing Satyadeep Sai Baba Universe and a charitable school, where the mission of Sai Baba could be easily accomplished. With the supreme blessings of Sai Baba, this temple became the very first temple in India dedicated to the Trinity of Sai Avatars — Shirdi Sai, Satya Sai and Prema Sai.
+For fulfilling this mission of Sai Baba, beloved Maa embarked upon constructing and developing Satyadeep Sai Baba Universe and a charitable school, where the mission of Sai Baba could be easily accomplished. With the supreme blessings of Sai Baba, this temple became the very first temple in India dedicated to the Trinity of Sai Avatars — Shirdi Sai, Satya Sai and Prema Sai.
 
 ## Temple Life
 
@@ -339,7 +349,7 @@ Satyadeep Sai Baba Charitable School is also open five days a week, where small 
 
 The organisation's official website is [www.saioracle.com](/), carrying a vast knowledge and information for spiritual awakening for internet users. This website is dedicated to the lotus feet of Lord Sai Baba, and to spreading the message of Swami through all means.
 
-Special thanks to all the sevadals of this organisation, who are performing selfless service in carrying out its regular activities, and spreading the message of God to humanity. We would like to request all devotees to come forward and join this noble mission carried out by Gurumaa.
+Special thanks to all the sevadals of this organisation, who are performing selfless service in carrying out its regular activities, and spreading the message of God to humanity. We would like to request all devotees to come forward and join this noble mission carried out by beloved Maa.
 
 As we endeavour upon this spiritual journey, we would like to thank everyone for their co-operation. We pray to Swami to give all of us strength and blessings to help mankind in its overall spiritual upliftment.
 
@@ -378,7 +388,7 @@ Sai Oracle is located on NH-58, Roorkee Road, Meerut Cantt — near the 3rd Mile
 
 const experiencesContent = `The Miracles of Bhagwan are a manifestation of His divine powers of omnipresence, omnipotence and omniscience. Bhagwan calls miracles His visiting cards, and leelas (divine sport) are in the very nature of the Avatar. They are, in fact, a source of delight and bliss to His devotees.
 
-Thousands of people all around the world have experienced the divinity of Bhagwan in a number of ways. Some have been miraculously saved from dire situations or calamities, while others have had spiritually illumining experiences. In these pages, we present some of the experiences of devotees of Bhagwan, along with their Gurumaa.`;
+Thousands of people all around the world have experienced the divinity of Bhagwan in a number of ways. Some have been miraculously saved from dire situations or calamities, while others have had spiritually illumining experiences. In these pages, we present some of the experiences of devotees of Bhagwan, along with their beloved Maa.`;
 
 export const experiencesClosingNote =
   "If Baba has blessed your life with an experience you wish to share, please write to the temple office — see the [Contact page](/contact).";
@@ -401,16 +411,16 @@ Sri Sai Sansthan Charitable Trust is a place where spiritual seekers from all ov
 
 ## 3. Narayan Seva
 
-Sri Sai Sansthan Charitable Trust aims at providing food to poor children whose parents are not wealthy enough to provide for them.
+Sri Sai Sansthan Charitable Trust aims at providing wholesome, nutritious meals to Balvikas children and families facing hardship.
 
 ## 4. Fostering Seeds of Love and Service
 
-Sri Sai Sansthan Charitable Trust, under the presence and guidance of Maa, propagates the message of equal-mindedness among the army of devotees. From time to time, meditation and discourse sessions are held to awaken inner joy and happiness. Love is the seed, courage is the blossom, and peace is the fruit. The love of God and love for God are both eternally sweet and pure. Under the guided presence of Her Holiness Gurumaa, the Trust helps people develop strong character by inducing in them the five human values — **Sathya, Dharma, Shanti, Prema and Ahimsa**.
+Sri Sai Sansthan Charitable Trust, under the presence and guidance of Maa, propagates the message of equal-mindedness among the army of devotees. From time to time, meditation and discourse sessions are held to awaken inner joy and happiness. Love is the seed, courage is the blossom, and peace is the fruit. The love of God and love for God are both eternally sweet and pure. Under the guided presence of beloved Maa, the Trust helps people develop strong character by inducing in them the five human values — **Sathya, Dharma, Shanti, Prema and Ahimsa**.
 
 ![Fostering Seeds of Love and Service](/legacy/aims/love.gif)
 ![Fostering Seeds of Love and Service](/legacy/aims/love2.gif)`;
 
-export const missionKarunaContent = `Maa, motivated by Bhagwan Sri Sai Baba, has launched a mission called Karuna — "Empowering the Poor Children." This mission aims at providing financial support to poor children to complete their education and strengthen their educational background — irrespective of caste, colour, creed or religion — so that one day they can support themselves and be free of dependence on others.
+export const missionKarunaContent = `Maa, motivated by Bhagwan Sri Sai Baba, has launched a mission called Karuna — "Empowering Balvikas Children." This mission aims at providing educational, moral and financial support to underprivileged children to complete their education and strengthen their foundation — irrespective of caste, colour, creed or religion — so that one day they can support themselves with dignity and live with self-respect.
 
 You are all requested to raise funds for this noble education mission.`;
 
@@ -488,7 +498,7 @@ Cultivate Prema (Love) towards all — that will destroy envy, anger and hatred.
 
 "Hands That Help Are Holier Than the Lips That Pray." Cows generously give their milk to humans. The trees yield fruits for the benefit of others. Rivers carry water for others. Man should also, without considering his own personal interests, use his body for the benefit of others.
 
-Help Ever, Hurt Never. Selfless service is a more exalted means of attaining spiritual progress than other means such as meditation or bhajan — this is so because when we undertake meditation or japa, we do it exclusively for our own benefit, for our own individual desires and securing happiness for ourselves. However, we should aspire for the attainment of the good of others without any desire for personal gain. "Seva broadens the heart and widens one's vision." It fills one with joy, promotes unity, and drives out all the evil qualities in man. Everyone in this world is a servant, not a master — selfless service is always at the highest level in the hierarchy of spiritual disciplines. Service to man eradicates egoism and selfishness. Service to man will help your divinity to blossom — service to any being amounts to serving God, for God is in all. The relief and joy that you give to the sick, or education to the poor, reaches God, for God is in their hearts. Become the servants of the Lord — train yourselves to serve God by serving man, in whose heart God is installed.
+Help Ever, Hurt Never. Selfless service is a more exalted means of attaining spiritual progress than other means such as meditation or bhajan — this is so because when we undertake meditation or japa, we do it exclusively for our own benefit, for our own individual desires and securing happiness for ourselves. However, we should aspire for the attainment of the good of others without any desire for personal gain. "Seva broadens the heart and widens one's vision." It fills one with joy, promotes unity, and drives out all the evil qualities in man. Everyone in this world is a servant, not a master — selfless service is always at the highest level in the hierarchy of spiritual disciplines. Service to man eradicates egoism and selfishness. Service to man will help your divinity to blossom — service to any being amounts to serving God, for God is in all. The relief and joy that you give to the sick, or education to children in need, reaches God, for God is in their hearts. Become the servants of the Lord — train yourselves to serve God by serving man, in whose heart God is installed.
 
 Service is worship — each act of service is a flower placed at the feet of the Lord. "Seva is the best sadhana." The body has been given to man for the performance of right action. Consider social service as service to God — this is the easiest way to earn the love of God. Your entire life will be sanctified thereby.`;
 
@@ -612,13 +622,13 @@ Following are step-by-step directions for Satyadeep meditation:
 
 const charitableTrustContent = `## Sai Sansthan Charitable Trust
 
-Motivated by Bhagwan Sri Sai Baba, Gurumaa established Sri Sai Sansthan Charitable Trust to propagate the divine message of Sai Baba to the whole world. Sri Sai Sansthan Charitable Trust organises, from time to time, various meditation camps, divine discourses, bhajans, cultural and heritage programmes, and Narayan Sevas for the poor — thereby spreading the message of "love all, serve all" to humanity.
+Motivated by Bhagwan Sri Sai Baba, beloved Maa established Sri Sai Sansthan Charitable Trust to propagate the divine message of Sai Baba to the whole world. Sri Sai Sansthan Charitable Trust organises, from time to time, various meditation camps, divine discourses, bhajans, cultural and heritage programmes, and Narayan Seva for the community — thereby spreading the message of "love all, serve all" to humanity.
 
 Sri Sai Sansthan Charitable Trust is the caretaker of all the activities of Satyadeep Sai Universe. It invites you to come forward for a social cause and join hands with it, and to support the sacred mission of the generous development of Satyadeep Sai Universe and Mission Karuna, so as to spread the message of love and selfless service to humanity.
 
 Sri Sai Sansthan Charitable Trust is registered under the Income Tax Act 1961 under section 80G, and all contributions are eligible for deduction of income tax up to 50%.
 
-*"The kindness towards the poor is the devotion to God."*
+*"Kindness towards those in need is true devotion to God."*
 
 ![Trust activities](/legacy/charitable/chart-trust-147.jpg)`;
 
@@ -628,7 +638,7 @@ Sri Satyadeep Sai Universe is a growing divine centre inspired by Bhagwan Sri Sa
 
 The Trust also aims at providing immense opportunities for every person to develop his or her skills in meditation, and also provides opportunities to be part of Nishkama Seva (service).
 
-So come forward to enhance the mission of selfless service of Bhagwan Sai Baba, carried out by Maa, and join hands to inculcate secular and spiritual education in poor children, irrespective of their caste, creed or religion. Come forward to perform Nishkama Seva with Maa.
+So come forward to enhance the mission of selfless service of Bhagwan Sai Baba, carried out by Maa, and join hands to inculcate secular and spiritual education in Balvikas children, irrespective of their caste, creed or religion. Come forward to perform Nishkama Seva with Maa.
 
 "Let us not just worship the statue of Sai Baba — let's worship the living God in everyone." — said by Sai Baba
 
@@ -674,7 +684,7 @@ export const seedExperienceStories: ExperienceStory[] = [
     chapterTitle: "The Power of Prayer",
     teaser: "How Baba responded to Sai Roma, raised up her faith in Maa, and changed her way of life.",
     body: [
-      "Sai Roma's spiritual journey starts from her faith in Shirdi Sai Baba since her childhood days. Her steady faith in Shirdi Sai Baba has carried her through all struggles in her life. 20th July 2007 was the day she first met Gurumaa in satsang organised in Satyadeep Sai Universe. At that time she didn't realise what was going to happen with her the very next moment. She listened to Maa, watched her, admired her — but could not completely surrender herself at the feet of Maa. Why it was so, even today she finds herself with no words for.",
+      "Sai Roma's spiritual journey starts from her faith in Shirdi Sai Baba since her childhood days. Her steady faith in Shirdi Sai Baba has carried her through all struggles in her life. 20th July 2007 was the day she first met Maa in satsang organised in Satyadeep Sai Universe. At that time she didn't realise what was going to happen with her the very next moment. She listened to Maa, watched her, admired her — but could not completely surrender herself at the feet of Maa. Why it was so, even today she finds herself with no words for.",
       "Now it was Guru Poornima. On this auspicious occasion, early morning at her place, she was sitting in dhyan to remember Shirdi Sai Baba. But when she closed her eyes she could only see Maa, and not Shirdi Sai Baba. She got quite disturbed, because her faith starts and ends with Shirdi Sai Baba. But as she looked towards Maa's feet she got shocked and could not control her emotions — she saw Shirdi Sai Baba's feet. When she looked up again it was Maa's face, but when she looked down again it was Shirdi Sai Baba's feet.",
       "She was wonderstruck to see this, and then she realised that she had found her faith — it is none other than Maa. From that day, her moral life has been the best prescription for a joyful life.",
     ],
@@ -686,8 +696,8 @@ export const seedExperienceStories: ExperienceStory[] = [
     chapterTitle: "The Power of Prayer",
     teaser: "How, through Maa's prayer, a child Sadhika was gifted to her parents.",
     body: [
-      "Today Sai Sadhika is the gift of prayers offered by Gurumaa at the charan of Bhagwan Satya Sai Baba. Sai Sadhika's parents spent five years without any child. They consulted a number of doctors, took a number of treatments, but failed. At one point they thought they could never become parents.",
-      'But one day they came in contact with Gurumaa. She told them, "God always listens to those who call on Him sincerely and in faith." These words again brought hope in them, and finally they had Babaji\'s blessed vibhuti from Maa for one month. The result was that when Sai Sadhika\'s parents went to the doctor, the doctor surprisingly said, "you can become parents" — and after nine months, on 23rd Nov 1999, they were blessed with a beautiful baby girl.',
+      "Today Sai Sadhika is the gift of prayers offered by Maa at the charan of Bhagwan Satya Sai Baba. Sai Sadhika's parents spent five years without any child. They consulted a number of doctors, took a number of treatments, but failed. At one point they thought they could never become parents.",
+      'But one day they came in contact with Maa. She told them, "God always listens to those who call on Him sincerely and in faith." These words again brought hope in them, and finally they had Babaji\'s blessed vibhuti from Maa for one month. The result was that when Sai Sadhika\'s parents went to the doctor, the doctor surprisingly said, "you can become parents" — and after nine months, on 23rd Nov 1999, they were blessed with a beautiful baby girl.',
       "What God gives can never be priced. He just wants to arouse the divine consciousness that is latent in us.",
     ],
     quote: "Prayer alone makes life happy, harmonious and worth living in this Universe. Prayer brings man and God together, with every sigh nearer and nearer.",
@@ -699,7 +709,7 @@ export const seedExperienceStories: ExperienceStory[] = [
     chapterTitle: "Transformation of the Heart",
     teaser: "How Baba and the love of Maa brought a change of heart in Sai Suman.",
     body: [
-      "Gurumaa's love is supreme, because it is said that the love of the Lord is Purna. Her love has no boundation, and thus it is the reason for divine bliss in each life. Sai Suman is a Balvikas student; before coming in contact with Maa, his life was a tragedy, as he was involved in anti-social activities. His brother brought him to Maa for the first time.",
+      "Maa's love is supreme, because it is said that the love of the Lord is Purna. Her love has no boundation, and thus it is the reason for divine bliss in each life. Sai Suman is a Balvikas student; before coming in contact with Maa, his life was a tragedy, as he was involved in anti-social activities. His brother brought him to Maa for the first time.",
       'At that time Maa didn\'t speak to him. She just looked at him and gave him vibhuti. The way she looked at Sai Suman was a changing point in his life — he still remembers those eyes, which proved to be the most effective tonic against all illness. He started going daily for Maa\'s darshan, and Maa used to tell him, "Command the mind, regulate your conduct, keep your heart straight and clear, then you will get the Grace of God."',
       "Today this Grace of God has made him a responsible and successful human being, and set an example of true sadhana and selfless service.",
     ],
@@ -723,9 +733,9 @@ export const seedExperienceStories: ExperienceStory[] = [
     chapterTitle: "Transformation of the Heart",
     teaser: "How Baba transformed her, and how she had a darshan of the Trinity of Sai Avatars.",
     body: [
-      'Time is God — time spent in thought of God is indeed well spent, for it rewards you with a rich harvest of mental peace and courage. To learn the importance of "time", Sai Suchita, a 12-year-old Balvikas student, followed the words of Gurumaa, when she first listened to Maa giving pravachan in Satyadeep Sai Universe on 7th Aug 2007. While listening to Maa she was so influenced that she started regularly coming to Satyadeep Sai Universe for Maa\'s darshan. She learned the essence of spiritualism, i.e. "time waste is life waste."',
+      'Time is God — time spent in thought of God is indeed well spent, for it rewards you with a rich harvest of mental peace and courage. To learn the importance of "time", Sai Suchita, a 12-year-old Balvikas student, followed the words of Maa, when she first listened to Maa giving pravachan in Satyadeep Sai Universe on 7th Aug 2007. While listening to Maa she was so influenced that she started regularly coming to Satyadeep Sai Universe for Maa\'s darshan. She learned the essence of spiritualism, i.e. "time waste is life waste."',
       'From that moment her lifestyle underwent a tremendous change, and instead of wasting her time watching television, gossiping or chatting, she utilised her time in meditation. This change in Sai Suchita brought smiles and satisfaction to her parents\' faces. Sai Suchita\'s mother gladly informed Maa that her daughter is blessed by a true "Guru" and that they are very thankful to Maa for her kirpa on their child. On listening to these words, Maa replied, "Every student must reach a stage of enlightenment where he can derive inner happiness, fulfilment, and complete freedom, thereby achieving the divine bliss."',
-      "On 10th Oct 07, Sai Suchita was sitting in meditation at her home. Suddenly she realised that a sunset was taking place, and Sathya Sai Baba was standing there. The next moment she saw a well, and Shirdi Sai Baba was standing there. The very next moment she saw a flowing river, and Prema Sai Baba, the third avatar of Sai incarnation, was standing there. After this she saw Satyadeep Sai Universe, and Gurumaa was seated there.",
+      "On 10th Oct 07, Sai Suchita was sitting in meditation at her home. Suddenly she realised that a sunset was taking place, and Sathya Sai Baba was standing there. The next moment she saw a well, and Shirdi Sai Baba was standing there. The very next moment she saw a flowing river, and Prema Sai Baba, the third avatar of Sai incarnation, was standing there. After this she saw Satyadeep Sai Universe, and Maa was seated there.",
       "How beautiful a darshan Sai Baba has given Suchita can never be described in words, because the deeds one performs, the individuals one meets, and the thoughts that walk in one's mind, should all be seen according to the act of the Divine.",
     ],
   },
@@ -736,7 +746,7 @@ export const seedExperienceStories: ExperienceStory[] = [
     chapterTitle: "Miracle Saves",
     teaser: "How Baba saved Sai Neha from fire.",
     body: [
-      "Dec 2004 was a day when she realised that chanting the God name from the bottom of the heart can do any wonder. She was working in the chemistry lab in R.G. Degree College, Meerut, all alone. Since she was left alone in the lab, she was feeling bored, and even tried standing out and watching the change in the reaction taking place. Suddenly she recalled Gurumaa's words, that do whatever you feel like, but never stop chanting Sai Ram in your heart.",
+      "Dec 2004 was a day when she realised that chanting the God name from the bottom of the heart can do any wonder. She was working in the chemistry lab in R.G. Degree College, Meerut, all alone. Since she was left alone in the lab, she was feeling bored, and even tried standing out and watching the change in the reaction taking place. Suddenly she recalled Maa's words, that do whatever you feel like, but never stop chanting Sai Ram in your heart.",
       "On remembering these words she started chanting Sai Ram in her heart and singing a Sai Ram bhajan (Manas Bhaj Re Guru Charnam), but suddenly something unusual happened. As she was busy singing the bhajan, the reaction taking place in the lab caught fire, and the blow of fire hit her face. She felt the heat, the fire on her face, and screamed as she got scared. Suddenly her professor and lab assistant reached there, and the condition was brought under control.",
       'Her lab assistant asked her, "Is everything alright, didn\'t you get burnt from any side" — and soon she realised that the fire had not caused her any harm, and she was in safe hands. Her professor was shocked, because he told her that it rarely happens that no one gets injured if butanol catches fire. She just thanked God at that moment, that He saved her life.',
       "In the evening, when she met Maa as usual in Satyadeep Sai Universe and told her about the incident, Maa explained that if we remember God in any form in our every breath, then He looks after His child and minimises the problem in no time. Maa therefore always reminds us: visualise God, seek God, merge in God — that is the duty of the human being.",
@@ -819,7 +829,7 @@ export const seedExperienceStories: ExperienceStory[] = [
     teaser: "How Swami's blessing and Maa's prayer led a devotee to Satyadeep Sai Universe.",
     body: [
       "4th July 05, 2:00pm — Sai Ila's mother-in-law was abusing Sai Ila, as she goes every Tuesday to Satyadeep Sai Universe to conduct Sundarkaand. She used to say that Sai Ila could read Sundarkaand even at home, no need to go there. Since her mother-in-law did not permit her happily to conduct Sundarkaand at Satyadeep Sai Universe, she stopped going.",
-      'On that very day, around 2pm in the afternoon, her mother-in-law was sitting in her room. As she moved her head to say something, she saw a swaroop like Ardnareshwar — half the swaroop of a short-heighted man in an orange chola with curly black hair and a distinct sparkle on his face, and half the swaroop of Gurumaa. She was shocked, because she hadn\'t called anyone. Then the man in the orange chola looked at her and asked, "Kiski mahima bhari hai?" — whose glory is greater, Maa\'s or Swami\'s? She didn\'t utter a single word.',
+      'On that very day, around 2pm in the afternoon, her mother-in-law was sitting in her room. As she moved her head to say something, she saw a swaroop like Ardnareshwar — half the swaroop of a short-heighted man in an orange chola with curly black hair and a distinct sparkle on his face, and half the swaroop of Maa. She was shocked, because she hadn\'t called anyone. Then the man in the orange chola looked at her and asked, "Kiski mahima bhari hai?" — whose glory is greater, Maa\'s or Swami\'s? She didn\'t utter a single word.',
       'Then Baba told her that God and Guru are inter-related and have a direct contact — the prayer offered through the Guru reaches God in no time. "So why do you refuse your daughter-in-law to conduct Sundarkaand in Satyadeep Sai Universe? Satyadeep Sai Universe is not just a pilgrimage — it is a place where your Guru, your God, resides, and your prayers reach me directly. Always watch your action. Purify your heart, your thoughts, feelings, emotions, speech, and strengthen your nobler impulses. This leads to the entrance of the abode of divine bliss."',
       "As she realised her mistake, she simply bowed at the feet of Sai Baba, and as she moved her head to thank Him, Baba disappeared. She was surprised, and called her daughter-in-law and said that just now Sri Satya Sai Baba and Maa had come there, talked to her, told her the mahima of the Guru, and blessed her. From that day, Sai Ila's mother-in-law never objected to her conducting Sundarkaand at Satyadeep Sai Universe again.",
     ],
@@ -844,22 +854,10 @@ export const seedExperienceStories: ExperienceStory[] = [
     chapterTitle: "Divine Leelas — Divine Darshans",
     teaser: "How Sai Baba showed the importance of the Guru and gave darshan to His devotees.",
     body: [
-      "1st Sep 2007, around 2:00 in the midnight — I, Sai Neha, was reading Sai Gyan Ganga. As I was busy reading the book, I suddenly realised someone was moving towards me. I was confused at that moment; as I moved, I saw the Shirdi Sai Baba pratima, the one in Satyadeep Sai Universe, Sofipur, Meerut — but from that pratima, Gurumaa was moving towards me. It was the Shirdi Sai Baba murti, but instead of Shirdi Sai Baba, Maa was coming out of that murti. I was amazed to see this.",
+      "1st Sep 2007, around 2:00 in the midnight — I, Sai Neha, was reading Sai Gyan Ganga. As I was busy reading the book, I suddenly realised someone was moving towards me. I was confused at that moment; as I moved, I saw the Shirdi Sai Baba pratima, the one in Satyadeep Sai Universe, Sofipur, Meerut — but from that pratima, Maa was moving towards me. It was the Shirdi Sai Baba murti, but instead of Shirdi Sai Baba, Maa was coming out of that murti. I was amazed to see this.",
       'As Maa came towards me, she sat cross-legged on the floor in front of me, called my mother, and told her to sit by my side. Maa put her palm on her cheek and took a deep breath. Then Maa looked at both of us and said, "I want to come close to you, but Sai Baba doesn\'t permit me to take this step." When she said so, I just kept looking into Maa\'s eyes, and the whole atmosphere turned even more silent.',
       'After saying so, Maa looked at my mother\'s face, and then at mine, and said, "You never do pooja on time, no aarti on time, neither in morning nor in evening." When we heard this our heads bent down in shame, and we had no words in response. After this, Maa paused for a moment, and in the meantime my mother asked Maa, by my pet name, "You brought guriyaa out of the well of death — but now what is going to be next?" On this Maa answered spontaneously — "What next? Now she will work for Baba. You need not worry about her anymore. She is our daughter."',
       'Listening to these words, my mother kept a pin-drop silence, and after some time asked about my brother by his name, "What about Nitin, Maa?" On hearing my brother\'s name, Maa just pointed her index finger to the sky, with a sweet and calm smile on her face. After having all this conversation, Maa stood up, moved back, and merged into the Shirdi Sai Baba pratima.',
-    ],
-  },
-  {
-    slug: "the-shivling-miracle",
-    title: "The Shivling Miracle",
-    chapterNum: "8",
-    chapterTitle: "Divine Manifestations",
-    teaser: "How Baba created the Shivling, and the formation of Satyadeep Shiv Sai Universe.",
-    body: [
-      "The old site's page for this story served the wrong content when we archived it (a duplicate of \"Divine Darshans\", not its own text) — so unlike the other fifteen stories here, we don't have the institution's original wording for this one to carry over.",
-      "What's known from the chapter listing on the old site: Baba created the Shivling, and this event led to the formation of Satyadeep Shiv Sai Universe alongside Satyadeep Sai Universe — the abhishek tradition begun in Maa's childhood continues there today.",
-      "If you have the original write-up for this story (a printed copy, an old backup, or the institution's own records), send it over and this page will be updated with the real text.",
     ],
   },
 ];

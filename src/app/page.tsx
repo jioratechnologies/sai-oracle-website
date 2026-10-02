@@ -139,8 +139,8 @@ export default async function Home() {
       <AboutTemple />
 
       {/* ── Sacred stories from the temple ── */}
-      <section className="mx-auto max-w-6xl px-4 pt-12 pb-14">
-        <RevealGroup className="grid gap-6 md:grid-cols-3">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-14">
+        <RevealGroup className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
           {[
             {
               src: resolveMediaUrl(mediaMap, "/assets/temple/other/20250112_182623.webp"),
@@ -148,7 +148,7 @@ export default async function Home() {
               eyebrow: "Sacred Cause",
               eyebrowColor: "text-saffron-600",
               title: "Mission Karuna",
-              text: "Empowering poor children through education — helping them earn their livelihood and support themselves with dignity.",
+              text: "Empowering Balvikas children through education — helping them grow in human values and build their future with dignity.",
               href: "/mission-karuna",
             },
             {
@@ -159,15 +159,6 @@ export default async function Home() {
               title: "Miraculous Life of Maa",
               text: "Guru — Gu (darkness) and Ru (light): the preceptor who leads us from darkness to light, under Baba's blessings.",
               href: "/experiences?tab=miracles",
-            },
-            {
-              src: resolveMediaUrl(mediaMap, "/assets/content/home/trinity_of_sai_avatars.webp"),
-              alt: "The Trinity of Sai Avatars — Shirdi Sai, Satya Sai, Prema Sai",
-              eyebrow: "Our Faith",
-              eyebrowColor: "text-peacock-600",
-              title: "The Trinity of Sai Avatars",
-              text: "Shirdi Sai · Satya Sai · Prema Sai — Sai Oracle is dedicated to spreading the mission of the Sai Baba Avatars.",
-              href: "/#deities",
             },
           ].map((c) => (
             <RevealItem key={c.title}>
@@ -266,12 +257,17 @@ export default async function Home() {
             {/* Quick Timing Summary Strip - Glowing Gold */}
             <div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-2xl bg-linear-to-r from-saffron-700 via-amber-500 to-gold-400 p-4 sm:px-6 sm:py-4 text-sm text-white shadow-lg ring-1 ring-gold-400/50 relative overflow-hidden group">
               <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <span className="flex items-center gap-3 font-semibold relative z-10">
-                <Clock className="h-5 w-5 text-white/90 shrink-0" />
-                <span className="tracking-wide">
-                  <span className="text-amber-100 font-bold">Temple Hours:</span> {settings.morning_opening} – {settings.night_closing} <span className="opacity-80 text-xs ml-1">(Daily)</span>
+              <div className="flex flex-col gap-0.5 relative z-10">
+                <span className="flex items-center gap-3 font-semibold">
+                  <Clock className="h-5 w-5 text-white/90 shrink-0" />
+                  <span className="tracking-wide">
+                    <span className="text-amber-100 font-bold">Temple Hours:</span> {settings.morning_opening} – {settings.night_closing} <span className="opacity-80 text-xs ml-1">(Daily)</span>
+                  </span>
                 </span>
-              </span>
+                <p className="text-xs text-amber-100/90 font-medium pl-8">
+                  During Thursdays of the week the temple remains open untill 10.00 pm.
+                </p>
+              </div>
               <Link
                 href="/how-to-reach"
                 className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-rose-500 to-pink-600 px-4 py-1.5 text-xs font-bold text-white shadow-md transition-all hover:scale-105 hover:shadow-lg hover:from-rose-400 hover:to-pink-500 active:scale-95 shrink-0 relative z-10"
@@ -447,7 +443,7 @@ export default async function Home() {
       {/* ── Unified Spiritual Sanctuary Banner (Maa's Message + Instagram Highlight) ── */}
       <section className="section-dawn relative overflow-hidden py-14 border-y border-maroon-100/70">
         <div aria-hidden className="pattern-jali absolute inset-0 opacity-40" />
-        <div className="relative mx-auto max-w-6xl px-4">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 items-center lg:grid-cols-12">
             {/* Left: Maa's Wisdom */}
             <div className="lg:col-span-7">
@@ -520,7 +516,7 @@ export default async function Home() {
       </section>
 
       {/* ── Sacred Temple Video Archive (Videos 214312, 0037, 0030) ── */}
-      <section id="temple-videos" className="mx-auto max-w-6xl px-4 py-14">
+      <section id="temple-videos" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
         <SectionHeading
           eyebrow="Temple Video Archive"
           title="Sacred Temple Moments &amp; Bhajans"
@@ -554,7 +550,7 @@ export default async function Home() {
 
       {/* ── Gallery Preview ── */}
       {gallery.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 pb-14">
+        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-14">
           <SectionHeading eyebrow="Moments" title="Temple Gallery" />
           <Reveal>
             <GalleryPreview images={gallery} />
@@ -573,7 +569,7 @@ export default async function Home() {
 
       {/* ── Devotee Experiences ── */}
       <section className="border-t border-maroon-100/70 bg-cream-50/80 py-14 sm:py-18">
-        <div className="mx-auto max-w-6xl px-4">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Devotees Speak"
             title="Experiences of Faith"
@@ -597,7 +593,7 @@ export default async function Home() {
       {/* ── Plan Your Visit ── */}
       <section className="section-dawn text-stone-900 border-t border-maroon-100">
         <div aria-hidden className="divider-festive" />
-        <RevealGroup className="mx-auto grid max-w-6xl gap-10 px-4 py-14 lg:grid-cols-2">
+        <RevealGroup className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:px-8 py-14 lg:grid-cols-2">
           <RevealItem>
             <p className="text-xs font-semibold tracking-[0.25em] text-saffron-700 uppercase">
               Plan Your Visit

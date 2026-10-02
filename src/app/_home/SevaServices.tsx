@@ -49,7 +49,7 @@ const SERVICES = [
  */
 export default function SevaServices() {
   return (
-    <div className="relative z-10 mx-auto -mt-10 max-w-6xl px-4 sm:-mt-14">
+    <div className="relative z-10 mx-auto -mt-10 max-w-7xl px-4 sm:px-6 lg:px-8 sm:-mt-14">
       <RevealGroup className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {SERVICES.map((s) => (
           <RevealItem key={s.title} className="h-full">

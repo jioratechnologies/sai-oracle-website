@@ -54,7 +54,7 @@ export default async function AboutTemple() {
   ];
 
   return (
-    <section className="mx-auto max-w-6xl px-4 pt-12 pb-6 sm:pt-16">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-6 sm:pt-16">
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
         <Reveal y={28} className="order-2 lg:order-1">
           <SectionHeading

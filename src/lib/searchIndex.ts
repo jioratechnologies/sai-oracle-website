@@ -72,7 +72,7 @@ export const SEARCH_INDEX: SearchItem[] = [
     category: "Beloved Maa",
     url: "/gurumaa",
     description: "Spiritual preceptor, guiding light of unconditional love and Nishkama Seva.",
-    keywords: ["maa", "gurumaa", "guru", "guide", "preceptor", "mother", "divine soul", "life"],
+    keywords: ["maa", "guru", "guide", "preceptor", "mother", "divine soul", "life"],
     badge: "Preceptor",
   },
   {
@@ -167,7 +167,7 @@ export const SEARCH_INDEX: SearchItem[] = [
     title: "Sri Sai Sansthan Charitable Trust",
     category: "Trust & 80G",
     url: "/trust",
-    description: "Official Trust caretaker of Satyadeep Sai Universe. Registered under 80G for 50% tax exemption.",
+    description: "Official Trust caretaker of Satyadeep Sai Universe. Registered under 80G for tax exemption.",
     keywords: ["trust", "charitable", "80g", "tax exemption", "donation", "donate", "sbi bank", "neft"],
     badge: "80G Trust",
   },

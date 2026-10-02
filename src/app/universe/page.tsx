@@ -49,7 +49,7 @@ export default async function UniversePage() {
   ];
 
   return (
-    <section className="mx-auto max-w-6xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-12 sm:space-y-16">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-12 sm:space-y-16">
       {/* Compact In-Page Header */}
       <div className="mx-auto max-w-3xl text-center border-b border-maroon-100/80 pb-8">
         <span className="inline-flex items-center gap-2 rounded-full border border-saffron-300/80 bg-saffron-50 px-3.5 py-1 text-xs font-bold text-saffron-800 uppercase tracking-wider">
@@ -164,7 +164,24 @@ export default async function UniversePage() {
             title="Moments from the Universe of Divine Healing"
             intro="Sacred glimpses of our revered deities, sanctum halls, and community satsangs."
           />
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="group overflow-hidden rounded-2xl border border-maroon-100 bg-white shadow-xs">
+              <div className="relative aspect-4/3 overflow-hidden bg-stone-100">
+                <Image
+                  src={resolveMediaUrl(mediaMap, "/assets/content/universe/satyadeep-serva-dharm-sthal.jpg")}
+                  alt="Satyadeep Sarva Dharma Sthal"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-4">
+                <p className="font-display text-sm font-bold text-maroon-900">
+                  Satyadeep Sarva Dharma Sthal
+                </p>
+                <p className="text-xs text-stone-500 mt-0.5">Universal Faith Pillar &amp; Harmony</p>
+              </div>
+            </div>
+
             <div className="group overflow-hidden rounded-2xl border border-maroon-100 bg-white shadow-xs">
               <div className="relative aspect-4/3 overflow-hidden bg-stone-100">
                 <Image

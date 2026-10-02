@@ -107,6 +107,8 @@ export interface TrustSettings {
   // UPI
   upi_id: string;
   payee_name: string;
+  upi_enabled?: boolean;
+  upi_status_note?: string;
   // Bank
   account_name: string;
   bank_name: string;

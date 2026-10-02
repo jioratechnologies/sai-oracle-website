@@ -85,11 +85,10 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
 
   return (
     <header
-      className={`sticky top-0 z-40 bg-cream-50 transition-shadow duration-300 ${
-        scrolled
+      className={`sticky top-0 z-40 bg-cream-50 transition-shadow duration-300 ${scrolled
           ? "shadow-[0_4px_24px_-8px_rgba(102,18,32,0.18)]"
           : "shadow-[0_1px_0_0_rgba(0,0,0,0.05)]"
-      }`}
+        }`}
     >
       {/* Top Header Bar — relative z-50 ensures it stays crisp above mobile backdrop */}
       <div className="relative z-50 bg-cream-50/98 border-b border-maroon-100/70">
@@ -187,7 +186,7 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                     />
                     <ProductItem
                       title="Mission Karuna"
-                      description="Education and financial support for poor children."
+                      description="Education and values-based guidance for Balvikas children."
                       href="/mission-karuna"
                       src={resolveMediaUrl(mediaMap, "/assets/content/mission-karuna/dsc_0205.webp")}
                       badge="Sacred Cause"
@@ -354,7 +353,7 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                     </HoveredLink>
                     <HoveredLink
                       href="/trust#contribution"
-                      description="Join hands in Nishkama Seva with 50% 80G tax benefit"
+                      description="Join hands in Nishkama Seva with 80G tax benefit"
                     >
                       Contribution &amp; 80G Tax Exemption
                     </HoveredLink>
@@ -366,7 +365,7 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                     </HoveredLink>
                     <HoveredLink
                       href="/mission-karuna"
-                      description="Sponsoring education and nutritional aid for poor children"
+                      description="Sponsoring education and nutritional aid for Balvikas children"
                     >
                       Mission Karuna Seva
                     </HoveredLink>
@@ -639,9 +638,8 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                 <Link
                   href="/"
                   onClick={() => setMobileOpen(false)}
-                  className={`block rounded-xl px-3.5 py-2.5 font-semibold text-[15px] ${
-                    pathname === "/" ? "bg-saffron-500 text-white" : "text-maroon-900 bg-white/80 border border-maroon-100"
-                  }`}
+                  className={`block rounded-xl px-3.5 py-2.5 font-semibold text-[15px] ${pathname === "/" ? "bg-saffron-500 text-white" : "text-maroon-900 bg-white/80 border border-maroon-100"
+                    }`}
                 >
                   Home
                 </Link>
@@ -655,9 +653,8 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                   >
                     <span>About Sai Oracle</span>
                     <ChevronDown
-                      className={`h-4 w-4 text-stone-400 transition-transform ${
-                        mobileExpandedSection === "about" ? "rotate-180 text-saffron-600" : ""
-                      }`}
+                      className={`h-4 w-4 text-stone-400 transition-transform ${mobileExpandedSection === "about" ? "rotate-180 text-saffron-600" : ""
+                        }`}
                     />
                   </button>
                   {mobileExpandedSection === "about" && (
@@ -717,9 +714,8 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                   >
                     <span>Beloved Maa</span>
                     <ChevronDown
-                      className={`h-4 w-4 text-stone-400 transition-transform ${
-                        mobileExpandedSection === "maa" ? "rotate-180 text-saffron-600" : ""
-                      }`}
+                      className={`h-4 w-4 text-stone-400 transition-transform ${mobileExpandedSection === "maa" ? "rotate-180 text-saffron-600" : ""
+                        }`}
                     />
                   </button>
                   {mobileExpandedSection === "maa" && (
@@ -779,9 +775,8 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                   >
                     <span>Temple &amp; Universe</span>
                     <ChevronDown
-                      className={`h-4 w-4 text-stone-400 transition-transform ${
-                        mobileExpandedSection === "temple" ? "rotate-180 text-saffron-600" : ""
-                      }`}
+                      className={`h-4 w-4 text-stone-400 transition-transform ${mobileExpandedSection === "temple" ? "rotate-180 text-saffron-600" : ""
+                        }`}
                     />
                   </button>
                   {mobileExpandedSection === "temple" && (
@@ -827,9 +822,8 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                   >
                     <span>Charitable Trust (80G)</span>
                     <ChevronDown
-                      className={`h-4 w-4 text-stone-400 transition-transform ${
-                        mobileExpandedSection === "trust" ? "rotate-180 text-saffron-600" : ""
-                      }`}
+                      className={`h-4 w-4 text-stone-400 transition-transform ${mobileExpandedSection === "trust" ? "rotate-180 text-saffron-600" : ""
+                        }`}
                     />
                   </button>
                   {mobileExpandedSection === "trust" && (
@@ -870,9 +864,8 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                 <Link
                   href="/gallery"
                   onClick={() => setMobileOpen(false)}
-                  className={`block rounded-xl px-3.5 py-2.5 font-semibold text-[15px] ${
-                    pathname === "/gallery" ? "bg-saffron-500 text-white" : "text-maroon-900 bg-white/80 border border-maroon-100"
-                  }`}
+                  className={`block rounded-xl px-3.5 py-2.5 font-semibold text-[15px] ${pathname === "/gallery" ? "bg-saffron-500 text-white" : "text-maroon-900 bg-white/80 border border-maroon-100"
+                    }`}
                 >
                   Media &amp; Gallery
                 </Link>
@@ -881,9 +874,8 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                 <Link
                   href="/social"
                   onClick={() => setMobileOpen(false)}
-                  className={`block rounded-xl px-3.5 py-2.5 font-semibold text-[15px] ${
-                    pathname === "/social" ? "bg-saffron-500 text-white" : "text-maroon-900 bg-white/80 border border-maroon-100"
-                  }`}
+                  className={`block rounded-xl px-3.5 py-2.5 font-semibold text-[15px] ${pathname === "/social" ? "bg-saffron-500 text-white" : "text-maroon-900 bg-white/80 border border-maroon-100"
+                    }`}
                 >
                   Social Channels
                 </Link>
@@ -892,9 +884,8 @@ export default function Header({ organizationName, mediaMap = {} }: HeaderProps)
                 <Link
                   href="/contact"
                   onClick={() => setMobileOpen(false)}
-                  className={`block rounded-xl px-3.5 py-2.5 font-semibold text-[15px] ${
-                    pathname === "/contact" ? "bg-saffron-500 text-white" : "text-maroon-900 bg-white/80 border border-maroon-100"
-                  }`}
+                  className={`block rounded-xl px-3.5 py-2.5 font-semibold text-[15px] ${pathname === "/contact" ? "bg-saffron-500 text-white" : "text-maroon-900 bg-white/80 border border-maroon-100"
+                    }`}
                 >
                   Contact Us
                 </Link>

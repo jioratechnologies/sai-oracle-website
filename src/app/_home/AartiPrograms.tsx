@@ -32,7 +32,7 @@ export default function AartiPrograms({ timings }: { timings: AartiTiming[] }) {
 
   return (
     <section className="border-y border-maroon-100 bg-cream-100/60">
-      <div className="mx-auto max-w-6xl px-4 py-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
         <SectionHeading
           eyebrow="Our Programs"
           title="Daily Aartis & Darshan"

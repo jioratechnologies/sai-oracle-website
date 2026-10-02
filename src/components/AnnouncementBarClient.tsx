@@ -122,12 +122,12 @@ export default function AnnouncementBarClient({ latest, settings }: Announcement
           {/* Instagram Daily Darshan */}
           {settings.instagram_url && (
             <>
-              <span className="hidden md:inline text-gold-500/40 text-xs">•</span>
+              <span className="hidden lg:inline text-gold-500/40 text-xs">•</span>
               <a
                 href={settings.instagram_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 px-2.5 py-0.5 text-[11px] font-medium text-cream-100 hover:text-white transition-all shadow-2xs"
+                className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 px-2.5 py-0.5 text-[11px] font-medium text-cream-100 hover:text-white transition-all shadow-2xs"
                 title="Daily Darshan Photos on Instagram"
               >
                 <InstagramIcon className="h-3 w-3 text-pink-300" />

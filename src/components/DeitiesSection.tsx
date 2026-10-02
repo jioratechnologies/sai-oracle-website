@@ -14,7 +14,7 @@ interface Deity {
 
 const DEITIES: Deity[] = [
   {
-    name: "Shirdi Sai Baba",
+    name: "Shirdi Sai Baba — “Dwarikamai”",
     tagline: "The Fakir of Shirdi — Sabka Malik Ek",
     src: "/assets/temple/god/4.webp",
     featured: true,
@@ -22,7 +22,7 @@ const DEITIES: Deity[] = [
   {
     name: "The Trinity of Sai Avatars",
     tagline: "Shirdi Sai · Satya Sai · Prema Sai",
-    src: "/assets/content/home/trinity_of_sai_avatars.webp",
+    src: "/assets/content/home/mg-9197.jpg",
     featured: true,
   },
   {
@@ -38,7 +38,7 @@ const DEITIES: Deity[] = [
   {
     name: "Mata Rani (Maa Durga)",
     tagline: "Sherawali Maa — Mother of the Universe",
-    src: "/assets/temple/god/mata-rani-temple.webp",
+    src: "/assets/content/home/mg-9228.jpg",
   },
   {
     name: "Sri Hanuman Ji",

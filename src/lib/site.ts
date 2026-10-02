@@ -133,10 +133,45 @@ export async function getGallery(limit = 12): Promise<GalleryImage[]> {
           } catch {}
         }
 
+        const EXCLUDED_PATTERNS = [
+          /gal[-_]?2022[-_]?0?5/i,
+          /gal[-_]?2022[-_]?0?6/i,
+          /gal[-_]?2020[-_]?0?7/i,
+          /gal[-_]?2020[-_]?0?8/i,
+          /gal[-_]?2020[-_]?0?9/i,
+          /gal[-_]?2020[-_]?0?5/i,
+          /gal[-_]?2020[-_]?12/i,
+          /gal[-_]?2020[-_]?0?1/i,
+          /gal[-_]?2019[-_]?0?4/i,
+          /gal[-_]?2019[-_]?0?3/i,
+          /gal[-_]?2019[-_]?0?1/i,
+          /gal[-_]?2019[-_]?0?2/i,
+          /gal[-_]?2019[-_]?0?9/i,
+          /gal[-_]?2021[-_]?0?6/i,
+          /gal[-_]?2021[-_]?0?7/i,
+          /gal[-_]?2021[-_]?0?5/i,
+          /mg[-_]?9500/i,
+          /plan[-_]?t[-_]?0?6/i,
+          /plan[-_]?t[-_]?0?5/i,
+          /img[-_]?7416/i,
+          /sai[-_]?06/i,
+          /prema[-_]?sai/i,
+          /singhasan/i,
+          /saibaba[-_]?uni/i,
+          /mission[-_]?karuna/i,
+          /upi[-_]?qr/i,
+          /\.svg$/i,
+          /global[-_]oneness/i,
+          /global[-_]one[-_]ness/i,
+          /sarva[-_]dharma[-_]sthal/i,
+          /universal[-_]solidarity/i,
+        ];
+
         return mData
           .filter(
             (m) =>
               !m.key.startsWith("__") &&
+              !EXCLUDED_PATTERNS.some((pat) => pat.test(m.key)) &&
               (m.url.startsWith("http://") || m.url.startsWith("https://") || m.url.startsWith("/"))
           )
           .map((m) => ({

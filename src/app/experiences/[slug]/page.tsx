@@ -40,7 +40,7 @@ export default async function ExperienceStoryPage({ params }: { params: Promise<
   const Icon = CHAPTER_ICON[story.chapterNum] ?? Sparkles;
 
   return (
-    <section className="mx-auto max-w-6xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-14 sm:pt-10 sm:pb-20">
       <div className="mb-8 border-b border-maroon-100/80 pb-6">
         <Link
           href="/experiences"

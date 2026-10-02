@@ -13,7 +13,7 @@ export default async function ContactPage() {
   const [settings, timings] = await Promise.all([getSettings(), getTimings()]);
   const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(settings.address)}&output=embed`;
   return (
-    <section className="mx-auto max-w-6xl px-4 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-10">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-14 sm:pt-10 sm:pb-20 space-y-10">
       {/* Compact In-Page Header */}
       <div className="mx-auto max-w-3xl text-center border-b border-maroon-100/80 pb-8">
         <span className="inline-flex items-center gap-2 rounded-full border border-saffron-300/80 bg-saffron-50 px-3.5 py-1 text-xs font-bold text-saffron-800 uppercase tracking-wider">

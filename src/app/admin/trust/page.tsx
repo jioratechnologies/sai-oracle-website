@@ -107,6 +107,29 @@ export default function AdminTrustPage() {
               UPI Payment Details
             </h2>
 
+            {/* UPI Enable / Disable Toggle */}
+            <div className="flex items-center justify-between rounded-2xl border border-stone-200 bg-stone-50/80 p-4 mb-5">
+              <div>
+                <span className="font-bold text-sm text-stone-900 block">
+                  Enable Live UPI &amp; QR Code Donations
+                </span>
+                <span className="text-xs text-stone-500 block mt-0.5">
+                  {form.upi_enabled
+                    ? "UPI donations are active. Devotees see the QR code and UPI ID."
+                    : "UPI is currently inactive. Devotees see: “Under process — will be active soon”."}
+                </span>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={Boolean(form.upi_enabled)}
+                  onChange={(e) => setForm((f) => ({ ...f, upi_enabled: e.target.checked }))}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+              </label>
+            </div>
+
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <Field
@@ -116,10 +139,9 @@ export default function AdminTrustPage() {
                   <input
                     type="text"
                     className={inputCls}
-                    value={form.upi_id}
+                    value={form.upi_id || ""}
                     onChange={(e) => set("upi_id", e.target.value)}
                     placeholder="yourname@bankcode"
-                    required
                   />
                 </Field>
               </div>
@@ -129,43 +151,62 @@ export default function AdminTrustPage() {
                   <input
                     type="text"
                     className={inputCls}
-                    value={form.payee_name}
+                    value={form.payee_name || ""}
                     onChange={(e) => set("payee_name", e.target.value)}
                     placeholder="Sri Sai Sansthan Charitable Trust"
-                    required
+                  />
+                </Field>
+              </div>
+
+              <div className="sm:col-span-2">
+                <Field
+                  label="Status Notice Text"
+                  hint="Shown to devotees when UPI is disabled or under process"
+                >
+                  <input
+                    type="text"
+                    className={inputCls}
+                    value={form.upi_status_note ?? "Under process — will be active soon"}
+                    onChange={(e) => set("upi_status_note", e.target.value)}
+                    placeholder="Under process — will be active soon"
                   />
                 </Field>
               </div>
             </div>
 
-            {/* Live QR Preview */}
-            {form.upi_id && (
-              <div className="mt-5 flex items-start gap-5 rounded-2xl border border-gold-200 bg-amber-50/50 p-4">
+            {/* Live Status & QR Preview */}
+            {form.upi_enabled && form.upi_id && !form.upi_id.includes("Your_upi_number_here") ? (
+              <div className="mt-5 flex items-start gap-5 rounded-2xl border border-emerald-200 bg-emerald-50/50 p-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={qrPreviewUrl}
                   alt="Auto-generated UPI QR Preview"
                   width={120}
                   height={120}
-                  className="rounded-xl border-2 border-gold-300 bg-white p-1 shadow"
+                  className="rounded-xl border-2 border-emerald-300 bg-white p-1 shadow"
                 />
                 <div className="text-sm space-y-1">
-                  <p className="font-bold text-maroon-900 flex items-center gap-1.5">
-                    <ShieldCheck className="h-4 w-4 text-emerald-600" />
-                    Auto-generated QR Preview
+                  <p className="font-bold text-emerald-900 flex items-center gap-1.5">
+                    <CheckCircle className="h-4 w-4 text-emerald-600" />
+                    Live on Website: Auto-generated QR Active
                   </p>
-                  <p className="text-stone-500 text-xs leading-relaxed">
+                  <p className="text-stone-600 text-xs leading-relaxed">
                     This QR is dynamically generated from your UPI ID above. Works with Google Pay, PhonePe, Paytm, BHIM and all Indian banking apps.
                   </p>
-                  <p className="font-mono text-xs text-saffron-800 bg-saffron-50 border border-saffron-200 rounded-lg px-2 py-1 inline-block mt-1">
+                  <p className="font-mono text-xs text-saffron-800 bg-white border border-saffron-200 rounded-lg px-2 py-1 inline-block mt-1">
                     {form.upi_id}
                   </p>
-                  <p className="text-xs text-stone-500 mt-1">
-                    <strong>Note:</strong> To use your own QR image, upload{" "}
-                    <code className="bg-stone-100 px-1 rounded text-[11px]">upi_qr.svg</code>{" "}
-                    to <code className="bg-stone-100 px-1 rounded text-[11px]">/public/assets/content/trust/</code>
-                  </p>
                 </div>
+              </div>
+            ) : (
+              <div className="mt-5 rounded-2xl border border-amber-300 bg-amber-50 p-4 text-xs space-y-1">
+                <p className="font-bold text-amber-900 flex items-center gap-1.5 text-sm">
+                  <AlertTriangle className="h-4 w-4 text-amber-700" />
+                  Website Mode: Under Process
+                </p>
+                <p className="text-amber-800 leading-relaxed">
+                  Visitors on the contribution page will see: <strong>&ldquo;{form.upi_status_note || "Under process — will be active soon"}&rdquo;</strong> and will be guided to use official Bank Account NEFT/RTGS details below.
+                </p>
               </div>
             )}
           </Card>

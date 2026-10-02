@@ -8,7 +8,7 @@ insert into public.site_settings
 values
   ('Sai Oracle',
    'A place of devotion, faith and service',
-   'Satyadeep Sai Organisation is a non-political, non-profit organisation founded by Gurumaa under the inspiration of Bhagwan Satya Sai Baba — home to the Trinity of Sai Avatars (Shirdi Sai, Satya Sai, Prema Sai).',
+   'Satyadeep Sai Organisation is a non-political, non-profit organisation founded by beloved Maa under the inspiration of Bhagwan Satya Sai Baba — home to the Trinity of Sai Avatars (Shirdi Sai, Satya Sai, Prema Sai).',
    '',
    'saioracle@hotmail.com',
    'NH-58, Roorkee Road, Godwin Estate, Sofipur, Near 3rd Milestone Restaurant, Meerut Cantt, Uttar Pradesh – 250001, India',
@@ -31,7 +31,7 @@ insert into public.events
   (title, slug, description, event_date, start_time, end_time, location, status)
 values
   ('Guru Purnima Celebration', 'guru-purnima-celebration',
-   'Join us for Guru Purnima — Kakad Aarti, special bhajans, Guru Paduka Pooja, discourses by Gurumaa, and Narayan Seva (Annadanam) for all devotees. All devotees and families are cordially invited.',
+   'Join us for Guru Purnima — Kakad Aarti, special bhajans, Guru Paduka Pooja, discourses by beloved Maa, and Narayan Seva (Annadanam) for all devotees. All devotees and families are cordially invited.',
    '2026-10-26', '06:00', '13:00', 'Sai Oracle Temple, Meerut', 'published'),
   ('Weekly Sai Bhajan Sandhya', 'weekly-sai-bhajan-sandhya',
    'Every Thursday evening the temple resounds with Sai bhajans, Naam Smaranam and Dhoop Aarti. Come, sing, and soak in the divine vibration.',
@@ -58,7 +58,7 @@ on conflict do nothing;
 insert into public.site_pages (slug, title, content) values
   ('about', 'About Sai Oracle',
    '## About Sai Oracle' || chr(10) || chr(10) ||
-   'Satyadeep Sai Organisation is a non-political, non-profit organisation, founded by **Gurumaa** under the inspiration of **Bhagwan Satya Sai Baba**.' || chr(10) || chr(10) ||
+   'Satyadeep Sai Organisation is a non-political, non-profit organisation, founded by **beloved Maa** under the inspiration of **Bhagwan Satya Sai Baba**.' || chr(10) || chr(10) ||
    '## The Trinity of Sai Avatars' || chr(10) || chr(10) ||
    'With the supreme blessings of Sai Baba, this temple became one of the first in India dedicated to the **Trinity of Sai Avatars — Shirdi Sai, Satya Sai and Prema Sai**.' || chr(10) || chr(10) ||
    '## Temple Life' || chr(10) || chr(10) ||
@@ -90,7 +90,7 @@ insert into public.site_pages (slug, title, content) values
 
 The Miracles of Bhagwan are a manifestation of His divine powers of omnipresence, omnipotence and omniscience. Bhagwan calls miracles His visiting cards, and leelas (divine sport) are in the very nature of the Avatar. Thousands of people around the world have experienced the divinity of Bhagwan — some miraculously saved from dire situations, others spiritually illumined.
 
-In these pages, we present some of the experiences of devotees of Bhagwan, along with their Gurumaa.
+In these pages, we present some of the experiences of devotees of Bhagwan, along with their beloved Maa.
 
 ## 1. The Power of Prayer
 
@@ -126,11 +126,7 @@ In these pages, we present some of the experiences of devotees of Bhagwan, along
 
 ## 7. Divine Leelas — Divine Darshans
 
-How Sai Baba showed the importance of the Guru and gave darshan to His devotees.
-
-## 8. Divine Manifestations
-
-- **The Shivling Miracle** — how Baba created the Shivling, and the formation of Satyadeep Shiv Sai Universe.$$),
+How Sai Baba showed the importance of the Guru and gave darshan to His devotees.$$),
   ('aims', 'Aims & Objectives', $$## Aims & Objectives
 
 Following are the aims and objectives of Sri Sai Sansthan Charitable Trust.
@@ -153,14 +149,14 @@ Propagating equal-mindedness under Maa's guidance — meditation and discourses 
 
 ## 5. Sacred Cause — Mission Karuna
 
-**Mission Karuna — "Empowering the Poor Children."** Financial support for poor children's education, irrespective of caste, colour, creed or religion — so they may one day support themselves. **Join hands to be a part of this noble mission.**$$)
+**Mission Karuna — "Empowering Balvikas Children."** Financial support for poor children's education, irrespective of caste, colour, creed or religion — so they may one day support themselves. **Join hands to be a part of this noble mission.**$$)
 on conflict (slug) do nothing;
 
 -- Gurumaa, sadhana & organisation pages migrated from the legacy site
 insert into public.site_pages (slug, title, content) values
   ('gurumaa', 'Gurumaa', $$## Glorious & Blissful Life
 
-Some souls take birth in human form to light the path of spiritual evolution for others. Gurumaa, born in Agra in January 1962, is one such soul — through her satsang, sadhana and selfless seva she has guided thousands of Sai devotees toward the lotus feet of the Lord.
+Some souls take birth in human form to light the path of spiritual evolution for others. Beloved Maa, born in Agra in January 1962, is one such soul — through her satsang, sadhana and selfless seva she has guided thousands of Sai devotees toward the lotus feet of the Lord.
 
 ## A Childhood Touched by the Divine
 
@@ -177,7 +173,7 @@ The daily abhishek of Lord Shiva and Sai Baba that began in her childhood contin
 ![Gurumaa](/legacy/home/Pujniye_maa.webp)$$),
   ('gurumaa-life-sketch', 'Gurumaa — A Life Sketch', $$## Master Mother
 
-Gurumaa — a "Master Mother" — is known among devotees for her unwavering faith in Sai Baba, her guided meditation practice and her gentle way of leading people toward the divine. Devotees describe her life as an ongoing lesson in Bhakti Yoga (devotion), Karma Yoga (right action), Jnana Yoga (knowledge) and Dhyana Yoga (meditation).
+Maa — a "Master Mother" — is known among devotees for her unwavering faith in Sai Baba, her guided meditation practice and her gentle way of leading people toward the divine. Devotees describe her life as an ongoing lesson in Bhakti Yoga (devotion), Karma Yoga (right action), Jnana Yoga (knowledge) and Dhyana Yoga (meditation).
 
 ## Early Signs
 
@@ -247,7 +243,7 @@ Concentration is noticing where the thorns and the flower are on a rose plant. C
 9. Open the eyes slowly to close the practice.$$),
   ('charitable-trust', 'Sri Sai Sansthan Charitable Trust', $$## Sri Sai Sansthan Charitable Trust
 
-Established by Gurumaa under the inspiration of Bhagwan Sri Sai Baba, the Trust organises meditation camps, divine discourses, bhajans, and cultural and heritage programmes, and runs Narayan Seva for the poor — carrying forward the message of "love all, serve all."
+Established by beloved Maa under the inspiration of Bhagwan Sri Sai Baba, the Trust organises meditation camps, divine discourses, bhajans, and cultural and heritage programmes, and runs Narayan Seva for the poor — carrying forward the message of "love all, serve all."
 
 ## Registration
 

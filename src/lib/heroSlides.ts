@@ -29,7 +29,7 @@ export const DEFAULT_SLIDES: ShowcaseSlide[] = [
     href: "/gurumaa?tab=life-sketch",
   },
   {
-    src: "/assets/content/home/trinity_of_sai_avatars.webp",
+    src: "/assets/content/home/mg-9197.jpg",
     tag: "Divine Avatars",
     caption: "The Trinity of Sai Avatars — Shirdi, Satya & Prema Sai",
     focus: "center",

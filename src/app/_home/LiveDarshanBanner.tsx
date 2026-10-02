@@ -18,7 +18,7 @@ export default function LiveDarshanBanner({ youtubeUrl }: { youtubeUrl: string }
         aria-hidden
         className="pointer-events-none absolute -right-24 -bottom-24 h-80 w-80 rounded-full bg-gulal-400/25 blur-3xl"
       />
-      <Reveal className="relative mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-12 text-center sm:py-14 lg:flex-row lg:text-left">
+      <Reveal className="relative mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 sm:px-6 lg:px-8 py-12 text-center sm:py-14 lg:flex-row lg:text-left">
         <span
           aria-hidden
           className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-saffron-500 to-gulal-500 text-white shadow-lg ring-2 ring-white/70"

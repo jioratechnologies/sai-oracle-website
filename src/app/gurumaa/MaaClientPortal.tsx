@@ -18,6 +18,11 @@ import {
   HandHeart,
   Sun,
   Quote,
+  MapPin,
+  ChevronDown,
+  ChevronUp,
+  X,
+  Maximize2,
 } from "lucide-react";
 import SpotlightCard from "@/components/motion/SpotlightCard";
 import FloatingShowcase from "@/components/motion/FloatingShowcase";
@@ -25,87 +30,194 @@ import { resolveMediaUrl } from "@/lib/image";
 
 type TabKey = "glorious-life" | "life-sketch" | "teachings" | "meditation" | "discourses" | "miracles";
 
-const TABS: { id: TabKey; label: string; badge: string }[] = [
-  { id: "glorious-life", label: "Glorious Life Journey", badge: "Divine Childhood & Darshan" },
-  { id: "life-sketch", label: "Maa Life Sketch", badge: "Human Values & Guidance" },
-  { id: "teachings", label: "Teachings of Maa", badge: "Love & Selfless Seva" },
-  { id: "meditation", label: "Maa on Meditation", badge: "Jyoti Dhyana Technique" },
-  { id: "discourses", label: "Divine Discourses", badge: "Truth & Dharma Wisdom" },
-  { id: "miracles", label: "Miraculous Life of Maa", badge: "Documented Miracles" },
+const TABS: { id: TabKey; label: string; fullTitle: string; hint: string; icon: typeof Sparkles }[] = [
+  { id: "glorious-life", label: "Glorious Life", fullTitle: "Glorious Life Journey", hint: "Childhood & Darshan", icon: Sparkles },
+  { id: "life-sketch", label: "Life Sketch", fullTitle: "Maa Life Sketch", hint: "Human Values & Path", icon: BookOpen },
+  { id: "teachings", label: "Teachings", fullTitle: "Teachings of Maa", hint: "Love & Nishkama Seva", icon: HandHeart },
+  { id: "meditation", label: "Meditation", fullTitle: "Maa on Meditation", hint: "Jyoti Dhyana Practice", icon: Sun },
+  { id: "discourses", label: "Discourses", fullTitle: "Divine Discourses", hint: "Truth & Dharma Wisdom", icon: Quote },
+  { id: "miracles", label: "Divine Miracles", fullTitle: "Miraculous Life of Maa", hint: "8 Documented Leelas", icon: Flame },
 ];
 
-const MIRACLES_LIST = [
+export const MIRACLE_CATEGORIES = [
+  { id: "all", label: "All Sacred Miracles", shortLabel: "All Miracles" },
+  { id: "blessings", label: "(1) Lord's Blessings", shortLabel: "(1) Blessings" },
+  { id: "prayer", label: "(2) Power of Prayer", shortLabel: "(2) Prayer" },
+  { id: "manifestations", label: "(3) Manifestations", shortLabel: "(3) Manifestations" },
+  { id: "forms", label: "(4) One as Many", shortLabel: "(4) One as Many" },
+  { id: "materialisation", label: "(5) Materialisation", shortLabel: "(5) Materialisation" },
+];
+
+export const MIRACLES_LIST = [
   {
     id: "astonishing-miracle",
-    title: "Astonishing Miracle of History",
-    subtitle: "How Baba showered His utmost blessings on Maa (7th Jan 2000)",
+    categoryKey: "blessings",
+    categoryLabel: "(1) The Magic of Lord's Blessings",
+    title: "Astonishing Miracle of History: Lingams & Nariyal",
+    subtitle: "How Baba Showered His Utmost Blessings on Maa on Her Birthday",
     date: "7 January 2000",
+    location: "Satyadeep Sai Universe, Meerut",
     image: "/assets/content/miracles/astonishing-miracle-photo.webp",
     aspect: "aspect-4/3",
-    desc: "Sai is infinite love. Sathya is what He teaches, Dharma is what He lives, Shanti is the mark of His personality, and Prema is His very nature. On this historic day, Baba bestowed profound miraculous manifestations on beloved Maa, filling the entire atmosphere with divine celestial vibrations.",
-  },
-  {
-    id: "paduka-miracle",
-    title: "The Sacred Paduka Miracle",
-    subtitle: "How Baba blessed Maa with His Divine Paduka at Prashanti Nilayam",
-    date: "October 1996",
-    image: "/assets/content/miracles/paduka-miracle-photo.webp",
-    aspect: "aspect-4/3",
-    desc: "During the 1008 Paduka Utsav at Prashanti Nilayam, an intense yearning arose in Maa's heart to obtain Padukas and have them blessed directly by Swami. Through Baba's grace, sacred Padukas manifested and were touched and sanctified by Bhagwan's divine hands, which are preserved with immense devotion.",
+    keyQuote: "THIS IS GIFT FOR BELOVED MAA FROM SWAMI ON THIS AUSPICIOUS OCCASION",
+    excerpt: "On 7th January 2000, Swami gave a direct shaakshaatkaar birthday gift to beloved Maa — glittering lingams, nariyals, and scattered sacred vibhuti before every single deity in Satyadeep Sai Universe accompanied by a booming celestial voice.",
+    paragraphs: [
+      "Sai is infinite love. Sathya is what He teaches, Dharma is what He lives, Shanti is the mark of His personality, Prema is His very nature. Love of Sai has no words, and love of Sai for Maa is a relation filled with the eternal fragrance of Purity. 7th January 2000 was one of the most auspicious and memorable days in history, when Swami gave a direct shaakshaatkaar gift to Maa on her birthday.",
+      "It was around 5:00 PM in the evening when, as usual, one of the devotees went into the Satyadeep Sai Universe to keep milk as prasad for Swami. As she entered the premises, she was astonished to see scattered vibhuti covering the whole premises of this Universe. She saw that in front of each sacred idol — Bhagwan Ganesh, Shirdi Sai Baba, Lord Hanuman, Lord Durga Maa, Lord Radha-Krishna, and Lord Shankar-Parvati — a holy coconut (nariyal) and a lingam had also been placed.",
+      "The whole temple glittered with sparkling rays emanating from these fascinating lingams. This lingodbhavam wonder was a golden period in the history of Sai Leelas — such lingams were never seen on earth before this occasion. All these nariyals and lingams are eternal symbols of Swami's unconditional, pure, and unsullied love for His beloved Maa.",
+      "As the devotee witnessed all this, she ran immediately to call Maa. When Maa entered, a divine voice echoed clearly in the ears of everyone present in Satyadeep Sai Universe: \"THIS IS GIFT FOR BELOVED MAA FROM SWAMI ON THIS AUSPICIOUS OCCASION.\" Everyone wept tears of holy love, tangibly feeling Swami's omnipresence. Baba's pure, unconditional love towards His ardent devotee Maa was clearly depicted. That entire night, bhajans were sung in the temple to express gratitude and love for Bhagwan.",
+      "Today, all these beautiful sacred Lingams and Nariyals are enshrined for eternal darshan in the Sarva Dharma Sthal at Satyadeep Sai Universe. The sacred vibhuti gifted by Swami was distributed by Maa among all devotees present as Swami's prasad. Furthermore, on 14th January 2000 (Makar Sankranti), another 54 lingams and nariyals were distributed as prasad among the devotees by Maa."
+    ],
+    relicNote: "Enshrined today in Sarva Dharma Sthal at Satyadeep Sai Universe for public darshan.",
   },
   {
     id: "singhasan-miracle",
+    categoryKey: "prayer",
+    categoryLabel: "(2) The Power of Prayer",
     title: "The Swami Singhasan Miracle",
-    subtitle: "How Swami listened to Maa's prayer and manifested a divine Singhasan",
-    date: "Satyadeep Sai Mandir",
-    image: "/assets/content/miracles/swami-singhasan-miracle-photo.webp",
+    subtitle: "How Swami Listened to Maa's Prayer and Gifted a Beautiful Singhasan for His Bhajan Room",
+    date: "Delhi & Meerut",
+    location: "Swami's Bhajan Hall, Meerut",
+    image: "/assets/content/miracles/swami-singhasan-miracle.jpeg",
     aspect: "aspect-4/3",
-    desc: "Bhagwan Sri Sathya Sai Baba always reminds us that pure love moves the heart of the Lord. When Maa prayed for an exquisite sanctum throne (Singhasan) worthy of the Lord, unexpected divine leelas occurred, materialising every detail exactly as envisioned for the mandir.",
-  },
-  {
-    id: "laxmi-ganesh-miracle",
-    title: "The Sacred Laxmi-Ganesh Miracle",
-    subtitle: "How Baba gifted Maa with Gold Laxmi-Ganesh in deep dhyan at age 17",
-    date: "Early Sadhana",
-    image: "/assets/content/miracles/laxmi-ganesh-miracle-photo.webp",
-    aspect: "aspect-4/3",
-    desc: "While sitting in deep meditation early in the morning, a massive silver door embedded with radiant diamonds opened before Maa. Bhagwan Sri Sathya Sai Baba descended and gifted her the sacred murtis of Laxmi-Ganesh, marking her spiritual journey of abundance and benevolence.",
-  },
-  {
-    id: "sea-shell-wonder",
-    title: "The Sacred Sea Shell Wonder",
-    subtitle: "Rain of holy sea shells during Shankh Aarti forming divine OM",
-    date: "Bhajan Hall",
-    image: "/assets/content/miracles/astonishing-miracle-2-photo.webp",
-    aspect: "aspect-4/3",
-    desc: "Swami advised Maa to sound the sacred Shankh during aarti. Upon blowing the conch, an astonishing downpour of sea shells took place. As guided by Bhagwan, those consecrated sea shells were installed in the sanctum to form a luminous OM emblem.",
-  },
-  {
-    id: "vaikunth-darshan",
-    title: "Divine Darshan of Vaikunth",
-    subtitle: "Swami takes Maa beyond worldly bounds to witness Heaven on Earth",
-    date: "24 October 1998",
-    image: "/assets/content/maa/1.webp",
-    aspect: "aspect-4/3",
-    desc: "On 24th October 1998, Bhagwan Swami showed an awe-inspiring vision beyond human imagination — the realm of Vaikunth. Swami held her hand in deep spiritual absorption, revealing the transcendental beauty of the cosmic abode of the Lord.",
-  },
-  {
-    id: "multiple-forms",
-    title: "The Lord Appears in Multiple Forms",
-    subtitle: "Manifestations of Shirdi Sai, Sathya Sai, and Shiva during Bhajans",
-    date: "Wednesday Satsangs",
-    image: "/assets/content/universe/sai_baba4_b.webp",
-    aspect: "aspect-4/3",
-    desc: "Swami granted Wednesday as the auspicious day for regular bhajans. During these deeply moving gatherings, devotees and Maa repeatedly witnessed Baba simultaneously manifesting in multiple swaroops — affirming that God is One, manifested throughout all forms.",
+    keyQuote: "Oh Lord, the Bhagwan of this Universe, You listened to such a small prayer of mine to sit upon this Singhasan!",
+    excerpt: "Bhagwan always reminds us that pure karmas and sincere prayers move the Divine. When Maa journeyed with Dr. Nilima Aren to Kirti Nagar Delhi seeking a throne for Baba, Swami sat physically upon the chosen Singhasan, blessed the shopkeeper, and granted him a multi-crore contract overnight.",
+    paragraphs: [
+      "Bhagwan Sai Baba always says that whatever man does, its impact always befalls him. Good actions yield good results; bad actions yield bad results. 'Man is born in karma, man is grown in karma, man dies in karma. Karma is a guiding force in the life of human beings. It is only karmas that bring pleasure and pain in this world. Your entire life is dependent on your karmas.' Such were the pure karmas and devotion of Maa that she was blessed with such an unforgettable experience of Lord Swami.",
+      "For many days, Maa carried a persistent feeling in her heart to bring a beautiful, royal Singhasan for beloved Swami for the bhajan hall. Maa, along with her friend Dr. Nilima Aren, travelled to Delhi to purchase one, though both were unfamiliar with where to find such a throne. Someone suggested going to Kirti Nagar, Delhi. However, Kirti Nagar was an enormous wooden furniture market, making locating an authentic sacred Singhasan a daunting challenge.",
+      "Suddenly, the driver stopped the car on one side so they could search. Maa stepped straight into the furniture shop where the car was parked. Inside, she saw a series of beautifully built thrones. One particular Singhasan appeared exceedingly beautiful to Maa. Gazing at it, Maa thought silently in her heart: \"Swami, how beautiful and radiant will You look when You sit upon this Singhasan!\" Thinking this, she walked forward.",
+      "The shop owner was initially away, but soon approached them asking what they were seeking. Maa replied that she was looking for a Singhasan for Bhagwan. The owner replied: \"A few days ago, some Sai Baba devotees came here asking for a Singhasan. I told them: Your Sai Baba is too miraculous — if you make your Sai Baba sit over this Singhasan, I will gift it to you free for your Sai Baba!\" Maa replied that she too had come to purchase a Singhasan for Sai Baba. The owner pointed out the one those devotees had chosen — and when Maa looked at that very Singhasan, Swami was sitting saakshaat, physically in flesh and blood, upon that very throne she had loved in her heart!",
+      "Maa immediately ran towards Swami and fell at His lotus feet with tears of ecstasy: \"Oh Lord, Bhagwan of this Universe, You listened to such a small prayer of mine to sit upon this Singhasan!\" Seeing this miracle, the shop owner ran forward, his eyes filling with tears of love for Swami — never having witnessed such a wondrous darshan before. Swami remained seated, blessed Maa, and then disappeared.",
+      "The shopkeeper declared that this Singhasan would go to Swami's Bhajan Hall in Meerut completely free of cost, along with an ornate custom Chowki. Swami then instructed Maa to convey a personal message to the owner's brother: that Swami is always near and dear to him, even mentioning that the previous night he had broken his car mirror while inebriated. Overcome with amazement, the brother took Swami's photo from his pocket in tears and promised never to drink again.",
+      "After cracking a consecrated coconut at the shop entrance, Maa returned home. The very next morning, the owner phoned Maa in utter astonishment: a multi-crore project that had been stalled for years was abruptly cleared and confirmed via fax the minute he opened his doors! The owner personally arranged an air-conditioned car to transport the Singhasan safely to Meerut, installing it with his own hands in Swami's bhajan room, where it is preserved to this day."
+    ],
+    relicNote: "Preserved today in pristine glory in Swami's Bhajan Hall in Meerut.",
   },
   {
     id: "supreme-blessing",
-    title: "The Supreme Lord's Blessing & Mission",
-    subtitle: "Swami showers coins in Maa's hands in Puttaparthi for the upcoming Universe",
+    categoryKey: "prayer",
+    categoryLabel: "(2) The Power of Prayer",
+    title: "The Supreme Lord Blessing & Warning",
+    subtitle: "How Baba Alerted Beloved Maa and Fortified Her Spirit for Her Great Mission",
     date: "Puttaparthi, 1998",
+    location: "Prasanthi Nilayam & Childhood Agra",
     image: "/assets/content/maa/2.webp",
     aspect: "aspect-4/3",
-    desc: "In Puttaparthi at 4:00 AM, Swami gave sakshaat darshan and asked Maa to open her palms, showering sacred coins into them. When Maa wondered why coins were gifted, Baba revealed that a grand responsibility was arriving: to build Satyadeep Sai Universe and serve thousands.",
+    keyQuote: "A big responsibility is going to come your way; you need not worry, My blessings are with you always.",
+    excerpt: "In Puttaparthi at 4:00 AM, Swami showered coins into Maa's palms as a divine premonition of her cosmic responsibilities and upcoming family adversity, revealing that the Lord's ways transcend all scientific comprehension.",
+    paragraphs: [
+      "In 1998, Maa travelled to Puttaparthi for the sacred darshan of Swami. At around 4:00 AM in the morning, while Maa was sitting in deep dhyana as usual, Swami suddenly granted her saakshaat darshan and instructed her to open her arms.",
+      "As soon as Maa held out her arms, Swami showered an abundance of coins into her hands. Seeing this unexpected shower, Maa asked: \"Swami, I never asked You to give me money or coins.\" Swami lovingly replied: \"A big responsibility is going to come your way; you need not worry, My blessings are with you always.\"",
+      "When Maa returned home, a sudden family tragedy occurred: elder family members travelling back from Haridwar met with a terrible vehicular accident, and all of them passed away. Swami had given an advance alert to strengthen her soul before destiny took its course. Humans cannot easily decipher divine premonitions, but Swami's leelas are limitless, transcending the boundaries of earthly imagination and science.",
+      "From childhood, Swami would often grant her darshan in the fierce form of Kali Maa. When she felt frightened as a young girl, Swami comforted her: \"I am in the form of Maa; why are you getting scared?\" Thereafter, whenever she had the saakshaat darshan of Kali Maa, she conversed with Her without fear, enveloped in Baba's maternal love."
+    ],
+    relicNote: "Paved the foundation for the establishment of Satyadeep Sai Universe and Mission Karuna.",
+  },
+  {
+    id: "paduka-miracle",
+    categoryKey: "manifestations",
+    categoryLabel: "(3) Divine Manifestations",
+    title: "The Sacred Paduka Miracle",
+    subtitle: "How Baba Blessed Maa with His Divine Paduka at Prashanti Nilayam",
+    date: "October 1996",
+    location: "Prashanti Nilayam & Nathdwara",
+    image: "/assets/content/miracles/paduka-miracle-photo.webp",
+    aspect: "aspect-4/3",
+    keyQuote: "Nathdwara se laaye ho? There, all Padukas are made of My size!",
+    excerpt: "Guided by an inner divine voice to procure Padukas from Nathdwara, Maa took them to Prasanthi Nilayam. Swami called out 'Paduka, Paduka', showered rice and kum-kum from His empty hands, and stepped upon them to fit perfectly.",
+    paragraphs: [
+      "In October 1996, the grand 1008 Paduka Utsav was organized at Prashanti Nilayam from 1st to 4th October. When Maa was in Prashanti Nilayam, Bhagwan Baba awakened an intense, unyielding longing in her heart to procure sacred Padukas for Swami and have them sanctified directly by His divine hands.",
+      "It was during the busy festive season of Diwali, and despite searching tirelessly across jewelers, every silver ornament was available except Padukas. In earnest prayer, Maa beseeched Swami for guidance. The very next morning during meditation, an unmistakable sweet celestial voice resonated: \"You will get Padukas from Nathdwara.\"",
+      "Next morning early, Maa went to a shopkeeper and asked him to bring Padukas from Nathdwara. The shopkeeper agreed to try, and three days later phoned to say the Padukas had arrived. Maa collected them and took a flight to Puttaparthi for Swami's darshan. Upon arriving on 5th October, she was informed that the 4-day festival had ended on 4th October. Deeply saddened, Maa prayed intensely to Swami, who acknowledged her with a sweet, knowing smile.",
+      "The next day, by Swami's grace, Maa was seated in the first row with the ornately decorated Padukas in her hands. When Swami walked past her row, He immediately called out \"Paduka-Paduka!\" with a welcoming smile. Swami waved His empty hand, materialising sacred grains of rice and showering them over the Padukas. He waved His hand again, materialising fragrant kum-kum and showering it over them.",
+      "Maa placed the Padukas on the floor and lovingly requested Swami to step onto them. As she looked closely to see if they would fit His feet, Swami burst into laughter: \"Nathdwara se laaye ho? There, all Padukas are made of My size!\" Later she learned that trustees from Nathdwara had previously brought padukas to Baba to test His divinity, and every pair from Nathdwara was divinely proportioned to His holy feet. Ever since, sacred vibhuti and sweet amrit have continuously flowed from photos of Shirdi Sai Baba and Sathya Sai Baba in Maa's presence."
+    ],
+    relicNote: "The sanctified silver Padukas are preserved and worshipped with great devotion at the temple.",
+  },
+  {
+    id: "vaikunth-darshan",
+    categoryKey: "manifestations",
+    categoryLabel: "(3) Divine Manifestations",
+    title: "Divine Darshan of Vaikunth",
+    subtitle: "How Baba Showered His Blessing onto Maa and Took Her to Have Darshan of Vaikunth",
+    date: "24 October 1998",
+    location: "Celestial Realm of Vaikunth",
+    image: "/assets/content/maa/1.webp",
+    aspect: "aspect-4/3",
+    keyQuote: "Swami asked: 'What more do you want to see?' Maa replied: 'Nothing, Swami — only You.'",
+    excerpt: "On 24th October 1998, Swami showed Maa a breathtaking celestial vision beyond human imagination — the realm of Vaikunth with diamond beds upon cosmic waters, Mother Easwaramma, and multi-coloured serpents revealing their Nag-Devta forms.",
+    paragraphs: [
+      "On 24th October 1998, Bhagwan Swami showed an astonishing creation to beloved Maa that is beyond human imagination — a realm in this universe so exquisitely designed that it can only be described as \"Heaven on Earth\", the holy abode known as VAIKUNTH. Bhagwan appeared before Maa and said: \"Today I will take you to have darshan of Vaikunth.\" Hearing this, Maa was filled with profound joy and anticipation.",
+      "Swami guided her into a beautifully designed realm where water stretched in every direction. Floating above that water was a circular bed embedded with radiant diamonds, rotating gently in rhythmic circular motions. Seated upon it was Swami in His resplendent Sai-Krishna Swaroop — a fabulous, indescribable divine form that can only be imagined with a pure heart.",
+      "In front of Bhagwan Sri Sathya Sai Baba sat His holy mother, Mother Easwaramma. Swami instructed Maa to sit beside Mother Easwaramma. At once, Swami began taking off the flower garlands He was wearing and tossing them towards Maa's neck; within a moment, her neck was completely adorned with fragrant celestial garlands. Thereafter, Swami began showering packets of vibhuti into her lap until it was filled with sacred ash.",
+      "Swami then told Maa to come with Him to see something even more wondrous. He led her into an adjoining room and opened the door. What Maa saw within defied earthly reality: the entire room was filled with snakes of different luminous colours, each bearing a radiant Diamond Mani atop its head! Suddenly, one of the serpents leapt towards Bhagwan Baba and coiled around Swami's neck. Seeing Maa frightened, Swami smiled: \"You need not worry; I will show you their original swaroop.\"",
+      "To Maa's utter surprise and wonder, every single snake instantaneously converted itself into its true swaroop — all the sacred Nag-Devtas! Maa was filled with uncontainable joy and reverent awe. She bowed her head before all the Nag-Devtas, honouring them for granting their saakshaat darshan and conveying her deepest gratitude. The Nag-Devtas blessed Maa and then manifested back into different-coloured serpents.",
+      "After granting these extraordinary darshans, Swami asked with a smile: \"What more do you want to see?\" Maa replied from the depths of her soul: \"Nothing, Swami — only You.\" Swami smiled benevolently, showered His eternal blessings, and disappeared."
+    ],
+    relicNote: "One of the most elevated mystical visions recorded in contemporary spiritual history.",
+  },
+  {
+    id: "multiple-forms",
+    categoryKey: "forms",
+    categoryLabel: "(4) The One Appears as Many",
+    title: "The Lord Appears in Multiple Forms",
+    subtitle: "How Baba Manifested Himself in Multiple Forms at One Time in Front of Maa",
+    date: "Wednesday Satsangs",
+    location: "Maa's Residence & Bhajan Hall",
+    image: "/assets/content/universe/sai_baba4_b.webp",
+    aspect: "aspect-4/3",
+    keyQuote: "You always cry that Swami Pada Namaskar Nahi Deta — today have My Pada Namaskar as much as you want!",
+    excerpt: "While Maa was cleaning the bhajan space on Tuesday, Swami appeared asking 'Got tired?', granted unlimited Pada Namaskar, and attended the inaugural Wednesday satsang with all the Devi-Devatas of the Universe.",
+    paragraphs: [
+      "Swami's leelas are unpredictable. In whatever form one prays to Him, He manifests, being the formless Supreme Reality. Maa always used to pray: \"Swami, please allow me to hold your bhajans at my home on any day You choose.\" Swami graciously granted Wednesday as the blessed day for weekly bhajans.",
+      "It was a Tuesday afternoon in October. Maa was cleaning the area where the first bhajan was to be held the following day. When physical fatigue overtook her, she rested her back against the wall. Suddenly, she heard a sweet voice: \"Got tired?\" Looking upward to her utter surprise, Brahmand Nayak Bhagwan Shri Sai Baba was standing before her! Swami smiled: \"You always cry all day long that Swami Pada Namaskar Nahi Deta. Today, have My Pada Namaskar as much as you want!\"",
+      "Maa immediately bowed at Swami's lotus feet, washing them with tears of devotion. After some time, Swami gently placed His hands on her shoulders and helped her stand. Maa asked: \"Swami, You told me to take as much Pada Namaskar as I wanted, why are You lifting me up?\" Swami replied tenderly: \"I also get tired!\" Loving His beloved Maa like a caring father loves his daughter, Swami affirmed: \"Never cry in your life; Swami is always close to you. You do not know that you have been My daughter for many lifetimes.\"",
+      "As Swami prepared to leave, Maa held Swami's robe: \"Swami, tomorrow is the very first bhajan in my home. Will You come?\" Swami was quiet for a moment, then agreed: \"I will come with all the Devi-Devatas of this Universe! But Swami has one condition: you will not look back to see from where Swami arrives or departs.\" Maa was ecstatic.",
+      "Near Maa's residence lived Mr. B.D. Gupta, a devoted Sai follower who usually resided near Baba in Puttaparthi. Swami appeared in a vision to Mr. Gupta, saying: \"Tomorrow is My bhajan at Maa's home; you must go there.\" Maa had not invited him assuming he was away in Puttaparthi. When he arrived, he announced: \"You didn't invite me, but Swami personally sent me here!\" During the evening aarti, as Mr. Gupta stepped forward to conduct aarti, a powerful electric surge threw him back. Swami's voice firmly cautioned him to maintain sacred distance. In that instant, Maa and the devotees beheld Bhagwan sitting in transcendent splendor accompanied by the divine host of Devi-Devatas!"
+    ],
+    relicNote: "Instituted Wednesday as the sacred weekly bhajan tradition at the sanctum.",
+  },
+  {
+    id: "laxmi-ganesh-miracle",
+    categoryKey: "materialisation",
+    categoryLabel: "(5) Materialisation",
+    title: "The Sacred Laxmi-Ganesh Miracle",
+    subtitle: "How Baba Gifted Maa with Gold Laxmi-Ganesh in Deep Dhyana at Age 17",
+    date: "At the Tender Age of 17",
+    location: "Early Sadhana Sanctum, Agra",
+    image: "/assets/content/miracles/laxmi-ganesh-miracle-photo.webp",
+    aspect: "aspect-4/3",
+    keyQuote: "You come two stairs up, and I will come all the stairs down for you.",
+    excerpt: "At age 17 during early morning dhyan, a diamond-studded silver door opened. When Maa hesitated to climb the stairs, Swami promised to descend all the stairs if she climbed two, materialising a silver casket of Sindhoor and gold Laxmi-Ganesh idols.",
+    paragraphs: [
+      "The leelas of Swami are far beyond human expectation. This sacred manifestation occurred when Maa was at the tender age of seventeen. As was her daily spiritual discipline, Maa was sitting in deep meditation early in the morning.",
+      "To her utter astonishment, the physical walls dissolved, and an immense silver door embedded with sparkling diamonds slowly swung open before her. From within that radiant celestial gateway, Bhagwan Sri Sathya Sai Baba descended in glorious grace.",
+      "A long flight of stairs separated Maa from that celestial door. Swami smiled warmly and said: \"Come upstairs.\" Like a child speaking to her loving father, Maa replied innocently: \"I am not coming up.\" Swami gave a tender smile and said: \"You come two stairs up, and I will come all the stairs down for you.\"",
+      "As soon as Maa climbed two stairs, Swami instantaneously descended all the remaining stairs to stand directly before her. Swami waved His hand in the air and materialised a small box of pure silver metal filled to the brim with sacred Sindhoor. Waving His hand once more, Swami materialised golden idols of Lord Laxmi and Lord Ganesh, placing them lovingly into Maa's hands.",
+      "When Maa asked what this divine gift was, Swami bestowed a radiant smile, showered His divine blessings upon her, and gently disappeared. Ever since, Maa has preserved that silver casket and the consecrated gold Laxmi-Ganesh as an everlasting fountain of Bhagwan's protective grace.",
+    ],
+    relicNote: "Preserved with reverence as the eternal spiritual treasure gifted during early sadhana.",
+  },
+  {
+    id: "sea-shell-wonder",
+    categoryKey: "materialisation",
+    categoryLabel: "(5) Materialisation",
+    title: "The Sacred Sea Shell Wonder",
+    subtitle: "How Baba Materialised Holy Sea Shells and Gifted Them to Beloved Maa",
+    date: "Bhajan Hall",
+    location: "Satyadeep Sai Universe Prayer Room",
+    image: "/assets/content/miracles/astonishing-miracle-2-photo.webp",
+    aspect: "aspect-4/3",
+    keyQuote: "Form the sacred OM shape with these sea shells and install them in the Bhajan Room.",
+    excerpt: "Upon sounding the sacred conch during aarti as instructed by Swami, a wondrous downpour of sea shells fell from empty air, which Swami directed to be fashioned into a radiant OM emblem, followed by manifestations of three-eyed lingams and holy amrit.",
+    paragraphs: [
+      "Swami's leelas and cosmic manifestations are beyond all human expectation. One such extraordinary materialisation occurred during the divine ceremonies of the sanctum.",
+      "Swami instructed Maa to bring a sacred conch (Shankh) and flute it during the solemn offering of aarti. When Maa blew the conch with deep devotion, a stunning miracle occurred before the eyes of all gathered: a heavy shower of pristine sea shells rained down from empty space throughout the hall!",
+      "Following this shower, Swami instructed Maa: \"Make the holy shape of OM with these sea shells and install them in the Bhajan Room.\" Maa lovingly arranged the materialised sea shells into a luminous sacred OM emblem, which was installed permanently in the sanctum.",
+      "Subsequently, Swami gifted numerous black and white Shiva lingams, sacred rudrakshas, and holy coconuts (nariyals) to Maa. Among all these divine gifts, Bhagwan granted one extraordinary lingam in which three distinct divine eyes are permanently embedded within its sacred stone.",
+      "Over the years, divine honey and sweet amrit have repeatedly oozed from Swami's photos, and Swami has continually granted His physical presence through showers of sacred vibhuti — bearing testimony to the unbroken communion between Swami and His beloved Maa."
+    ],
+    relicNote: "The sacred sea shell OM and the tripartite three-eyed Shiva Lingam are installed in the sanctum.",
   },
 ];
 
@@ -123,6 +235,14 @@ export default function MaaClientPortal({ mediaMap }: { mediaMap: Record<string,
   }, [tabParam]);
 
   const [activeTab, setActiveTab] = useState<TabKey>(resolvedInitialTab);
+  const [selectedMiracleCategory, setSelectedMiracleCategory] = useState<string>("all");
+  const [expandedMiracleId, setExpandedMiracleId] = useState<string | null>(null);
+  const [readingModalMiracle, setReadingModalMiracle] = useState<(typeof MIRACLES_LIST)[number] | null>(null);
+
+  const filteredMiracles = useMemo(() => {
+    if (selectedMiracleCategory === "all") return MIRACLES_LIST;
+    return MIRACLES_LIST.filter((m) => m.categoryKey === selectedMiracleCategory);
+  }, [selectedMiracleCategory]);
 
   useEffect(() => {
     if (tabParam === "miracles") setActiveTab("miracles");
@@ -134,50 +254,57 @@ export default function MaaClientPortal({ mediaMap }: { mediaMap: Record<string,
 
   return (
     <div className="space-y-10 sm:space-y-14">
-      {/* Clean In-Page Header */}
-      <div className="border-b border-maroon-100/80 pb-8 text-center sm:text-left">
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-saffron-300/80 bg-saffron-50 px-3 py-1 text-xs font-bold text-saffron-800 uppercase tracking-wider">
-            Spiritual Preceptor &amp; Guiding Light
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-gold-300/80 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-900 uppercase tracking-wider">
-            Founder · Satyadeep Sai Universe
-          </span>
-        </div>
-        <h1 className="mt-3.5 font-display text-3xl font-extrabold text-maroon-900 sm:text-4xl lg:text-[2.6rem] leading-tight">
-          Beloved Maa
-        </h1>
-        <p className="mt-3 max-w-3xl text-[15.5px] leading-relaxed text-stone-600 sm:text-[16.5px]">
-          Guiding light of unconditional love, selfless service (Nishkama Seva), and eternal communion
-          with Bhagwan Sri Sathya Sai Baba.
-        </p>
+      {/* Sleek, Compact Header & Tab Bar */}
+      <div className="space-y-4 pb-2 border-b border-maroon-100/70">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-maroon-950 tracking-tight">
+                Beloved Maa
+              </h1>
+              <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-saffron-50 px-2.5 py-0.5 text-[11px] font-bold text-saffron-800 border border-saffron-200">
+                <Sparkles className="h-3 w-3 text-saffron-600" />
+                Spiritual Preceptor
+              </span>
+            </div>
+            <p className="mt-1 text-xs sm:text-sm text-stone-600">
+              Guiding light of unconditional love, Nishkama Seva &amp; communion with Bhagwan Sri Sathya Sai Baba.
+            </p>
+          </div>
 
-        {/* Tab Pills */}
-        <div className="mt-7 flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
-          {TABS.map((tab) => {
-            const isSelected = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveTab(tab.id)}
-                className={`group flex items-center gap-2 rounded-full px-5 py-2.5 text-xs sm:text-sm font-bold transition-all ${
-                  isSelected
-                    ? "btn-festive text-white shadow-md"
-                    : "border-2 border-maroon-200 bg-white text-maroon-800 hover:bg-maroon-50"
-                }`}
-              >
-                <span>{tab.label}</span>
-                <span
-                  className={`hidden sm:inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                    isSelected ? "bg-white/20 text-white" : "bg-cream-100 text-stone-600"
+          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-stone-500 shrink-0">
+            <Flame className="h-3.5 w-3.5 text-gold-500" />
+            <span>Satyadeep Sai Universe · Meerut</span>
+          </div>
+        </div>
+
+        {/* Compact Segmented Tab Navigation Bar (Wraps cleanly on mobile, no horizontal scrolling) */}
+        <div className="p-1 sm:p-1.5 rounded-2xl bg-amber-50/70 border border-maroon-100/70 shadow-2xs">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5">
+            {TABS.map((tab) => {
+              const isSelected = activeTab === tab.id;
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center justify-center gap-1.5 rounded-xl px-2.5 py-2 text-xs sm:text-[13px] font-bold transition-all cursor-pointer ${
+                    isSelected
+                      ? "bg-maroon-900 text-white shadow-sm ring-1 ring-gold-400/50"
+                      : "bg-white/80 text-stone-700 hover:text-maroon-950 hover:bg-white border border-maroon-100/40 shadow-2xs"
                   }`}
                 >
-                  {tab.badge}
-                </span>
-              </button>
-            );
-          })}
+                  <Icon
+                    className={`h-3.5 w-3.5 shrink-0 ${
+                      isSelected ? "text-gold-300" : "text-saffron-700"
+                    }`}
+                  />
+                  <span className="truncate">{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -448,19 +575,35 @@ export default function MaaClientPortal({ mediaMap }: { mediaMap: Record<string,
             </p>
           </div>
 
-          {/* Golden Quote Hero Banner */}
-          <div className="relative overflow-hidden rounded-3xl border-2 border-gold-300/70 bg-gradient-to-br from-amber-50 via-orange-50/60 to-cream-100 p-7 sm:p-9 shadow-sm">
+          {/* Golden Quote Hero Banner with Maa Photo */}
+          <div className="relative overflow-hidden rounded-3xl border-2 border-gold-300/70 bg-linear-to-br from-amber-50 via-orange-50/60 to-cream-100 p-7 sm:p-9 shadow-sm">
             <Quote className="absolute -bottom-4 -right-4 h-32 w-32 text-gold-200/50 pointer-events-none" />
-            <div className="relative z-10 max-w-3xl space-y-3">
-              <span className="text-xs font-bold uppercase tracking-widest text-saffron-700">
-                Core Divine Maxim
-              </span>
-              <p className="font-display text-xl sm:text-2xl font-bold text-maroon-950 leading-relaxed italic">
-                &ldquo;Start the day with Love; Spend the day with Love; Fill the day with Love; End the day with Love; This is the way to God.&rdquo;
-              </p>
-              <p className="text-sm font-semibold text-stone-600">
-                — Bhagwan Sri Sathya Sai Baba &amp; Beloved Maa
-              </p>
+            <div className="relative z-10 grid gap-6 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-8 space-y-3">
+                <span className="text-xs font-bold uppercase tracking-widest text-saffron-700">
+                  Core Divine Maxim
+                </span>
+                <p className="font-display text-xl sm:text-2xl font-bold text-maroon-950 leading-relaxed italic">
+                  &ldquo;Start the day with Love; Spend the day with Love; Fill the day with Love; End the day with Love; This is the way to God.&rdquo;
+                </p>
+                <p className="text-sm font-semibold text-stone-600">
+                  — Bhagwan Sri Sathya Sai Baba &amp; Beloved Maa
+                </p>
+              </div>
+              <div className="lg:col-span-4 flex justify-center">
+                <div className="relative overflow-hidden rounded-2xl border-2 border-gold-400/80 shadow-md bg-white max-w-[260px] w-full">
+                  <Image
+                    src={resolveMediaUrl(mediaMap, "/assets/content/teachings/mg-9291.jpg")}
+                    alt="Teachings of Beloved Maa"
+                    width={400}
+                    height={500}
+                    className="aspect-3/4 w-full object-cover"
+                  />
+                  <div className="p-2 text-center text-xs font-bold text-maroon-900 bg-amber-50/90">
+                    Beloved Maa · Teachings of Truth &amp; Love
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -731,19 +874,36 @@ export default function MaaClientPortal({ mediaMap }: { mediaMap: Record<string,
           </div>
 
           {/* Golden Quote Banner */}
-          <div className="relative overflow-hidden rounded-3xl border-2 border-gold-300/70 bg-gradient-to-br from-amber-50 via-orange-50/60 to-cream-100 p-7 sm:p-9 shadow-sm">
+          {/* Golden Quote Banner with Maa Photo */}
+          <div className="relative overflow-hidden rounded-3xl border-2 border-gold-300/70 bg-linear-to-br from-amber-50 via-orange-50/60 to-cream-100 p-7 sm:p-9 shadow-sm">
             <Quote className="absolute -bottom-4 -right-4 h-32 w-32 text-gold-200/50 pointer-events-none" />
-            <div className="relative z-10 max-w-3xl space-y-3">
-              <span className="text-xs font-bold uppercase tracking-widest text-saffron-700">
-                Essence of Meditation
-              </span>
-              <p className="font-display text-xl sm:text-2xl font-bold text-maroon-950 leading-relaxed italic">
-                &ldquo;Meditation is getting absorbed in God as the only thought, the only goal. God only, only God.
-                Think God, breathe God, love God.&rdquo;
-              </p>
-              <p className="text-sm font-semibold text-stone-600">
-                — Beloved Maa &amp; Bhagwan Sri Sathya Sai Baba
-              </p>
+            <div className="relative z-10 grid gap-6 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-8 space-y-3">
+                <span className="text-xs font-bold uppercase tracking-widest text-saffron-700">
+                  Essence of Meditation
+                </span>
+                <p className="font-display text-xl sm:text-2xl font-bold text-maroon-950 leading-relaxed italic">
+                  &ldquo;Meditation is getting absorbed in God as the only thought, the only goal. God only, only God.
+                  Think God, breathe God, love God.&rdquo;
+                </p>
+                <p className="text-sm font-semibold text-stone-600">
+                  — Beloved Maa &amp; Bhagwan Sri Sathya Sai Baba
+                </p>
+              </div>
+              <div className="lg:col-span-4 flex justify-center">
+                <div className="relative overflow-hidden rounded-2xl border-2 border-gold-400/80 shadow-md bg-white max-w-[260px] w-full">
+                  <Image
+                    src={resolveMediaUrl(mediaMap, "/assets/content/meditation/maa-meditation.jpg")}
+                    alt="Maa on Meditation"
+                    width={400}
+                    height={500}
+                    className="aspect-3/4 w-full object-cover"
+                  />
+                  <div className="p-2 text-center text-xs font-bold text-maroon-900 bg-amber-50/90">
+                    Beloved Maa in Deep Meditation
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -895,20 +1055,36 @@ export default function MaaClientPortal({ mediaMap }: { mediaMap: Record<string,
       {/* Tab: Divine Discourses */}
       {activeTab === "discourses" && (
         <div className="space-y-12">
-          {/* Header */}
-          <div className="text-center sm:text-left space-y-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-saffron-300/80 bg-saffron-50 px-3.5 py-1 text-xs font-bold text-saffron-800 uppercase tracking-wider">
-              <Flame className="h-3.5 w-3.5" />
-              Living Wisdom for Daily Life
-            </span>
-            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-maroon-900 leading-snug">
-              Divine Discourses of Maa: Sathya, Dharma &amp; Righteous Living
-            </h2>
-            <p className="text-stone-600 max-w-3xl text-[15px] sm:text-[16px] leading-relaxed">
-              In regular satsangs at Satyadeep Sai Universe, beloved Maa delivers uplifting discourses that guide
-              devotees on how to live peacefully, speak truth obligingly, and perform everyday duties as a sacred
-              play of the Lord.
-            </p>
+          {/* Header with Maa Photo */}
+          <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-8 text-center sm:text-left space-y-3">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-saffron-300/80 bg-saffron-50 px-3.5 py-1 text-xs font-bold text-saffron-800 uppercase tracking-wider">
+                <Flame className="h-3.5 w-3.5" />
+                Living Wisdom for Daily Life
+              </span>
+              <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-maroon-900 leading-snug">
+                Divine Discourses of Maa: Sathya, Dharma &amp; Righteous Living
+              </h2>
+              <p className="text-stone-600 max-w-3xl text-[15px] sm:text-[16px] leading-relaxed">
+                In regular satsangs at Satyadeep Sai Universe, beloved Maa delivers uplifting discourses that guide
+                devotees on how to live peacefully, speak truth obligingly, and perform everyday duties as a sacred
+                play of the Lord.
+              </p>
+            </div>
+            <div className="lg:col-span-4 flex justify-center">
+              <div className="relative overflow-hidden rounded-2xl border-2 border-gold-400/80 shadow-md bg-white max-w-[260px] w-full">
+                <Image
+                  src={resolveMediaUrl(mediaMap, "/assets/content/discourses/dsc-5801.jpg")}
+                  alt="Divine Discourses of Maa"
+                  width={400}
+                  height={500}
+                  className="aspect-3/4 w-full object-cover"
+                />
+                <div className="p-2 text-center text-xs font-bold text-maroon-900 bg-amber-50/90">
+                  Beloved Maa · Divine Satsang Discourse
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Discourse Cards */}
@@ -980,7 +1156,7 @@ export default function MaaClientPortal({ mediaMap }: { mediaMap: Record<string,
               </h3>
               <p className="text-stone-600 text-sm leading-relaxed">
                 &ldquo;Let us not just worship the statue of Sai Baba; let us worship the living God in everyone.&rdquo;
-                Serving the poor, comforting the distressed, and feeding the hungry is the direct worship of Bhagwan.
+                Serving those in need, comforting the distressed, and feeding the hungry is the direct worship of Bhagwan.
                 Hands that serve are truly holier than lips that pray.
               </p>
               <div className="rounded-xl border border-rose-200 bg-rose-50/70 p-4 text-xs sm:text-sm text-rose-950 font-medium italic">
@@ -993,54 +1169,289 @@ export default function MaaClientPortal({ mediaMap }: { mediaMap: Record<string,
 
       {/* Tab 3: Miraculous Life of Maa */}
       {activeTab === "miracles" && (
-        <div className="space-y-10">
-          <div className="text-center sm:text-left">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-saffron-300/80 bg-saffron-50 px-3.5 py-1 text-xs font-bold text-saffron-800 uppercase tracking-wider">
-              Documented Divine Leelas
-            </span>
-            <h2 className="mt-2.5 font-display text-2xl sm:text-3xl font-bold text-maroon-900 leading-snug">
-              Miracles &amp; Divine Manifestations of Maa
-            </h2>
-            <p className="mt-2 text-sm sm:text-base text-stone-600 max-w-3xl leading-relaxed">
-              Witness the authentic accounts of divine communion between Bhagwan Sri Sathya Sai Baba and
-              beloved Maa — from the miraculous Padukas and gold Murtis to the showers of sacred vibhuti
-              and celestial visions.
-            </p>
+        <div className="space-y-10 sm:space-y-12">
+          {/* Integrated Sacred Intro Card */}
+          <div className="relative overflow-hidden rounded-3xl border border-gold-300/80 bg-gradient-to-br from-amber-50/70 via-white to-cream-50/60 p-5 sm:p-7 shadow-xs">
+            <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-7">
+              {/* Photo of Beloved Maa */}
+              <div className="relative shrink-0 overflow-hidden rounded-2xl border-2 border-gold-400/80 shadow-md bg-stone-100 w-36 h-48 sm:w-44 sm:h-56 aspect-[3/4]">
+                <Image
+                  src={resolveMediaUrl(mediaMap, "/assets/content/maa-life-sketch/dsc-0167.jpg")}
+                  alt="Beloved Maa · Miraculous Grace & Darshan"
+                  fill
+                  sizes="(max-width: 640px) 144px, 176px"
+                  className="object-cover object-top"
+                  priority
+                />
+                <div className="absolute inset-x-0 bottom-0 p-1.5 text-center text-[10.5px] font-bold text-maroon-900 bg-amber-50/95 border-t border-gold-200">
+                  Beloved Maa · Darshan
+                </div>
+              </div>
+
+              {/* Title & Introduction */}
+              <div className="flex-1 text-center sm:text-left space-y-2.5">
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-saffron-300/80 bg-saffron-50 px-3 py-0.5 text-xs font-bold text-saffron-900 uppercase tracking-wider">
+                    <Sparkles className="h-3.5 w-3.5 text-saffron-600" />
+                    Documented Divine Leelas
+                  </span>
+                  <span className="text-xs text-stone-500 font-medium">
+                    8 Authentic Historical Manifestations
+                  </span>
+                </div>
+                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-maroon-950 leading-tight">
+                  Miraculous Life of Beloved Maa
+                </h2>
+                <p className="text-xs sm:text-[14px] text-stone-600 leading-relaxed max-w-2xl">
+                  Explore the authentic accounts of divine communion between Bhagwan Sri Sathya Sai Baba and beloved Maa —
+                  featuring direct manifestations, celestial visions, sacred relics, and protective blessings.
+                </p>
+                <div className="inline-flex items-center gap-2 rounded-xl bg-white/80 border border-gold-200/80 px-3.5 py-1.5 text-xs text-amber-950 font-medium italic shadow-2xs">
+                  <Quote className="h-3.5 w-3.5 text-gold-600 shrink-0" />
+                  <span>&ldquo;God always listens to those who call on Him sincerely and in faith.&rdquo;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Full-Width Segmented Category Filter Bar (No truncation, wraps cleanly on mobile) */}
+          <div className="p-1.5 rounded-2xl bg-amber-50/70 border border-maroon-100/80 shadow-2xs">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+              {MIRACLE_CATEGORIES.map((cat) => {
+                const isCatActive = selectedMiracleCategory === cat.id;
+                const count =
+                  cat.id === "all"
+                    ? MIRACLES_LIST.length
+                    : MIRACLES_LIST.filter((m) => m.categoryKey === cat.id).length;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setSelectedMiracleCategory(cat.id)}
+                    className={`flex items-center justify-between sm:justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-bold transition-all cursor-pointer ${
+                      isCatActive
+                        ? "bg-maroon-900 text-white shadow-sm ring-1 ring-gold-400/50"
+                        : "bg-white/85 text-stone-700 hover:text-maroon-950 hover:bg-white border border-maroon-100/50 shadow-2xs"
+                    }`}
+                  >
+                    <span className="text-center sm:hidden">{cat.shortLabel || cat.label}</span>
+                    <span className="text-center hidden sm:inline">{cat.label}</span>
+                    <span
+                      className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
+                        isCatActive
+                          ? "bg-gold-400/25 text-amber-200"
+                          : "bg-amber-100/80 text-amber-900"
+                      }`}
+                    >
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Grid of Miracles */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
-            {MIRACLES_LIST.map((item) => (
-              <SpotlightCard
-                key={item.id}
-                className="group flex flex-col overflow-hidden rounded-3xl border border-maroon-100/90 bg-white shadow-xs transition-all hover:border-gold-400/80 hover:shadow-lg"
-              >
-                <div className={`relative ${item.aspect} w-full overflow-hidden bg-cream-50/70 border-b border-maroon-100/60`}>
-                  <Image
-                    src={resolveMediaUrl(mediaMap, item.image)}
-                    alt={item.title}
-                    fill
-                    className="object-contain p-2.5 transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute top-3 right-3 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-white">
-                    {item.date}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
+            {filteredMiracles.map((item) => {
+              const isExpanded = expandedMiracleId === item.id;
+              return (
+                <SpotlightCard
+                  key={item.id}
+                  className="group flex flex-col overflow-hidden rounded-3xl border border-maroon-100/90 bg-white shadow-xs transition-all hover:border-gold-400/80 hover:shadow-lg"
+                >
+                  {/* Card Media Header */}
+                  <div className={`relative ${item.aspect} w-full overflow-hidden bg-cream-50/70 border-b border-maroon-100/60`}>
+                    <Image
+                      src={resolveMediaUrl(mediaMap, item.image)}
+                      alt={item.title}
+                      fill
+                      className="object-contain p-3 transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute top-3 left-3 rounded-full bg-maroon-900/80 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-amber-200">
+                      {item.categoryLabel}
+                    </div>
+                    <div className="absolute top-3 right-3 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-white">
+                      {item.date}
+                    </div>
+                  </div>
+
+                  {/* Card Body */}
+                  <div className="flex flex-1 flex-col p-6 sm:p-7 space-y-4">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-1.5 text-[11.5px] font-bold text-saffron-700">
+                        <MapPin className="h-3.5 w-3.5 shrink-0" />
+                        <span>{item.location}</span>
+                      </div>
+                      <h3 className="font-display text-xl sm:text-2xl font-bold text-maroon-900 leading-snug">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
+                        {item.subtitle}
+                      </p>
+                    </div>
+
+                    {/* Swami's Words Box */}
+                    <div className="rounded-2xl border border-amber-200/80 bg-amber-50/80 p-4 relative space-y-1">
+                      <Quote className="h-4 w-4 text-amber-600/60 absolute top-3 right-3" />
+                      <span className="text-[10.5px] uppercase font-bold text-amber-900 tracking-wider">
+                        Sacred Divine Utterance
+                      </span>
+                      <p className="text-xs sm:text-[13.5px] font-medium italic text-maroon-950 leading-relaxed">
+                        &ldquo;{item.keyQuote}&rdquo;
+                      </p>
+                    </div>
+
+                    {/* Narrative Paragraphs */}
+                    <div className="space-y-3 text-[14px] leading-relaxed text-stone-600 flex-1">
+                      {isExpanded ? (
+                        <>
+                          {item.paragraphs.map((para, pIdx) => (
+                            <p key={pIdx}>{para}</p>
+                          ))}
+                          {item.relicNote && (
+                            <div className="rounded-xl border border-gold-200 bg-cream-50 p-3 text-xs text-maroon-950 font-medium">
+                              <strong>Enshrined Today: </strong> {item.relicNote}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <p>{item.paragraphs[0]}</p>
+                          {item.paragraphs[1] && (
+                            <p className="hidden sm:block text-stone-500 line-clamp-3">
+                              {item.paragraphs[1]}
+                            </p>
+                          )}
+                        </>
+                      )}
+                    </div>
+
+                    {/* Card Actions */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-t border-maroon-100/70 pt-4">
+                      <button
+                        type="button"
+                        onClick={() => setExpandedMiracleId(isExpanded ? null : item.id)}
+                        className="inline-flex items-center gap-1 text-xs font-bold text-saffron-700 hover:text-saffron-900 transition-colors"
+                      >
+                        <span>{isExpanded ? "Collapse Account" : "Read Complete Text"}</span>
+                        {isExpanded ? (
+                          <ChevronUp className="h-3.5 w-3.5" />
+                        ) : (
+                          <ChevronDown className="h-3.5 w-3.5" />
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setReadingModalMiracle(item)}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-maroon-200 bg-maroon-50/70 px-3.5 py-1.5 text-xs font-bold text-maroon-800 hover:bg-maroon-100 transition-colors"
+                      >
+                        <Maximize2 className="h-3 w-3" />
+                        <span>Reading View</span>
+                      </button>
+                    </div>
+                  </div>
+                </SpotlightCard>
+              );
+            })}
+          </div>
+
+          {/* Reading Modal Dialog */}
+          {readingModalMiracle && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+              <div className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl border-2 border-gold-300 bg-white p-6 sm:p-8 shadow-2xl space-y-6">
+                {/* Close Button */}
+                <button
+                  type="button"
+                  onClick={() => setReadingModalMiracle(null)}
+                  className="absolute top-5 right-5 flex h-9 w-9 items-center justify-center rounded-full bg-cream-100 text-stone-600 hover:bg-cream-200 transition-colors"
+                  aria-label="Close"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+
+                {/* Header Information */}
+                <div className="space-y-2 pr-10">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-saffron-300 bg-saffron-50 px-3 py-1 text-xs font-bold text-saffron-800 uppercase tracking-wider">
+                    {readingModalMiracle.categoryLabel}
+                  </span>
+                  <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-maroon-900 leading-snug">
+                    {readingModalMiracle.title}
+                  </h2>
+                  <p className="text-xs sm:text-sm font-semibold text-saffron-800 uppercase tracking-wider">
+                    {readingModalMiracle.subtitle}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-4 text-xs text-stone-500 pt-1">
+                    <span className="inline-flex items-center gap-1">
+                      <Calendar className="h-3.5 w-3.5 text-saffron-600" />
+                      {readingModalMiracle.date}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <MapPin className="h-3.5 w-3.5 text-saffron-600" />
+                      {readingModalMiracle.location}
+                    </span>
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col p-6 sm:p-7 space-y-2.5">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-saffron-700">
-                    {item.subtitle}
-                  </span>
-                  <h3 className="font-display text-xl font-bold text-maroon-900 leading-snug">
-                    {item.title}
-                  </h3>
-                  <p className="text-[14px] leading-relaxed text-stone-600 flex-1">
-                    {item.desc}
+                {/* Media Image */}
+                <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-cream-50 border border-maroon-100">
+                  <Image
+                    src={resolveMediaUrl(mediaMap, readingModalMiracle.image)}
+                    alt={readingModalMiracle.title}
+                    fill
+                    className="object-contain p-3"
+                  />
+                </div>
+
+                {/* Swami Quote */}
+                <div className="rounded-2xl border-2 border-gold-300/80 bg-amber-50/90 p-5 relative space-y-1.5">
+                  <Quote className="h-5 w-5 text-amber-600/70 absolute top-4 right-4" />
+                  <p className="text-[11px] uppercase font-extrabold text-amber-800 tracking-wider">
+                    Swami&apos;s Divine Words
+                  </p>
+                  <p className="text-base sm:text-lg font-medium italic text-maroon-950 leading-relaxed">
+                    &ldquo;{readingModalMiracle.keyQuote}&rdquo;
                   </p>
                 </div>
-              </SpotlightCard>
-            ))}
-          </div>
+
+                {/* Full Narrative Text */}
+                <div className="space-y-4 text-stone-700 leading-relaxed text-[15px] sm:text-[16px]">
+                  {readingModalMiracle.paragraphs.map((p, idx) => (
+                    <p
+                      key={idx}
+                      className={
+                        idx === 0
+                          ? "first-letter:font-display first-letter:text-4xl first-letter:font-bold first-letter:text-saffron-800 first-letter:float-left first-letter:mr-2"
+                          : ""
+                      }
+                    >
+                      {p}
+                    </p>
+                  ))}
+                </div>
+
+                {/* Relic Note */}
+                {readingModalMiracle.relicNote && (
+                  <div className="rounded-2xl border border-saffron-200 bg-saffron-50/80 p-4 text-xs sm:text-sm text-saffron-950 font-medium">
+                    <strong>Sacred Enshrinement: </strong> {readingModalMiracle.relicNote}
+                  </div>
+                )}
+
+                {/* Modal Footer */}
+                <div className="flex items-center justify-between border-t border-maroon-100 pt-4">
+                  <span className="font-display text-sm font-bold text-gold-600">ॐ श्री साईं राम</span>
+                  <button
+                    type="button"
+                    onClick={() => setReadingModalMiracle(null)}
+                    className="rounded-full bg-maroon-800 px-5 py-2 text-xs font-bold text-white hover:bg-maroon-900 transition-colors"
+                  >
+                    Close Story
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="rounded-3xl border border-maroon-100 bg-cream-50/80 p-6 sm:p-8 text-center space-y-3">
             <p className="font-display text-xl font-bold text-maroon-900">
