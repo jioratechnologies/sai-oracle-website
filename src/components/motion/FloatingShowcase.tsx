@@ -99,6 +99,7 @@ export default function FloatingShowcase({
               src={src}
               alt={alt}
               imageClassName={imageClassName || "object-cover object-center"}
+              autoFit={!imageClassName.includes("object-contain")}
               className={`${aspectClassName} w-full`}
             />
           </div>

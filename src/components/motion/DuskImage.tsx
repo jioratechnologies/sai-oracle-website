@@ -20,6 +20,7 @@ export default function DuskImage({
   imageClassName = "object-cover",
   ambient = true,
   veil = true,
+  autoFit = false,
 }: {
   src: string;
   alt: string;
@@ -31,6 +32,8 @@ export default function DuskImage({
   ambient?: boolean;
   /** Warm dawn veil that lifts as the photo sharpens. */
   veil?: boolean;
+  /** Landscape photos in a taller frame: show whole photo over a blurred copy instead of cropping. */
+  autoFit?: boolean;
 }) {
   const prefersReduce = useReducedMotion();
   // Gate on mount so server HTML and the first client render agree.
@@ -39,26 +42,55 @@ export default function DuskImage({
     setMounted(true);
   }, []);
   const reduce = mounted && prefersReduce;
+  const [landscape, setLandscape] = useState(false);
+  const detectLandscape = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (!autoFit) return;
+    const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
+    setLandscape(w > 0 && w / h > 1.1);
+  };
+  const checkCached = (el: HTMLImageElement | null) => {
+    if (autoFit && el && el.complete && el.naturalWidth > 0) {
+      const next = el.naturalWidth / el.naturalHeight > 1.1;
+      setLandscape((prev) => (prev === next ? prev : next));
+    }
+  };
+  const fitClass = autoFit && landscape ? "object-contain object-center" : imageClassName;
+  const backdrop = autoFit && landscape ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      aria-hidden
+      src={optimizedImageUrl(src, 640, 75)}
+      alt=""
+      className="absolute inset-0 h-full w-full scale-125 object-cover opacity-70 blur-2xl"
+      draggable={false}
+    />
+  ) : null;
 
   if (reduce) {
     // eslint-disable-next-line @next/next/no-img-element
     return (
+      <div className={`relative h-full w-full overflow-hidden ${className}`}>
+      {backdrop}
       <img
         src={optimizedImageUrl(src, 1200, 75)}
+        ref={checkCached}
+        onLoad={detectLandscape}
         onError={(e) => {
           const target = e.currentTarget;
           if (target.src !== src) target.src = src;
         }}
         alt={alt}
-        className={`h-full w-full ${imageClassName} ${className}`}
+        className={`relative h-full w-full ${fitClass}`}
         draggable={false}
       />
+      </div>
     );
   }
 
   return (
     <div className={`relative h-full w-full overflow-hidden ${className}`}>
-      <div className={`h-full w-full ${ambient ? "dusk-ambient" : ""}`}>
+      {backdrop}
+      <div className={`relative h-full w-full ${ambient ? "dusk-ambient" : ""}`}>
         <motion.img
           key={src}
           src={optimizedImageUrl(src, 1200, 75)}
@@ -70,7 +102,9 @@ export default function DuskImage({
           }}
           alt={alt}
           draggable={false}
-          className={`h-full w-full ${imageClassName}`}
+          ref={checkCached}
+        onLoad={detectLandscape}
+          className={`h-full w-full ${fitClass}`}
           initial={{
             opacity: 0.85,
             scale: 1.02,
