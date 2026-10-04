@@ -9,6 +9,7 @@ import SpotlightCard from "@/components/motion/SpotlightCard";
 import { getMediaMap, getPage, getSettings, getTimings } from "@/lib/site";
 import { resolveMediaUrl } from "@/lib/image";
 import { Clock, MapPin } from "lucide-react";
+import { THURSDAY_NOTE } from "@/lib/thursdayHours";
 
 export const revalidate = 300;
 
@@ -134,7 +135,7 @@ export default async function AboutPage() {
                 yearn to perform selfless service (Nishkama Seva) are welcomed with open arms.
               </p>
               <div className="rounded-2xl border border-saffron-200 bg-saffron-50/80 p-4 text-xs sm:text-sm text-maroon-950 font-medium">
-                <span className="font-bold">Sacred Sanctuary Hours:</span> Visitors and devotees can experience darshan daily from <strong>{settings.morning_opening} to {settings.night_closing}</strong>.
+                <span className="font-bold">Sacred Sanctuary Hours:</span> Visitors and devotees can experience darshan daily from <strong>{settings.morning_opening} to {settings.night_closing}</strong>. <strong>{THURSDAY_NOTE}.</strong>
               </div>
             </div>
 
@@ -160,14 +161,14 @@ export default async function AboutPage() {
           <SectionHeading
             eyebrow="Temple & Worship"
             title="Darshan & Aarti Timings"
-            intro={`The sanctum is open all 7 days from ${settings.morning_opening} to ${settings.night_closing}. All devotees are cordially invited to participate in daily worship.`}
+            intro={`The sanctum is open all 7 days from ${settings.morning_opening} to ${settings.night_closing} (${THURSDAY_NOTE}). All devotees are cordially invited to participate in daily worship.`}
           />
 
           <div className="mt-8 grid gap-8 lg:grid-cols-12 items-start">
             <div className="lg:col-span-7">
               <TimingsTable timings={timings} />
               <p className="mt-3 text-center text-xs text-stone-500">
-                Open {settings.morning_opening} – {settings.night_closing} · All 7 Days
+                Open {settings.morning_opening} – {settings.night_closing} · All 7 Days · {THURSDAY_NOTE}
               </p>
             </div>
 
@@ -187,7 +188,7 @@ export default async function AboutPage() {
 
                 <p className="mt-2 flex items-center gap-2 text-xs text-stone-600">
                   <Clock className="h-4 w-4 text-saffron-600 shrink-0" />
-                  <span>Daily: {settings.morning_opening} – {settings.night_closing}</span>
+                  <span>Daily: {settings.morning_opening} – {settings.night_closing} · {THURSDAY_NOTE}</span>
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-2.5">

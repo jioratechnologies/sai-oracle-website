@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Clock, HandHeart, Mail, Phone } from "lucide-react";
 import type { SiteSettings } from "@/lib/types";
+import { THURSDAY_NOTE } from "@/lib/thursdayHours";
 
 /**
  * Kashi "Helpdesk" card: helpline, hours, contact + maps shortcuts.
@@ -22,6 +23,7 @@ export default function HelpdeskCard({ settings }: { settings: SiteSettings }) {
           <Clock aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />
           Daily {settings.morning_opening} – {settings.night_closing} · all 7 days
         </p>
+        <p className="pl-5.5 text-[13px] font-semibold text-saffron-700">{THURSDAY_NOTE}</p>
         {settings.phone && (
           <p className="flex items-center gap-1.5 text-stone-600">
             <Phone aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />

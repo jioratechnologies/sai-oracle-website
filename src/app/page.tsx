@@ -40,6 +40,7 @@ import type { AartiTiming } from "@/lib/types";
 import GalleryPreview from "./_home/GalleryPreview";
 import SevaServices from "./_home/SevaServices";
 import AboutTemple from "./_home/AboutTemple";
+import { THURSDAY_NOTE } from "@/lib/thursdayHours";
 
 export const revalidate = 60;
 
@@ -206,7 +207,7 @@ export default async function Home() {
         <SectionHeading
           eyebrow="Temple Life"
           title="Daily Worship & Updates"
-          intro={`Open all 7 days from ${settings.morning_opening} to ${settings.night_closing}. Join us in the sacred rhythm of daily aartis and community seva.`}
+          intro={`Open all 7 days from ${settings.morning_opening} to ${settings.night_closing} (${THURSDAY_NOTE}). Join us in the sacred rhythm of daily aartis and community seva.`}
         />
 
         <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14 items-start px-2 sm:px-6">
@@ -265,7 +266,7 @@ export default async function Home() {
                   </span>
                 </span>
                 <p className="text-xs text-amber-100/90 font-medium pl-8">
-                  During Thursdays of the week the temple remains open untill 10.00 pm.
+                  {THURSDAY_NOTE}.
                 </p>
               </div>
               <Link
@@ -609,6 +610,7 @@ export default async function Home() {
                 <Clock aria-hidden className="h-4 w-4 shrink-0 text-saffron-600" />
                 Temple Hours: {settings.morning_opening} – {settings.night_closing} (All 7 Days)
               </p>
+              <p className="pl-5.5 text-[13px] font-semibold text-saffron-700">{THURSDAY_NOTE}</p>
             </div>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link

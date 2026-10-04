@@ -4,6 +4,7 @@ import { MapPin, Navigation, Car, Train, Plane, Clock, Phone, Mail, ExternalLink
 import SpotlightCard from "@/components/motion/SpotlightCard";
 import { getMediaMap, getSettings, getTimings } from "@/lib/site";
 import { resolveMediaUrl } from "@/lib/image";
+import { THURSDAY_NOTE } from "@/lib/thursdayHours";
 
 export const metadata = {
   title: "Visit Temple & How to Reach · Sai Oracle",
@@ -81,6 +82,7 @@ export default async function HowToReachPage() {
                   {settings.morning_opening} – {settings.night_closing}
                 </span>
               </div>
+              <p className="font-semibold text-saffron-800">{THURSDAY_NOTE}</p>
               {timings.length > 0 && (
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-2 border-t border-saffron-200/60">
                   {timings.slice(0, 6).map((t) => (

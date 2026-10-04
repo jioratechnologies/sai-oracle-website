@@ -7,6 +7,7 @@ import SectionHeading from "@/components/SectionHeading";
 import { getMediaMap, getSettings, getTimings } from "@/lib/site";
 import { resolveMediaUrl } from "@/lib/image";
 import UniverseVideoSection from "./UniverseVideoSection";
+import { THURSDAY_NOTE } from "@/lib/thursdayHours";
 
 export const metadata = {
   title: "Satyadeep Sai Universe of Divine Healing · Sai Oracle",
@@ -261,6 +262,7 @@ export default async function UniversePage() {
               <p className="text-xs text-stone-600 font-medium">
                 Sanctum Hours: {settings.morning_opening} – {settings.night_closing}
               </p>
+              <p className="text-xs font-semibold text-saffron-700">{THURSDAY_NOTE}</p>
             </div>
 
             <div className="space-y-1">

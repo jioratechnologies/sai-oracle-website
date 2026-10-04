@@ -127,7 +127,7 @@ export const SEARCH_INDEX: SearchItem[] = [
     title: "Temple Worship & Aarti Timings",
     category: "Worship & Timings",
     url: "/about#worship",
-    description: "Kakad Aarti (9 AM), Madhyan Aarti (12 PM), Dhoop & Shej Aarti schedules. Open 6:30 AM to 8:30 PM.",
+    description: "Kakad Aarti (9 AM), Madhyan Aarti (12 PM), Dhoop & Shej Aarti schedules. Open 6:30 AM to 8:30 PM (Thursdays until 10:00 PM).",
     keywords: ["aarti", "timings", "hours", "schedule", "kakad", "madhyan", "dhoop", "shej", "darshan hours"],
     badge: "Timings",
   },

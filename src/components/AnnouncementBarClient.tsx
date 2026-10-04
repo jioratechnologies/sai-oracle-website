@@ -99,7 +99,7 @@ export default function AnnouncementBarClient({ latest, settings }: Announcement
             <div className="hidden lg:flex items-center gap-1.5 text-xs text-cream-200/90 font-medium">
               <Flame className="h-3.5 w-3.5 text-gold-400 shrink-0" />
               <span>
-                Darshan: {settings.morning_opening} – {settings.night_closing}
+                Darshan: {settings.morning_opening} – {settings.night_closing} · Thu till 10:00 PM
               </span>
             </div>
           )}

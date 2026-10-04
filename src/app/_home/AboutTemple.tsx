@@ -120,7 +120,7 @@ export default async function AboutTemple() {
             {[
               ["Love All", "Serve All"],
               [`${aartiCount} Daily`, "Aartis"],
-              ["7 Days", `Open ${settings.morning_opening} – ${settings.night_closing}`],
+              ["7 Days", `Open ${settings.morning_opening} – ${settings.night_closing} (Thu till 10:00 PM)`],
             ].map(([big, small]) => (
               <div key={big + small}>
                 <dt className="sr-only">{big}</dt>
@@ -168,6 +168,7 @@ export default async function AboutTemple() {
               {settings.morning_opening}
             </p>
             <p className="mt-1 text-xs text-stone-500">Opens Daily · 7 Days</p>
+            <p className="mt-0.5 text-xs font-semibold text-saffron-700">Thursdays till 10:00 PM</p>
           </div>
         </Reveal>
       </div>

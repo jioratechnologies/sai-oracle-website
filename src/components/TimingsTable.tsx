@@ -1,5 +1,6 @@
 import { Flame } from "lucide-react";
 import type { AartiTiming } from "@/lib/types";
+import { THURSDAY_NOTE } from "@/lib/thursdayHours";
 
 export default function TimingsTable({
   timings,
@@ -34,6 +35,9 @@ export default function TimingsTable({
           </li>
         ))}
       </ul>
+      <p className="border-t border-saffron-200/60 bg-saffron-50 px-5 py-2.5 text-center text-[13px] font-semibold text-saffron-800">
+        {THURSDAY_NOTE}
+      </p>
     </div>
   );
 }

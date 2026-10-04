@@ -3,6 +3,7 @@ import OmMark from "./OmMark";
 import { ArrowIcon } from "./ArrowLink";
 import SocialLinks, { buildSocialLinks } from "./SocialLinks";
 import type { AartiTiming, SiteSettings } from "@/lib/types";
+import { THURSDAY_NOTE } from "@/lib/thursdayHours";
 
 export default function Footer({
   settings,
@@ -104,6 +105,7 @@ export default function Footer({
               <span>Open All 7 Days</span>
               <span className="text-emerald-700 font-semibold">{opening} – {closing}</span>
             </p>
+            <p className="font-semibold text-saffron-700">{THURSDAY_NOTE}</p>
             <p className="text-stone-500">
               {aartiSummary}
             </p>
